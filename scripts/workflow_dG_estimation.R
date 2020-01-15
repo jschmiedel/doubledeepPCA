@@ -3,6 +3,9 @@
 filelist = list.files('functions/')
 sapply(paste0('functions/',filelist),source,.GlobalEnv)
 
+dir.create("processed_data/", showWarnings = FALSE)
+dir.create("results/", showWarnings = FALSE)
+dir.create("results/dG/", showWarnings = FALSE)
 
 ##################
 ###### GRB2 ######
@@ -25,4 +28,20 @@ function_dGestimation_prepare_dataset(
 #####################
 
 ### method 1: using only single data from both assays
+function_dGestimation_method1_singles_bothassays(
+  name = "GRB2_epPCR",
+  dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
+  Ncores = 15,
+  Nbootstraps = 300
+)
+#minimal error if scaling factors are 0
+#whats wrong here?
 
+#with background growth set
+function_dGestimation_method1_singles_bothassays(
+  name = "GRB2_epPCR_bgrset",
+  dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
+  Ncores = 15,
+  Nbootstraps = 300,
+  bgr_set = rep(0.55,2)
+)

@@ -30,9 +30,7 @@ function_dGestimation_prepare_dataset = function(
     geom_point() +
     geom_vline(xintercept = read_threshold) +
     scale_x_log10()
-  dir.create("results/", showWarnings = FALSE)
-  dir.create("results/preprocessing/", showWarnings = FALSE)
-  ggsave(paste0("results/preprocessing/",name,"_dG_prepare_dataset_readthresholding.pdf"))
+  ggsave(paste0("results/dG/",name,"_dG_prepare_dataset_readthresholding.pdf"))
   all_data[,.N,mean_count > read_threshold]
   all_data = all_data[mean_count > read_threshold]
   
@@ -92,6 +90,5 @@ function_dGestimation_prepare_dataset = function(
   ## stratify doubles into 10 groups for cross validation
   all_data_wide2[Nmut==2,tenfold_Xval := ceiling(runif(.N)*10)]
   
-  dir.create("processed_data/", showWarnings = FALSE)
   write.table(all_data_wide2,file = paste0("processed_data/",name,"_dG_dataset.txt"),row.names=F,quote=F)
 }
