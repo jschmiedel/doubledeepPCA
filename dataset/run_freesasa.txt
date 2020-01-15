@@ -1,0 +1,3 @@
+#run freesasa on 2vwf
+freesasa --format=rsa dataset/2vwf_chainA.txt -o dataset/2vwf_A.rsa
+freesasa --format=rsa dataset/2vwf.pdb -o dataset/2vwf_AB.rsa
