@@ -77,12 +77,8 @@ function_dGestimation_method1_singles_bothassays =  function(
   #save
   save(models,file=paste0("processed_data/dG_method1_",name,"_",Nbootstraps,"models.Rdata"))
   
-  parameters = t(sapply(X=1:length(models),FUN = function(X){models[[X]]$par}))
-  objective = sapply(X=1:length(models),FUN = function(X){models[[X]]$value})
-  dt = data.table(log10(objective),parameters[,(2*id_L+1) : (2*id_L+4)])
-  names(dt) = c("objective","s_scale","b_scale","s_bgr","b_bgr")
-  p=ggpairs(dt)
-  ggsave(plot = p,filename = paste0("results/dG/dG_method1_",name,"_",Nbootstraps,"models_globalpar.pdf"),width=10,height=10)
+  function_dGestimation_plot_globalparameter_relationships(models_file = paste0("processed_data/dG_method1_",name,"_",Nbootstraps,"models"),
+                                                           print_file = paste0("results/dG/dG_method1_",name,"_",Nbootstraps,"models"))
   
   # fit_global_relationship = models[[which(rank(objective)==1)]]
   # # table_global_parameters = data.table(b_bgr = fit_global_relationship$par[L+1],
