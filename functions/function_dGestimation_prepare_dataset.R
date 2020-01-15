@@ -1,14 +1,16 @@
 ##### preprocess data for dG estimation
-function_prepare_dG_dataset = function(
+function_dGestimation_prepare_dataset = function(
   name = "GRB2_epPCR",
   DMS_file_list = c("dataset/DiMSum_GRB2/GRB2_epPCR_GPD_fitness_singles.txt",
                     "dataset/DiMSum_GRB2/GRB2_epPCR_GPD_fitness_doubles.txt",
                     "dataset/DiMSum_GRB2/GRB2_epPCR_CYC_fitness_singles.txt",
                     "dataset/DiMSum_GRB2/GRB2_epPCR_CYC_fitness_doubles.txt"),
   PDB_interaction_file = "dataset/PDB_contactmap_2vwf_AB.txt",
-  RSA_file = "dataset/2vwf_A.rsa"
+  RSA_file = "dataset/2vwf_A.rsa",
+  read_threshold = 20
 ) {
   require(data.table)
+  require(ggplot2)
   ##### load new DiMSum data
   s_F1 = fread(DMS_file_list[1])
   s_F2 = fread(DMS_file_list[2])
@@ -26,18 +28,22 @@ function_prepare_dG_dataset = function(
   #apply read threshold
   ggplot(all_data,aes(mean_count,fitness,color=type)) +
     geom_point() +
+    geom_vline(xintercept = read_threshold) +
     scale_x_log10()
-  read_threshold = 20
+  dir.create("results/", showWarnings = FALSE)
+  dir.create("results/preprocessing/", showWarnings = FALSE)
+  ggsave(paste0("results/preprocessing/",name,"_dG_prepare_dataset_readthresholding.pdf"))
   all_data[,.N,mean_count > read_threshold]
   all_data = all_data[mean_count > read_threshold]
   
-  #rescale fitness such that min(F) > 0 and wildtype ~ 1
-  all_data[,fitness := 0.15*fitness + 1]
-  all_data[,sigma := 0.15*sigma]
+  #rescale fitness such that min(F) = 0.1 0 and wildtype = 1
+  minF = all_data[,min(fitness,na.rm=T)]
+  all_data[,fitness := fitness/(minF/0.9) + 1]
+  all_data[,sigma := sigma/(minF/0.9)]
   
-  ggplot(all_data,aes(mean_count,fitness,color=type)) +
-    geom_point() +
-    scale_x_log10()
+  # ggplot(all_data,aes(mean_count,fitness,color=type)) +
+  #   geom_point() +
+  #   scale_x_log10()
   
   ##### wide table (fitness and error values for both assays in same row)
   all_data_wide = merge(all_data[grep("^s",type),.(id1,id2,s_fitness=fitness,s_sigma=sigma)],
@@ -78,10 +84,14 @@ function_prepare_dG_dataset = function(
   all_data_wide[Nmut==2,double_res_type := paste0(res_type1,"_",res_type2),.(res_type1,res_type2)]
   
   #### restrict to variants with stability and fitness measured
-  all_data_wide2 = all_data_wide[!is.na(s_fitness) & !is.na(b_fitness),.(id,id1,id2,Pos1,Pos2,
+  all_data_wide2 = all_data_wide[!is.na(s_fitness) & !is.na(b_fitness),.(id,id1,id2,Pos1,Pos2,Nmut,
                                                                          s_fitness,s_sigma,b_fitness,b_sigma,
                                                                          interaction_mindist1,interaction_mindist2,
                                                                          RSA1,RSA2,res_type1,res_type2,double_res_type)]
   
+  ## stratify doubles into 10 groups for cross validation
+  all_data_wide2[Nmut==2,tenfold_Xval := ceiling(runif(.N)*10)]
+  
+  dir.create("processed_data/", showWarnings = FALSE)
   write.table(all_data_wide2,file = paste0("processed_data/",name,"_dG_dataset.txt"),row.names=F,quote=F)
 }

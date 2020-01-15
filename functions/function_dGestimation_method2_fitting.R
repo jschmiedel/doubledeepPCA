@@ -1,4 +1,4 @@
-function_dGestimation_method2_allvars_bothassays = function(parameters) {
+function_dGestimation_method2_fitting = function(parameters) {
   
   s_dG_par = parameters[1:id_L]
   b_dG_par = parameters[(id_L+1):(2*id_L)]
@@ -16,25 +16,26 @@ function_dGestimation_method2_allvars_bothassays = function(parameters) {
   #mix and match mutants and variants
   #stability phenotype
   s_dG_for_f = c(s_dG_par[s_singles_key],s_dG_par[s_doubles_key1]+s_dG_par[s_doubles_key2])
-  ff = function_folding_dG2F(s_dG_for_f,s_dGwt,s_bgr,s_scale)
+  sf = function_folding_dG2F(s_dG_for_f,s_dGwt,s_bgr,s_scale)
   #binding phenotype
   s_dG_for_b = c(s_dG_par[b_singles_key],s_dG_par[b_doubles_key1]+s_dG_par[b_doubles_key2])
   b_dG_for_b = c(b_dG_par[b_singles_key],b_dG_par[b_doubles_key1]+b_dG_par[b_doubles_key2])
   bf = function_binding_dG2F(b_dG_for_b,s_dG_for_b,b_dGwt,s_dGwt,b_bgr,b_scale)
   
-  
-  #some bf/ff values might be NA because they are below background growth, set fitness and error NA to efit_global_relationshipclude in deviation calcuation
-  binding_fitness2 = matrix(binding_fitness)
+  #some bf/sf values might be NA because they are below background growth, set fitness and error NA to include in deviation calcuation
+  binding_fitness2 = matrix(binding_fitness) #get rid of this
   stability_fitness2 = matrix(stability_fitness)
   binding_error2 = matrix(binding_error)
   binding_error2[is.na(bf)] = NA
   binding_error2[is.infinite(bf)] = NA
   stability_error2 = matrix(stability_error)
-  stability_error2[is.na(ff)] = NA
-  stability_error2[is.infinite(ff)] = NA
+  stability_error2[is.na(sf)] = NA
+  stability_error2[is.infinite(sf)] = NA
   
   #mean square deviation; for both phenotypes separately
-  MSD = sum((binding_fitness2 - bf)^2 / binding_error2^2,na.rm=T) / sum(binding_error2^-2,na.rm=T) +
-    sum((stability_fitness2 - ff)^2 / stability_error2^2,na.rm=T) / sum(stability_error2^-2,na.rm=T)
+  # MSD = sum((binding_fitness2 - bf)^2 / binding_error2^2,na.rm=T) / sum(binding_error2^-2,na.rm=T) +
+    # sum((stability_fitness2 - sf)^2 / stability_error2^2,na.rm=T) / sum(stability_error2^-2,na.rm=T)
+  #for both phenotypes together
+  MSD = sum((binding_fitness2 - bf)^2 / binding_error2^2 + (stability_fitness2 - sf)^2 / stability_error2^2,na.rm=T) / sum(binding_error2^-2 + stability_error2^-2,na.rm=T)
   return(MSD)
 }
