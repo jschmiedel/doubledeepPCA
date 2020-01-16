@@ -13,7 +13,7 @@ dir.create("results/dG/", showWarnings = FALSE)
 
 ### prepare dataset
 #epPCR datasets
-function_dGestimation_prepare_dataset(
+function_dG_prepare_dataset(
   name = "GRB2_epPCR",
   DMS_file_list = c("dataset/DiMSum_GRB2/GRB2_epPCR_GPD_fitness_singles.txt",
                     "dataset/DiMSum_GRB2/GRB2_epPCR_GPD_fitness_doubles.txt",
@@ -38,10 +38,10 @@ function_dGestimation_method1_singles_bothassays(
 #whats wrong here?
 
 #with background growth set
-function_dGestimation_method1_singles_bothassays(
+function_dG_method1_singles_bothassays(
   name = "GRB2_epPCR_bgrset",
   dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
   Ncores = 15,
-  Nbootstraps = 300,
+  Nbootstraps = 75,
   bgr_set = rep(0.55,2)
 )

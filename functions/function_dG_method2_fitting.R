@@ -1,4 +1,4 @@
-function_dGestimation_method2_fitting = function(parameters) {
+function_dG_method2_fitting = function(parameters) {
   
   s_dG_par = parameters[1:id_L]
   b_dG_par = parameters[(id_L+1):(2*id_L)]

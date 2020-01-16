@@ -1,7 +1,7 @@
 ############################################################
 #### fit global relationship between deltaGs and fitess from binding and stabilityPCA data assuming deltadeltaG binding = 0 for all used variants
 ############################################################
-function_dGestimation_method1_fitting = function(parameters,id_L,global_par,list_fitness_sigma) {
+function_dG_method1_fitting = function(parameters,id_L,global_par,list_fitness_sigma) {
   
   s_dG = parameters[1:id_L] #fit stability delta Gs
   if (length(parameters) == (id_L+2)) { # + scale parameters [>> determine global relationship; background parameters set manually]

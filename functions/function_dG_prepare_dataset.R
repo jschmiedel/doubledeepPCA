@@ -1,5 +1,5 @@
 ##### preprocess data for dG estimation
-function_dGestimation_prepare_dataset = function(
+function_dG_prepare_dataset = function(
   name = "GRB2_epPCR",
   DMS_file_list = c("dataset/DiMSum_GRB2/GRB2_epPCR_GPD_fitness_singles.txt",
                     "dataset/DiMSum_GRB2/GRB2_epPCR_GPD_fitness_doubles.txt",
@@ -35,7 +35,7 @@ function_dGestimation_prepare_dataset = function(
   all_data = all_data[mean_count > read_threshold]
   
   #rescale fitness such that min(F) = 0.1 0 and wildtype = 1
-  minF = all_data[,min(fitness,na.rm=T)]
+  minF = all_data[,abs(min(fitness,na.rm=T))]
   all_data[,fitness := fitness/(minF/0.9) + 1]
   all_data[,sigma := sigma/(minF/0.9)]
   
