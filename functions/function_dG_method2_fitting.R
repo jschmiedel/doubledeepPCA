@@ -1,4 +1,4 @@
-function_dG_method2_fitting = function(parameters) {
+function_dG_method2_fitting = function(parameters,id_L,list_fs,list_keys) {
   
   s_dG_par = parameters[1:id_L]
   b_dG_par = parameters[(id_L+1):(2*id_L)]
@@ -15,27 +15,22 @@ function_dG_method2_fitting = function(parameters) {
   
   #mix and match mutants and variants
   #stability phenotype
-  s_dG_for_f = c(s_dG_par[s_singles_key],s_dG_par[s_doubles_key1]+s_dG_par[s_doubles_key2])
-  sf = function_folding_dG2F(s_dG_for_f,s_dGwt,s_bgr,s_scale)
+  s_dG = c(s_dG_par[list_keys[["singles_key"]]],s_dG_par[list_keys[["doubles_key1"]]]+s_dG_par[list_keys[["doubles_key2"]]])
+  sf = function_folding_dG2F(s_dG,s_dGwt,s_bgr,s_scale)
   #binding phenotype
-  s_dG_for_b = c(s_dG_par[b_singles_key],s_dG_par[b_doubles_key1]+s_dG_par[b_doubles_key2])
-  b_dG_for_b = c(b_dG_par[b_singles_key],b_dG_par[b_doubles_key1]+b_dG_par[b_doubles_key2])
-  bf = function_binding_dG2F(b_dG_for_b,s_dG_for_b,b_dGwt,s_dGwt,b_bgr,b_scale)
+  b_dG = c(b_dG_par[list_keys[["singles_key"]]],b_dG_par[list_keys[["doubles_key1"]]]+b_dG_par[list_keys[["doubles_key2"]]])
+  bf = function_binding_dG2F(b_dG,s_dG,b_dGwt,s_dGwt,b_bgr,b_scale)
   
   #some bf/sf values might be NA because they are below background growth, set fitness and error NA to include in deviation calcuation
-  binding_fitness2 = matrix(binding_fitness) #get rid of this
-  stability_fitness2 = matrix(stability_fitness)
-  binding_error2 = matrix(binding_error)
-  binding_error2[is.na(bf)] = NA
-  binding_error2[is.infinite(bf)] = NA
-  stability_error2 = matrix(stability_error)
-  stability_error2[is.na(sf)] = NA
-  stability_error2[is.infinite(sf)] = NA
+  s_sigma = list_fs[["s_sigma"]]
+  s_sigma[is.na(sf)] = NA
+  s_sigma[is.infinite(sf)] = NA
   
-  #mean square deviation; for both phenotypes separately
-  # MSD = sum((binding_fitness2 - bf)^2 / binding_error2^2,na.rm=T) / sum(binding_error2^-2,na.rm=T) +
-    # sum((stability_fitness2 - sf)^2 / stability_error2^2,na.rm=T) / sum(stability_error2^-2,na.rm=T)
-  #for both phenotypes together
-  MSD = sum((binding_fitness2 - bf)^2 / binding_error2^2 + (stability_fitness2 - sf)^2 / stability_error2^2,na.rm=T) / sum(binding_error2^-2 + stability_error2^-2,na.rm=T)
+  b_sigma = list_fs[["b_sigma"]]
+  b_sigma[is.na(bf)] = NA
+  b_sigma[is.infinite(bf)] = NA
+  
+  #mean square deviation; divide by weights to correct for variants being NA
+  MSD = sum((list_fs[["b_fitness"]] - bf)^2 / b_sigma^2 + (list_fs[["s_fitness"]] - sf)^2 / s_sigma^2,na.rm=T) / sum(b_sigma^-2 + s_sigma^-2,na.rm=T)
   return(MSD)
 }

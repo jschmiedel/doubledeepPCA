@@ -25,11 +25,10 @@ function_dG_method1_singles_bothassays =  function(
   setkey(all_data,Nmut,id1)
   
   #use only singles
-  list_fitness_sigma = list()
-  list_fitness_sigma[[1]] = matrix(all_data[Nmut==1,s_fitness])
-  list_fitness_sigma[[2]] = matrix(all_data[Nmut==1,s_sigma])
-  list_fitness_sigma[[3]] = matrix(all_data[Nmut==1,b_fitness])
-  list_fitness_sigma[[4]] = matrix(all_data[Nmut==1,b_sigma])
+  list_fs = list(s_fitness = all_data[Nmut==1,s_fitness],
+    s_sigma = all_data[Nmut==1,s_sigma],
+    b_fitness = all_data[Nmut==1,b_fitness],
+    b_sigma = all_data[Nmut==1,b_sigma])
   
   #which/how many variants?
   id_L = all_data[Nmut==1,.N]
@@ -56,7 +55,7 @@ function_dG_method1_singles_bothassays =  function(
                                     lower = c(rep(-10,id_L),rep(1e-5,ifelse(is.null(bgr_set),4,2))),
                                     upper = c(rep(10,id_L),rep(1-1e-5,ifelse(is.null(bgr_set),4,2))),
                                     control = list(),
-                                    id_L = id_L,global_par = global_par,list_fitness_sigma=list_fitness_sigma)
+                                    id_L = id_L,global_par = global_par,list_fs=list_fs)
     
     global_par = c(fit_global_relationship$par[(id_L+1) : (id_L+ifelse(is.null(bgr_set),4,2))],bgr_set)
 
@@ -68,7 +67,7 @@ function_dG_method1_singles_bothassays =  function(
                     lower = c(rep(-10,2*id_L)),
                     upper = c(rep(10,2*id_L)),
                     control = list(),
-                    id_L = id_L,global_par=global_par,list_fitness_sigma=list_fitness_sigma)
+                    id_L = id_L,global_par=global_par,list_fs=list_fs)
     
     #gather model parameters
     fit_dGs$par = c(fit_dGs$par,

@@ -1,7 +1,7 @@
 ############################################################
 #### fit global relationship between deltaGs and fitess from binding and stabilityPCA data assuming deltadeltaG binding = 0 for all used variants
 ############################################################
-function_dG_method1_fitting = function(parameters,id_L,global_par,list_fitness_sigma) {
+function_dG_method1_fitting = function(parameters,id_L,global_par,list_fs) {
   
   s_dG = parameters[1:id_L] #fit stability delta Gs
   if (length(parameters) == (id_L+2)) { # + scale parameters [>> determine global relationship; background parameters set manually]
@@ -32,17 +32,15 @@ function_dG_method1_fitting = function(parameters,id_L,global_par,list_fitness_s
   sf = function_folding_dG2F(s_dG,s_dGwt,s_bgr,s_scale)
   
   #some bf/sf values might be NA because they are below background growth, set fitness and error NA to include in deviation calcuation
-  stability_fitness2 = list_fitness_sigma[[1]]
-  stability_error2 = list_fitness_sigma[[2]]
-  stability_error2[is.na(sf)] = NA
-  stability_error2[is.infinite(sf)] = NA
+  s_sigma = list_fs$s_sigma
+  s_sigma[is.na(sf)] = NA
+  s_sigma[is.infinite(sf)] = NA
   
-  binding_fitness2 = list_fitness_sigma[[3]]
-  binding_error2 = list_fitness_sigma[[4]]
-  binding_error2[is.na(bf)] = NA
-  binding_error2[is.infinite(bf)] = NA
+  b_sigma = list_fs$b_sigma
+  b_sigma[is.na(bf)] = NA
+  b_sigma[is.infinite(bf)] = NA
   
   #mean square deviation; divide by weights to correct for variants being NA
-  MSD = sum((binding_fitness2 - bf)^2 / binding_error2^2 + (stability_fitness2 - sf)^2 / stability_error2^2,na.rm=T) / sum(binding_error2^-2 + stability_error2^-2,na.rm=T)
+  MSD = sum((list_fs$b_fitness - bf)^2 / b_sigma^2 + (list_fs$s_fitness - sf)^2 / s_sigma^2,na.rm=T) / sum(b_sigma^-2 + s_sigma^-2,na.rm=T)
   return(MSD)
 }

@@ -3,6 +3,9 @@
 filelist = list.files('functions/')
 sapply(paste0('functions/',filelist),source,.GlobalEnv)
 
+
+
+# create directory structure
 dir.create("processed_data/", showWarnings = FALSE)
 dir.create("results/", showWarnings = FALSE)
 dir.create("results/dG/", showWarnings = FALSE)
@@ -27,8 +30,11 @@ function_dG_prepare_dataset(
 ### dG estimation ###
 #####################
 
-### method 1: using only single data from both assays
-function_dGestimation_method1_singles_bothassays(
+#####################
+### method 1: using data from both assays only for single variants
+
+# 1) with all parameters free to fit
+function_dG_method1_singles_bothassays(
   name = "GRB2_epPCR",
   dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
   Ncores = 15,
@@ -37,11 +43,20 @@ function_dGestimation_method1_singles_bothassays(
 #minimal error if scaling factors are 0
 #whats wrong here?
 
-#with background growth set
+# 2) with background parameters set
 function_dG_method1_singles_bothassays(
   name = "GRB2_epPCR_bgrset",
   dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
   Ncores = 15,
-  Nbootstraps = 75,
-  bgr_set = rep(0.55,2)
+  Nbootstraps = 300,
+  bgr_set = rep(0.55,2) #peak of fitness values for both assays in GRB2_epPCR data
+)
+
+#####################
+### method 2: using data from both assays for all variants
+function_dG_method2_allvars_bothassays(
+  name = "GRB2_epPCR",
+  dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
+  Ncores = 15,
+  Nbootstraps = 15
 )
