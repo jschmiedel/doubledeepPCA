@@ -5,6 +5,10 @@ function_dG_plot_models = function(
 	print_dir = "results/dG/",
 	which_model = "best") {
 
+  require(ggplot2)
+  require(GGally)
+  theme_set(theme_bw(base_size=9))
+
 	#load Rdata file with models
 	load(file=file.path(model_dir,paste0(models_name,".Rdata")))
 

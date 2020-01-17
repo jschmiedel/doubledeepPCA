@@ -7,9 +7,6 @@ function_dG_method2_allvars_bothassays = function(
 	require(data.table)
 	require(foreach)
 	require(doMC)
-	require(ggplot2)
-	require(GGally)
-	theme_set(theme_bw(base_size=9))
 
 	registerDoMC(cores=Ncores)
 
@@ -26,7 +23,7 @@ function_dG_method2_allvars_bothassays = function(
   	#10-fold cross validation
   	for (Xval in 1:10) {
   		print(Xval)
-  		
+
 		#grab singles and doubles
 		singles = all_data[Nmut==1,.(id1_key,s_fitness,b_fitness,s_sigma,b_sigma)]
 		doubles = all_data[Nmut==2 & tenfold_Xval != Xval,.(id1_key,id2_key,s_fitness,b_fitness,s_sigma,b_sigma)]
@@ -42,23 +39,23 @@ function_dG_method2_allvars_bothassays = function(
 			b_sigma = c(singles[,b_sigma],doubles[,b_sigma]))
 
 		# fit parameters
-		registerDoMC(cores=Ncores)
 		models = foreach(m=1:Nbootstraps) %dopar% {
 
 			global_model = optim(par = c(rep(0,id_L),
-				rep(0,id_L),
-				rep(1e-5,4)),
-			fn = function_dG_method2_fitting,
-			method = "L-BFGS-B",
-			lower = c(rep(-10,2*id_L),rep(1e-5,4)),
-			upper = c(rep(10,2*id_L),rep(1-1e-5,4)),
-			control = list(),
-			id_L = id_L,list_fs=list_fs,list_keys=list_keys)
+										rep(0,id_L),
+										1e-5+(1-2e-5)*runif(4)),
+								fn = function_dG_method2_fitting,
+								method = "L-BFGS-B",
+								lower = c(rep(-10,2*id_L),rep(1e-5,4)),
+								upper = c(rep(10,2*id_L),rep(1-1e-5,4)),
+								control = list(maxit = 500),
+								id_L = id_L,list_fs=list_fs,list_keys=list_keys)
 
 			#gather model parameters
 			global_model$par = c(global_model$par,
-				function_folding_F2dG(1,global_model$par[2*id_L+3],global_model$par[2*id_L+1]),
-				function_binding_F2dG(1,function_folding_F2dG(1,global_model$par[2*id_L+3],global_model$par[2*id_L+1]),global_model$par[2*id_L+4],global_model$par[2*id_L+2]))
+				function_folding_F2dG(s_fitness=1,s_bgr=global_model$par[2*id_L+3],s_scale=global_model$par[2*id_L+1]),
+				function_binding_F2dG(b_fitness=1,s_dG=function_folding_F2dG(s_fitness=1,s_bgr=global_model$par[2*id_L+3],s_scale=global_model$par[2*id_L+1]),
+									b_bgr=global_model$par[2*id_L+4],b_scale=global_model$par[2*id_L+2]))
 			names(global_model$par) = c(id_var,id_var,"s_scale","b_scale","s_bgr","b_bgr","s_dGwt","b_dGwt")
 
 			global_model$Xval = Xval

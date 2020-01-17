@@ -14,9 +14,6 @@ function_dG_method1_singles_bothassays =  function(
   require(data.table)
   require(foreach)
   require(doMC)
-  require(ggplot2)
-  require(GGally)
-  theme_set(theme_bw(base_size=9))
   
   registerDoMC(cores=Ncores)
 
@@ -54,7 +51,7 @@ function_dG_method1_singles_bothassays =  function(
                                     method = "L-BFGS-B",
                                     lower = c(rep(-10,id_L),rep(1e-5,ifelse(is.null(bgr_set),4,2))),
                                     upper = c(rep(10,id_L),rep(1-1e-5,ifelse(is.null(bgr_set),4,2))),
-                                    control = list(),
+                                    control = list(maxit = 500),
                                     id_L = id_L,global_par = global_par,list_fs=list_fs)
     
     global_par = c(fit_global_relationship$par[(id_L+1) : (id_L+ifelse(is.null(bgr_set),4,2))],bgr_set)
@@ -66,7 +63,7 @@ function_dG_method1_singles_bothassays =  function(
                     method = "L-BFGS-B",
                     lower = c(rep(-10,2*id_L)),
                     upper = c(rep(10,2*id_L)),
-                    control = list(),
+                    control = list(maxit = 500),
                     id_L = id_L,global_par=global_par,list_fs=list_fs)
     
     #gather model parameters
