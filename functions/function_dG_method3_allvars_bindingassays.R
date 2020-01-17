@@ -47,7 +47,7 @@ function_dG_method3_allvars_bindingassay = function(
 										rep(0,id_L),
 										1e-5+(1-2e-5)*runif(2),
 										rnorm(1)),
-								fn = function_dG_method2_fitting,
+								fn = function_dG_method3_fitting,
 								method = "L-BFGS-B",
 								lower = c(rep(-10,2*id_L),rep(1e-5,2),-10),
 								upper = c(rep(10,2*id_L),rep(1-1e-5,2),10),
@@ -64,10 +64,10 @@ function_dG_method3_allvars_bindingassay = function(
 			return(global_model)
 		}
 	#save
-	save(models,file=paste0("processed_data/dG_method2_",name,"_",Nbootstraps,"models_",Xval,"Xval.Rdata"))
+	save(models,file=paste0("processed_data/dG_method3_",name,"_",Nbootstraps,"models_",Xval,"Xval.Rdata"))
 
 	#plot models
-	function_dG_plot_models(models_name = paste0("dG_method2_",name,"_",Nbootstraps,"models_",Xval,"Xval"),
+	function_dG_plot_models(models_name = paste0("dG_method3_",name,"_",Nbootstraps,"models_",Xval,"Xval"),
 							dataset_file = dataset_file)
 	}
 }
