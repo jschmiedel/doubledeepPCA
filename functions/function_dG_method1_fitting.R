@@ -25,12 +25,12 @@ function_dG_method1_fitting = function(parameters,id_L,global_par,list_fs) {
   }
   
   #determine wild-type dG from set of parameters; this is for wild-type fitness == 1!
-  s_dGwt = function_folding_F2dG(1,s_bgr,s_scale)
-  b_dGwt = function_binding_F2dG(1,s_dGwt,b_bgr,b_scale)
+  s_dGwt = function_folding_F2dG(s_fitness=1,s_bgr=s_bgr,s_scale=s_scale)
+  b_dGwt = function_binding_F2dG(b_fitness=1,s_dG=s_dGwt,b_bgr=b_bgr,b_scale=b_scale)
   
-  bf = function_binding_dG2F(b_dG,s_dG,b_dGwt,s_dGwt,b_bgr,b_scale)
-  sf = function_folding_dG2F(s_dG,s_dGwt,s_bgr,s_scale)
-  
+  sf = function_folding_dG2F(s_dG=s_dG,s_dGwt=s_dGwt,s_bgr=s_bgr,s_scale=s_scale)
+  bf = function_binding_dG2F(b_dG=b_dG,s_dG=s_dG,b_dGwt=b_dGwt,s_dGwt=s_dGwt,b_bgr=b_bgr,b_scale=b_scale)
+    
   #some bf/sf values might be NA because they are below background growth, set fitness and error NA to include in deviation calcuation
   s_sigma = list_fs$s_sigma
   s_sigma[is.na(sf)] = NA

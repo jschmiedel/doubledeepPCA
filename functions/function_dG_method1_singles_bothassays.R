@@ -9,7 +9,7 @@ function_dG_method1_singles_bothassays =  function(
   dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
   Ncores = 15,
   Nbootstraps = 100,
-  bgr_set = c()
+  bgr_set = c() #c(s_bgr,b_bgr)
 ) {
   require(data.table)
   require(foreach)
@@ -35,15 +35,11 @@ function_dG_method1_singles_bothassays =  function(
     ####### first, fit global relationship by assuming binding dG are all zero
     if (is.null(bgr_set)) {
       start_par = c(rep(0,id_L),
-                    1e-5+(1-2e-5)*runif(1),
-                    1e-5+(1-2e-5)*runif(1),
-                    1e-5+(1-2e-5)*runif(1),
-                    1e-5+(1-2e-5)*runif(1))
+                    1e-5+(1-2e-5)*runif(4))
       global_par = c()
     } else {
       start_par = c(rep(0,id_L),
-        1e-5+(1-2e-5)*runif(1),
-        1e-5+(1-2e-5)*runif(1))
+        1e-5+(1-2e-5)*runif(2))
       global_par = bgr_set
     }
     fit_global_relationship = optim(par = start_par,
@@ -69,8 +65,9 @@ function_dG_method1_singles_bothassays =  function(
     #gather model parameters
     fit_dGs$par = c(fit_dGs$par,
                     global_par,
-                    function_folding_F2dG(1,global_par[3],global_par[1]),
-                    function_binding_F2dG(1,function_folding_F2dG(1,global_par[3],global_par[1]),global_par[4],global_par[2]))
+                    function_folding_F2dG(s_fitness=1,s_bgr=global_par[3],s_scale=global_par[1]),
+                    function_binding_F2dG(b_fitness=1,s_dG=function_folding_F2dG(s_fitness=1,s_bgr=global_par[3],s_scale=global_par[1]),
+                                          b_bgr=global_par[4],b_scale=global_par[2]))
     names(fit_dGs$par) = c(id_var,id_var,"s_scale","b_scale","s_bgr","b_bgr","s_dGwt","b_dGwt")
 
     return(fit_dGs)
