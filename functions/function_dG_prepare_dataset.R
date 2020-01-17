@@ -7,8 +7,12 @@ function_dG_prepare_dataset = function(
                     "dataset/DiMSum_GRB2/GRB2_epPCR_CYC_fitness_doubles.txt"),
   PDB_interaction_file = "dataset/PDB_contactmap_2vwf_AB.txt",
   RSA_file = "dataset/2vwf_A.rsa",
-  read_threshold = 20
+  read_threshold = 20,
+  execute=TRUE
 ) {
+
+  if (!execute) {return()}
+
   require(data.table)
   require(ggplot2)
   ##### load new DiMSum data

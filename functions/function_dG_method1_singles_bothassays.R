@@ -9,8 +9,13 @@ function_dG_method1_singles_bothassays =  function(
   dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
   Ncores = 15,
   Nbootstraps = 100,
-  bgr_set = c() #c(s_bgr,b_bgr)
-) {
+  bgr_set = c(), #c(s_bgr,b_bgr)
+  execute = TRUE
+  )
+{
+
+  if (!execute) {return()}
+  
   require(data.table)
   require(foreach)
   require(doMC)

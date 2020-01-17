@@ -2,8 +2,13 @@ function_dG_method3_allvars_bindingassay = function(
 	name = "",
 	dataset_file = "processed_data/GRB2_epPCR_dG_dataset.txt",
 	Ncores = 15,
-	Nbootstraps = 30)
+	Nbootstraps = 15,
+	execute = TRUE
+	)
 {
+	
+	if (!execute) {return()}
+
 	require(data.table)
 	require(foreach)
 	require(doMC)
