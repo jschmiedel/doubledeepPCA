@@ -1,0 +1,100 @@
+
+   <html>
+   <head>
+    <title>01c-PDZ_NM_stabilityPCA</title>
+   </head>
+   <body>
+   	<h1>DiMSum 0.3.37.9000 Pipeline Report (01c-PDZ_NM_stabilityPCA)</h1>
+   	
+   	<div>
+   		<a href="#FASTQC"> 1. Raw FASTQ file quality control (FASTQC) </a><br>
+   		<a href="#CUTADAPT"> 2. Trimming of constant regions (cutadapt) </a><br>
+   		<a href="#USEARCH1"> 3. Alignment of overlapping paired-end reads (USEARCH) </a><br>
+   		<a href="#USEARCH2"> 4. Aligned length (USEARCH) </a><br>
+   		<a href="#MERGE1"> 5. Nucleotide mutation statistics </a><br>
+   		<a href="#MERGE2"> 6. Amino acid mutation statistics </a><br>
+   		<a href="#COUNTDISTR"> 7. Marginal input variant count distributions </a><br>
+   		<a href="#COUNTSCATTERMATRIX"> 8. Inter-sample variant count diagnostic plot </a><br>
+   		<a href="#INPUTTHRESHOLD"> 9. Input read threshold for full fitness range </a><br>
+   		<a href="#REPLICATEDEVIATION"> 10. Effect of fitness normalisation on replicate deviations </a><br>
+   		<a href="#FITNESSDISTR"> 11. Fitness distributions </a><br>
+   		<a href="#FITNESSSCATTERMATRIX"> 12. Inter-sample variant fitness diagnostic plot </a><br>
+   		<a href="#FITNESSERROR"> 13. Fitness error model </a><br>
+   	</div>
+  
+   	<div id="FASTQC">
+   		<h2>1. Raw FASTQ file quality control (FASTQC)</h2>
+   		<p><img src="reports/dimsum_stage_fastqc_report_pair1_fastqc.png" width="1200"></p>
+  
+   		<p><img src="reports/dimsum_stage_fastqc_report_pair2_fastqc.png" width="1200"></p>
+  
+   	</div>
+  
+    	<div id="CUTADAPT">
+    		<h2>2. Trimming of constant regions (cutadapt)</h2>
+  	 	<p><img src="reports/dimsum_stage_cutadapt_report_pair1.png" width="1200"></p>
+  
+  	 	<p><img src="reports/dimsum_stage_cutadapt_report_pair2.png" width="1200"></p>
+  
+   	</div>
+   	
+    	<div id="USEARCH1">
+    		<h2>3. Alignment of overlapping paired-end reads (USEARCH)</h2>
+  	 	<p><img src="reports/dimsum_stage_usearch_report_paircounts.png" width="1200"></p>
+   	</div>
+  
+    	<div id="USEARCH2">
+    		<h2>4. Aligned length (USEARCH)</h2>
+  	 	<p><img src="reports/dimsum_stage_usearch_report_mergedlength.png" width="1200"></p>
+   	</div>
+  
+      <div id="MERGE1">
+        <h2>5. Nucleotide mutation statistics</h2>
+      <p><img src="reports/dimsum_stage_merge_report_nucmutationpercentages.png" width="1200"></p>
+      <p><img src="reports/dimsum_stage_merge_report_nucmutationcounts.png" width="1200"></p>
+    </div>
+  
+    	<div id="MERGE2">
+    		<h2>6. Amino acid mutation statistics</h2>
+  	 	<p><img src="reports/dimsum_stage_merge_report_aamutationpercentages.png" width="1200"></p>
+  	 	<p><img src="reports/dimsum_stage_merge_report_aamutationcounts.png" width="1200"></p>
+   	</div>
+  
+      <div id="COUNTDISTR">
+        <h2>7. Marginal input variant count distributions</h2>
+      <p><img src="reports/dimsum_stage_diagnostics_report_count_hist_input_nt.png" width="1200"></p>
+    </div>
+  
+      <div id="COUNTSCATTERMATRIX">
+        <h2>8. Inter-sample variant count diagnostic plot</h2>
+      <p><img src="reports/dimsum_stage_diagnostics_report_scatterplotmatrix_all.png" width="1200"></p>
+    </div>
+  
+      <div id="INPUTTHRESHOLD">
+        <h2>9. Input read threshold for full fitness range</h2>
+      <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_inputcounts.png" width="600"></p>
+    </div>
+  
+      <div id="REPLICATEDEVIATION">
+        <h2>10. Effect of fitness normalisation on replicate deviations</h2>
+      <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_replicate_deviation_scatter.png" width="600"></p>
+    </div>
+  
+      <div id="FITNESSDISTR">
+        <h2>11. Fitness distributions (before and after inter-replicate normalisation)</h2>
+      <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_replicates_density.png" width="600"><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_replicates_density_norm.png" width="600"></p>
+    </div>
+  
+      <div id="FITNESSSCATTERMATRIX">
+        <h2>12. Inter-sample variant fitness diagnostic plot (before and after inter-replicate normalisation)</h2>
+      <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_replicates_scatter.png" width="1000"></p>
+      <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_replicates_scatter_norm.png" width="1000"></p>
+    </div>
+  
+      <div id="FITNESSERROR">
+        <h2>13. Fitness error model</h2>
+      <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_repspec.png" width="800"></p>
+    </div>
+  
+   </body>
+  </html>
