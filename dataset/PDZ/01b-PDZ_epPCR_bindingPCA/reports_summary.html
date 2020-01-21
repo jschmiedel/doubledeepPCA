@@ -4,7 +4,7 @@
     <title>01b-PDZ_epPCR_bindingPCA</title>
    </head>
    <body>
-   	<h1>DiMSum 0.3.15.9000 Pipeline Report (01b-PDZ_epPCR_bindingPCA)</h1>
+   	<h1>DiMSum 0.3.37.9000 Pipeline Report (01b-PDZ_epPCR_bindingPCA)</h1>
    	
    	<div>
    		<a href="#FASTQC"> 1. Raw FASTQ file quality control (FASTQC) </a><br>
@@ -13,10 +13,10 @@
    		<a href="#USEARCH2"> 4. Aligned length (USEARCH) </a><br>
    		<a href="#MERGE1"> 5. Nucleotide mutation statistics </a><br>
    		<a href="#MERGE2"> 6. Amino acid mutation statistics </a><br>
-   		<a href="#COUNTDISTR"> 7. Variant count distributions </a><br>
+   		<a href="#COUNTDISTR"> 7. Marginal input variant count distributions </a><br>
    		<a href="#COUNTSCATTERMATRIX"> 8. Inter-sample variant count diagnostic plot </a><br>
    		<a href="#INPUTTHRESHOLD"> 9. Input read threshold for full fitness range </a><br>
-   		<a href="#REPLICATEDEVIATION"> 10. Affect of fitness normalisation on replicate deviations </a><br>
+   		<a href="#REPLICATEDEVIATION"> 10. Effect of fitness normalisation on replicate deviations </a><br>
    		<a href="#FITNESSDISTR"> 11. Fitness distributions </a><br>
    		<a href="#FITNESSSCATTERMATRIX"> 12. Inter-sample variant fitness diagnostic plot </a><br>
    		<a href="#FITNESSERROR"> 13. Fitness error model </a><br>
@@ -61,9 +61,8 @@
    	</div>
   
       <div id="COUNTDISTR">
-        <h2>7. Variant count distributions</h2>
-      <p><img src="reports/dimsum_stage_diagnostics_report_count_hist_input.png" width="1200"></p>
-      <p><img src="reports/dimsum_stage_diagnostics_report_count_hist_output.png" width="1200"></p>
+        <h2>7. Marginal input variant count distributions</h2>
+      <p><img src="reports/dimsum_stage_diagnostics_report_count_hist_input_nt.png" width="1200"></p>
     </div>
   
       <div id="COUNTSCATTERMATRIX">
@@ -77,7 +76,7 @@
     </div>
   
       <div id="REPLICATEDEVIATION">
-        <h2>10. Affect of fitness normalisation on replicate deviations</h2>
+        <h2>10. Effect of fitness normalisation on replicate deviations</h2>
       <p><img src="reports/dimsum_stage_fitness_report_1_errormodel_fitness_replicate_deviation_scatter.png" width="600"></p>
     </div>
   
