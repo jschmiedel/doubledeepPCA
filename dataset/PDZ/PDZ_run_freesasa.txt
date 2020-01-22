@@ -1,0 +1,5 @@
+#run freesasa on 2vwf
+freesasa --format=rsa PDB/pdb1be9_chainA.txt -o pdb1be9_A.rsa
+freesasa --format=rsa PDB/pdb1be9.ent -o pdb1be9_AB.rsa
+
+#performed on CRG MAC, because I couldn’t get it installed on the cluster
