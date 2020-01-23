@@ -183,7 +183,7 @@ pymol_script[length(pymol_script)+1] = "fetch 1be9, async=0"
 
 # reference DLG4-CRIPT
 pymol_script[length(pymol_script)+1] = "hide everything"
-pymol_script[length(pymol_script)+1] = "show cartoon, chain A"
+pymol_script[length(pymol_script)+1] = "show cartoon, chain A and resi 311-394"
 pymol_script[length(pymol_script)+1] = paste("set cartoon_color,", col_grey)
 pymol_script[length(pymol_script)+1] = "show sticks, chain B"
 pymol_script[length(pymol_script)+1] = "set stick_color, orange, chain B"
@@ -205,7 +205,7 @@ for (i in 1:nrow(singles_posavg)) {
   pymol_script[length(pymol_script)+1]  = paste0("alter 1be9 and chain A and resid ",i+pos_offset,", b=",singles_posavg[i,diff_binding_stability])
 }
 pymol_script[length(pymol_script)+1] = "hide labels"
-pymol_script[length(pymol_script)+1] = "show sticks, chain A"
+pymol_script[length(pymol_script)+1] = "show sticks, chain A and resi 311-394"
 pymol_script[length(pymol_script)+1] = 'spectrum b, red_white_blue, chain A, minimum=-0.3, maximum=0.3'
 pymol_script[length(pymol_script)+1] = "set ray_opaque_background, 0"
 pymol_script[length(pymol_script)+1] = "set ray_shadow, 0"
@@ -213,7 +213,7 @@ pymol_script[length(pymol_script)+1] = "set ray_trace_fog, 0"
 pymol_script[length(pymol_script)+1] = "set antialias, 1"
 pymol_script[length(pymol_script)+1] = "bg_color white"
 pymol_script[length(pymol_script)+1] = "hide cartoon, chain A"
-pymol_script[length(pymol_script)+1] = "show spheres, chain A"
+pymol_script[length(pymol_script)+1] = "show spheres, chain A and resi 311-394"
 pymol_script[length(pymol_script)+1] = "ray 2400,2400"
 pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_diff_spheres_0.png, dpi=600")
 

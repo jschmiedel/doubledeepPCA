@@ -1,7 +1,7 @@
 reinitialize
 fetch 1be9, async=0
 hide everything
-show cartoon, chain A
+show cartoon, chain A and resi 311-394
 set cartoon_color, [0.8, 0.8, 0.8]
 show sticks, chain B
 set stick_color, orange, chain B
@@ -101,7 +101,7 @@ alter 1be9 and chain A and resid 392, b=0.0394004686089841
 alter 1be9 and chain A and resid 393, b=0.0933286063263252
 alter 1be9 and chain A and resid 394, b=-0.0672189308144941
 hide labels
-show sticks, chain A
+show sticks, chain A and resi 311-394
 spectrum b, red_white_blue, chain A, minimum=-0.3, maximum=0.3
 set ray_opaque_background, 0
 set ray_shadow, 0
@@ -109,7 +109,7 @@ set ray_trace_fog, 0
 set antialias, 1
 bg_color white
 hide cartoon, chain A
-show spheres, chain A
+show spheres, chain A and resi 311-394
 ray 2400,2400
 png 001-DLG4-CRIPT_diff_spheres_0.png, dpi=600
 alter 1be9 and chain A and resid 311, b=0.912629272510516
