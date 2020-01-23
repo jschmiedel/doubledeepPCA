@@ -1,0 +1,289 @@
+reinitialize
+fetch 1be9, async=0
+hide everything
+show cartoon, chain A
+set cartoon_color, [0.8, 0.8, 0.8]
+show sticks, chain B
+set stick_color, orange, chain B
+remove resn hoh
+set stick_radius, 0.4
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+set_view (-0.808276772,   -0.129103154,    0.574473739,-0.161214709,    0.986906171,   -0.005035143,-0.566301107,   -0.096682772,   -0.818507493,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )
+zoom center, 25
+rotate y, 45
+ray 2400,2400
+png 001-DLG4-CRIPT_reference_0.png, dpi=600
+alter 1be9 and chain A and resid 1, b=-0.0853458766278532
+alter 1be9 and chain A and resid 2, b=-0.0973468451375895
+alter 1be9 and chain A and resid 3, b=-0.0185453089165345
+alter 1be9 and chain A and resid 4, b=-0.019948548029208
+alter 1be9 and chain A and resid 5, b=0.0318124656420954
+alter 1be9 and chain A and resid 6, b=0.0223930981054395
+alter 1be9 and chain A and resid 7, b=0.0437019942586077
+alter 1be9 and chain A and resid 8, b=-0.128011832970649
+alter 1be9 and chain A and resid 9, b=-0.0745221361853767
+alter 1be9 and chain A and resid 10, b=7.20913837936219e-05
+alter 1be9 and chain A and resid 11, b=0.0156037954771586
+alter 1be9 and chain A and resid 12, b=NA
+alter 1be9 and chain A and resid 13, b=-0.110981326745249
+alter 1be9 and chain A and resid 14, b=-0.00515568577811615
+alter 1be9 and chain A and resid 15, b=-0.0156830985892059
+alter 1be9 and chain A and resid 16, b=0.0333889830028611
+alter 1be9 and chain A and resid 17, b=-0.143767335260254
+alter 1be9 and chain A and resid 18, b=-0.160661739217472
+alter 1be9 and chain A and resid 19, b=-0.314190396157073
+alter 1be9 and chain A and resid 20, b=NA
+alter 1be9 and chain A and resid 21, b=NA
+alter 1be9 and chain A and resid 22, b=0.0343778076648031
+alter 1be9 and chain A and resid 23, b=0.0966831797750123
+alter 1be9 and chain A and resid 24, b=-0.0972385382024196
+alter 1be9 and chain A and resid 25, b=0.0528528013658556
+alter 1be9 and chain A and resid 26, b=-0.15015418202618
+alter 1be9 and chain A and resid 27, b=NA
+alter 1be9 and chain A and resid 28, b=NA
+alter 1be9 and chain A and resid 29, b=-0.0569180410031386
+alter 1be9 and chain A and resid 30, b=-0.137109894544309
+alter 1be9 and chain A and resid 31, b=NA
+alter 1be9 and chain A and resid 32, b=NA
+alter 1be9 and chain A and resid 33, b=NA
+alter 1be9 and chain A and resid 34, b=NA
+alter 1be9 and chain A and resid 35, b=-0.0239236277837864
+alter 1be9 and chain A and resid 36, b=-0.0804021899929375
+alter 1be9 and chain A and resid 37, b=-0.0232227418449123
+alter 1be9 and chain A and resid 38, b=-0.0536605755292554
+alter 1be9 and chain A and resid 39, b=-0.0163279810758517
+alter 1be9 and chain A and resid 40, b=-0.0480348388570397
+alter 1be9 and chain A and resid 41, b=0.0165080936494658
+alter 1be9 and chain A and resid 42, b=-0.00975379995584693
+alter 1be9 and chain A and resid 43, b=0.0465913351750959
+alter 1be9 and chain A and resid 44, b=0.0615097882711188
+alter 1be9 and chain A and resid 45, b=-0.0283683064536093
+alter 1be9 and chain A and resid 46, b=0.0521703996792129
+alter 1be9 and chain A and resid 47, b=0.000211983165829243
+alter 1be9 and chain A and resid 48, b=0.0302364894962211
+alter 1be9 and chain A and resid 49, b=0.0326587137249516
+alter 1be9 and chain A and resid 50, b=-0.0215807157015425
+alter 1be9 and chain A and resid 51, b=0.0229344277336111
+alter 1be9 and chain A and resid 52, b=NA
+alter 1be9 and chain A and resid 53, b=0.0274245441400033
+alter 1be9 and chain A and resid 54, b=NA
+alter 1be9 and chain A and resid 55, b=-0.0274342282080683
+alter 1be9 and chain A and resid 56, b=NA
+alter 1be9 and chain A and resid 57, b=0.05287540293953
+alter 1be9 and chain A and resid 58, b=0.0356755764624179
+alter 1be9 and chain A and resid 59, b=-0.330771442540897
+alter 1be9 and chain A and resid 60, b=NA
+alter 1be9 and chain A and resid 61, b=0.0330148369064546
+alter 1be9 and chain A and resid 62, b=NA
+alter 1be9 and chain A and resid 63, b=0.00328375592852597
+alter 1be9 and chain A and resid 64, b=-0.0218141743457198
+alter 1be9 and chain A and resid 65, b=0.0517375772252041
+alter 1be9 and chain A and resid 66, b=NA
+alter 1be9 and chain A and resid 67, b=0.0307303372493748
+alter 1be9 and chain A and resid 68, b=NA
+alter 1be9 and chain A and resid 69, b=NA
+alter 1be9 and chain A and resid 70, b=0.0205329008764647
+alter 1be9 and chain A and resid 71, b=0.0191041354477379
+alter 1be9 and chain A and resid 72, b=NA
+alter 1be9 and chain A and resid 73, b=-0.00705669985404741
+alter 1be9 and chain A and resid 74, b=-0.106045613919344
+alter 1be9 and chain A and resid 75, b=NA
+alter 1be9 and chain A and resid 76, b=NA
+alter 1be9 and chain A and resid 77, b=NA
+alter 1be9 and chain A and resid 78, b=NA
+alter 1be9 and chain A and resid 79, b=-0.0424351348502601
+alter 1be9 and chain A and resid 80, b=-0.0793342962171898
+alter 1be9 and chain A and resid 81, b=-0.267828832396573
+alter 1be9 and chain A and resid 82, b=0.0394004686089841
+alter 1be9 and chain A and resid 83, b=NA
+alter 1be9 and chain A and resid 84, b=NA
+hide labels
+show sticks, chain A
+spectrum b, red_white_blue, chain A, minimum=-0.5, maximum=0.5
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+hide cartoon, chain A
+show spheres, chain A
+ray 2400,2400
+png 001-DLG4-CRIPT_diff_spheres_0.png, dpi=600
+alter 1be9 and chain A and resid 1, b=0.912629272510516
+alter 1be9 and chain A and resid 2, b=0.603222836848767
+alter 1be9 and chain A and resid 3, b=0.929552006891941
+alter 1be9 and chain A and resid 4, b=0.675599731513363
+alter 1be9 and chain A and resid 5, b=0.867890692247366
+alter 1be9 and chain A and resid 6, b=0.64804555399201
+alter 1be9 and chain A and resid 7, b=0.984423935068775
+alter 1be9 and chain A and resid 8, b=0.671717635405676
+alter 1be9 and chain A and resid 9, b=0.825652115209817
+alter 1be9 and chain A and resid 10, b=0.972994064897494
+alter 1be9 and chain A and resid 11, b=0.996031948612376
+alter 1be9 and chain A and resid 12, b=NA
+alter 1be9 and chain A and resid 13, b=0.595632563088852
+alter 1be9 and chain A and resid 14, b=0.495060618091784
+alter 1be9 and chain A and resid 15, b=0.580900798914193
+alter 1be9 and chain A and resid 16, b=0.896609398164692
+alter 1be9 and chain A and resid 17, b=0.568587130619264
+alter 1be9 and chain A and resid 18, b=0.790761018972998
+alter 1be9 and chain A and resid 19, b=0.592324429798884
+alter 1be9 and chain A and resid 20, b=NA
+alter 1be9 and chain A and resid 21, b=NA
+alter 1be9 and chain A and resid 22, b=0.984289975762408
+alter 1be9 and chain A and resid 23, b=0.988250997649844
+alter 1be9 and chain A and resid 24, b=0.882642947203178
+alter 1be9 and chain A and resid 25, b=0.600301960173325
+alter 1be9 and chain A and resid 26, b=0.570597659948149
+alter 1be9 and chain A and resid 27, b=NA
+alter 1be9 and chain A and resid 28, b=NA
+alter 1be9 and chain A and resid 29, b=0.716903987104194
+alter 1be9 and chain A and resid 30, b=0.858239139900203
+alter 1be9 and chain A and resid 31, b=NA
+alter 1be9 and chain A and resid 32, b=NA
+alter 1be9 and chain A and resid 33, b=NA
+alter 1be9 and chain A and resid 34, b=NA
+alter 1be9 and chain A and resid 35, b=0.791669250369709
+alter 1be9 and chain A and resid 36, b=0.780544475105572
+alter 1be9 and chain A and resid 37, b=0.902950561735522
+alter 1be9 and chain A and resid 38, b=0.873851212625228
+alter 1be9 and chain A and resid 39, b=0.762591605016702
+alter 1be9 and chain A and resid 40, b=0.847935182355125
+alter 1be9 and chain A and resid 41, b=0.627315654989932
+alter 1be9 and chain A and resid 42, b=0.94310693092093
+alter 1be9 and chain A and resid 43, b=0.958808259009086
+alter 1be9 and chain A and resid 44, b=0.706199703764762
+alter 1be9 and chain A and resid 45, b=0.590639378769987
+alter 1be9 and chain A and resid 46, b=0.734515783842249
+alter 1be9 and chain A and resid 47, b=0.561528113472083
+alter 1be9 and chain A and resid 48, b=0.693710897253109
+alter 1be9 and chain A and resid 49, b=0.915735868722295
+alter 1be9 and chain A and resid 50, b=0.592514775792479
+alter 1be9 and chain A and resid 51, b=0.618953524218493
+alter 1be9 and chain A and resid 52, b=NA
+alter 1be9 and chain A and resid 53, b=0.947303787760121
+alter 1be9 and chain A and resid 54, b=NA
+alter 1be9 and chain A and resid 55, b=0.686925655219259
+alter 1be9 and chain A and resid 56, b=NA
+alter 1be9 and chain A and resid 57, b=0.989532977387084
+alter 1be9 and chain A and resid 58, b=0.857389991145164
+alter 1be9 and chain A and resid 59, b=0.662593504650589
+alter 1be9 and chain A and resid 60, b=NA
+alter 1be9 and chain A and resid 61, b=0.946640863480736
+alter 1be9 and chain A and resid 62, b=NA
+alter 1be9 and chain A and resid 63, b=0.6015479790921
+alter 1be9 and chain A and resid 64, b=0.877561773499607
+alter 1be9 and chain A and resid 65, b=0.944737456881954
+alter 1be9 and chain A and resid 66, b=0.716417326667736
+alter 1be9 and chain A and resid 67, b=0.991690393839465
+alter 1be9 and chain A and resid 68, b=NA
+alter 1be9 and chain A and resid 69, b=NA
+alter 1be9 and chain A and resid 70, b=0.909742758479433
+alter 1be9 and chain A and resid 71, b=0.599788259101178
+alter 1be9 and chain A and resid 72, b=NA
+alter 1be9 and chain A and resid 73, b=0.927107197040236
+alter 1be9 and chain A and resid 74, b=0.901823091000518
+alter 1be9 and chain A and resid 75, b=NA
+alter 1be9 and chain A and resid 76, b=NA
+alter 1be9 and chain A and resid 77, b=NA
+alter 1be9 and chain A and resid 78, b=NA
+alter 1be9 and chain A and resid 79, b=0.788377951415289
+alter 1be9 and chain A and resid 80, b=0.561247540546285
+alter 1be9 and chain A and resid 81, b=0.696776888721966
+alter 1be9 and chain A and resid 82, b=0.913058930538789
+alter 1be9 and chain A and resid 83, b=0.770389510962305
+alter 1be9 and chain A and resid 84, b=NA
+spectrum b, red_white, chain A, minimum=0.5, maximum=1
+ray 2400,2400
+png 001-DLG4-CRIPT_binding_spheres_0.png, dpi=600
+alter 1be9 and chain A and resid 1, b=0.997975149138369
+alter 1be9 and chain A and resid 2, b=0.700569681986357
+alter 1be9 and chain A and resid 3, b=0.948097315808476
+alter 1be9 and chain A and resid 4, b=0.695548279542571
+alter 1be9 and chain A and resid 5, b=0.836078226605271
+alter 1be9 and chain A and resid 6, b=0.62565245588657
+alter 1be9 and chain A and resid 7, b=0.940721940810167
+alter 1be9 and chain A and resid 8, b=0.799729468376326
+alter 1be9 and chain A and resid 9, b=0.900174251395194
+alter 1be9 and chain A and resid 10, b=0.972921973513701
+alter 1be9 and chain A and resid 11, b=0.980428153135217
+alter 1be9 and chain A and resid 12, b=NA
+alter 1be9 and chain A and resid 13, b=0.706613889834101
+alter 1be9 and chain A and resid 14, b=0.5002163038699
+alter 1be9 and chain A and resid 15, b=0.596583897503399
+alter 1be9 and chain A and resid 16, b=0.863220415161831
+alter 1be9 and chain A and resid 17, b=0.712354465879517
+alter 1be9 and chain A and resid 18, b=0.95142275819047
+alter 1be9 and chain A and resid 19, b=0.906514825955957
+alter 1be9 and chain A and resid 20, b=0.819071064770743
+alter 1be9 and chain A and resid 21, b=0.952180307340346
+alter 1be9 and chain A and resid 22, b=0.949912168097605
+alter 1be9 and chain A and resid 23, b=0.891567817874831
+alter 1be9 and chain A and resid 24, b=0.979881485405598
+alter 1be9 and chain A and resid 25, b=0.547449158807469
+alter 1be9 and chain A and resid 26, b=0.720751841974329
+alter 1be9 and chain A and resid 27, b=0.810049138773826
+alter 1be9 and chain A and resid 28, b=0.617878516734867
+alter 1be9 and chain A and resid 29, b=0.773822028107333
+alter 1be9 and chain A and resid 30, b=0.995349034444511
+alter 1be9 and chain A and resid 31, b=NA
+alter 1be9 and chain A and resid 32, b=1.00079719429946
+alter 1be9 and chain A and resid 33, b=0.736296280094561
+alter 1be9 and chain A and resid 34, b=0.68923383689233
+alter 1be9 and chain A and resid 35, b=0.815592878153495
+alter 1be9 and chain A and resid 36, b=0.860946665098509
+alter 1be9 and chain A and resid 37, b=0.926173303580434
+alter 1be9 and chain A and resid 38, b=0.927511788154483
+alter 1be9 and chain A and resid 39, b=0.778919586092554
+alter 1be9 and chain A and resid 40, b=0.895970021212165
+alter 1be9 and chain A and resid 41, b=0.610807561340466
+alter 1be9 and chain A and resid 42, b=0.952860730876776
+alter 1be9 and chain A and resid 43, b=0.91221692383399
+alter 1be9 and chain A and resid 44, b=0.644689915493643
+alter 1be9 and chain A and resid 45, b=0.619007685223597
+alter 1be9 and chain A and resid 46, b=0.682345384163036
+alter 1be9 and chain A and resid 47, b=0.561316130306254
+alter 1be9 and chain A and resid 48, b=0.663474407756888
+alter 1be9 and chain A and resid 49, b=0.883077154997343
+alter 1be9 and chain A and resid 50, b=0.614095491494021
+alter 1be9 and chain A and resid 51, b=0.596019096484882
+alter 1be9 and chain A and resid 52, b=0.743837960192176
+alter 1be9 and chain A and resid 53, b=0.919879243620118
+alter 1be9 and chain A and resid 54, b=0.704027230114474
+alter 1be9 and chain A and resid 55, b=0.714359883427327
+alter 1be9 and chain A and resid 56, b=NA
+alter 1be9 and chain A and resid 57, b=0.936657574447554
+alter 1be9 and chain A and resid 58, b=0.821714414682746
+alter 1be9 and chain A and resid 59, b=0.993364947191486
+alter 1be9 and chain A and resid 60, b=0.916936942442109
+alter 1be9 and chain A and resid 61, b=0.913626026574282
+alter 1be9 and chain A and resid 62, b=0.955579434727478
+alter 1be9 and chain A and resid 63, b=0.598264223163574
+alter 1be9 and chain A and resid 64, b=0.899375947845327
+alter 1be9 and chain A and resid 65, b=0.89299987965675
+alter 1be9 and chain A and resid 66, b=NA
+alter 1be9 and chain A and resid 67, b=0.96096005659009
+alter 1be9 and chain A and resid 68, b=0.927389726129162
+alter 1be9 and chain A and resid 69, b=0.656225366687581
+alter 1be9 and chain A and resid 70, b=0.889209857602968
+alter 1be9 and chain A and resid 71, b=0.58068412365344
+alter 1be9 and chain A and resid 72, b=0.910995446184857
+alter 1be9 and chain A and resid 73, b=0.934163896894283
+alter 1be9 and chain A and resid 74, b=1.00786870491986
+alter 1be9 and chain A and resid 75, b=NA
+alter 1be9 and chain A and resid 76, b=1.01334081228038
+alter 1be9 and chain A and resid 77, b=0.922323097605128
+alter 1be9 and chain A and resid 78, b=0.679770717681533
+alter 1be9 and chain A and resid 79, b=0.830813086265549
+alter 1be9 and chain A and resid 80, b=0.640581836763475
+alter 1be9 and chain A and resid 81, b=0.964605721118539
+alter 1be9 and chain A and resid 82, b=0.873658461929805
+alter 1be9 and chain A and resid 83, b=NA
+alter 1be9 and chain A and resid 84, b=0.752724815792438
+spectrum b, red_white, chain A, minimum=0.5, maximum=1
+ray 2400,2400
+png 001-DLG4-CRIPT_stability_spheres_0.png, dpi=600
