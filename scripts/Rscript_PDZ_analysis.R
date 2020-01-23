@@ -166,14 +166,15 @@ ggsave(plot=p3A,file = "results/PDZ_fig3_panelA_heatmaps.pdf",height=unit(9,"cm"
 
 ### panel B: DLG4-CRIPT crystal structure residues coloured by fitness or fitness difference
 # create txt file to run in pymol
-singles_posavg = singles[,.(diff_binding_stability = mean(diff_binding_stability),
-                             binding = mean(b_fitness_exp),
+singles_posavg = singles[,.(diff_binding_stability = mean(diff_binding_stability,na.rm=T),
+                             binding = mean(b_fitness_exp,na.rm=T),
                              HAmin_ligand = unique(HAmin_ligand), 
-                             stability = mean(s_fitness_exp)),Pos]
+                             stability = mean(s_fitness_exp,na.rm=T)),Pos]
 
 dir.create("results/pymol",showWarnings = F)
 script_file = "results/pymol/PDZ_Fig3_panelB.txt"
-preferred_view = "set_view (-0.808276772,   -0.129103154,    0.574473739,-0.161214709,    0.986906171,   -0.005035143,-0.566301107,   -0.096682772,   -0.818507493,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )"
+# preferred_view = "set_view (-0.808276772,   -0.129103154,    0.574473739,-0.161214709,    0.986906171,   -0.005035143,-0.566301107,   -0.096682772,   -0.818507493,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )"
+preferred_view = "set_ivew (-0.936472654,    0.013009959,   -0.350497067,0.001002149,    0.999406636,    0.034416664,0.350737691,    0.031879503,   -0.935929894,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )"
 col_grey = "[0.8, 0.8, 0.8]"
 pos_offset = 310
 
@@ -206,7 +207,7 @@ for (i in 1:nrow(singles_posavg)) {
 }
 pymol_script[length(pymol_script)+1] = "hide labels"
 pymol_script[length(pymol_script)+1] = "show sticks, chain A"
-pymol_script[length(pymol_script)+1] = 'spectrum b, red_white_blue, chain A, minimum=-0.5, maximum=0.5'
+pymol_script[length(pymol_script)+1] = 'spectrum b, red_white_blue, chain A, minimum=-0.3, maximum=0.3'
 pymol_script[length(pymol_script)+1] = "set ray_opaque_background, 0"
 pymol_script[length(pymol_script)+1] = "set ray_shadow, 0"
 pymol_script[length(pymol_script)+1] = "set ray_trace_fog, 0"
@@ -221,7 +222,7 @@ pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_diff_spheres_0
 for (i in 1:nrow(singles_posavg)) {
   pymol_script[length(pymol_script)+1]  = paste0("alter 1be9 and chain A and resid ",i+pos_offset,", b=",singles_posavg[i,binding])
 }
-pymol_script[length(pymol_script)+1] = 'spectrum b, red_white, chain A, minimum=0.5, maximum=1'
+pymol_script[length(pymol_script)+1] = 'spectrum b, red_white, chain A, minimum=0.5, maximum=1.1'
 pymol_script[length(pymol_script)+1] = "ray 2400,2400"
 pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_binding_spheres_0.png, dpi=600")
 
@@ -231,7 +232,7 @@ pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_binding_sphere
 for (i in 1:nrow(singles_posavg)) {
   pymol_script[length(pymol_script)+1]  = paste0("alter 1be9 and chain A and resid ",i+pos_offset,", b=",singles_posavg[i,stability])
 }
-pymol_script[length(pymol_script)+1] = 'spectrum b, red_white, chain A, minimum=0.5, maximum=1'
+pymol_script[length(pymol_script)+1] = 'spectrum b, red_white, chain A, minimum=0.5, maximum=1.1'
 pymol_script[length(pymol_script)+1] = "ray 2400,2400"
 pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_stability_spheres_0.png, dpi=600")
 
