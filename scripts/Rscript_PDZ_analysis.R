@@ -173,7 +173,6 @@ singles_posavg = singles[,.(diff_binding_stability = mean(diff_binding_stability
 
 dir.create("results/pymol",showWarnings = F)
 script_file = "results/pymol/PDZ_Fig3_panelB.txt"
-# preferred_view = "set_view (-0.808276772,   -0.129103154,    0.574473739,-0.161214709,    0.986906171,   -0.005035143,-0.566301107,   -0.096682772,   -0.818507493,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )"
 preferred_view = "set_view (-0.931835651,    0.073482201,    0.355364770,0.058640655,    0.996903062,   -0.052372973,-0.358112812,   -0.027964739,   -0.933260202,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )"
 col_grey = "[0.8, 0.8, 0.8]"
 pos_offset = 310
@@ -197,7 +196,7 @@ pymol_script[length(pymol_script)+1] = "set antialias, 1"
 pymol_script[length(pymol_script)+1] = "bg_color white"
 pymol_script[length(pymol_script)+1] = preferred_view
 pymol_script[length(pymol_script)+1] = "zoom center, 25"
-pymol_script[length(pymol_script)+1] = "rotate y, 45"
+# pymol_script[length(pymol_script)+1] = "rotate y, 45"
 pymol_script[length(pymol_script)+1] = "ray 2400,2400"
 pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_reference_0.png, dpi=600")
 
