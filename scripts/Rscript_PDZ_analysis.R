@@ -161,6 +161,85 @@ panel3A_3 = ggplot(singles_plot,aes(Pos,Mut,fill=fitness_diff)) +
 p3A = grid.arrange(grobs = list(panel3A_1,panel3A_2,panel3A_3),nrow=3)
 ggsave(plot=p3A,file = "results/PDZ_fig3_panelA_heatmaps.pdf",height=unit(9,"cm"),width=unit(7,"cm"))
 
+
+#### can we predict the binding interface??
+
+### panel B: DLG4-CRIPT crystal structure residues coloured by fitness or fitness difference
+# create txt file to run in pymol
+singles_posavg = singles[,.(diff_binding_stability = mean(diff_binding_stability),
+                             binding = mean(b_fitness_exp),
+                             HAmin_ligand = unique(HAmin_ligand), 
+                             stability = mean(s_fitness_exp)),Pos]
+
+dir.create("results/pymol",showWarnings = F)
+script_file = "results/pymol/PDZ_Fig3_panelB.txt"
+preferred_view = "set_view (-0.808276772,   -0.129103154,    0.574473739,-0.161214709,    0.986906171,   -0.005035143,-0.566301107,   -0.096682772,   -0.818507493,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )"
+col_grey = "[0.8, 0.8, 0.8]"
+pos_offset = 310
+
+# content in the pymol script
+pymol_script = "reinitialize"
+pymol_script[length(pymol_script)+1] = "fetch 1be9, async=0"
+
+# reference DLG4-CRIPT
+pymol_script[length(pymol_script)+1] = "hide everything"
+pymol_script[length(pymol_script)+1] = "show cartoon, chain A"
+pymol_script[length(pymol_script)+1] = paste("set cartoon_color,", col_grey)
+pymol_script[length(pymol_script)+1] = "show sticks, chain B"
+pymol_script[length(pymol_script)+1] = "set stick_color, orange, chain B"
+pymol_script[length(pymol_script)+1] = "remove resn hoh"
+pymol_script[length(pymol_script)+1] = "set stick_radius, 0.4"
+pymol_script[length(pymol_script)+1] = "set ray_opaque_background, 0"
+pymol_script[length(pymol_script)+1] = "set ray_shadow, 0"
+pymol_script[length(pymol_script)+1] = "set ray_trace_fog, 0"
+pymol_script[length(pymol_script)+1] = "set antialias, 1"
+pymol_script[length(pymol_script)+1] = "bg_color white"
+pymol_script[length(pymol_script)+1] = preferred_view
+pymol_script[length(pymol_script)+1] = "zoom center, 25"
+pymol_script[length(pymol_script)+1] = "rotate y, 45"
+pymol_script[length(pymol_script)+1] = "ray 2400,2400"
+pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_reference_0.png, dpi=600")
+
+# color DLG4 by the difference of bindingPCA-stabilityPCA fitness
+for (i in 1:nrow(singles_posavg)) {
+  pymol_script[length(pymol_script)+1]  = paste0("alter 1be9 and chain A and resid ",i+pos_offset,", b=",singles_posavg[i,diff_binding_stability])
+}
+pymol_script[length(pymol_script)+1] = "hide labels"
+pymol_script[length(pymol_script)+1] = "show sticks, chain A"
+pymol_script[length(pymol_script)+1] = 'spectrum b, red_white_blue, chain A, minimum=-0.5, maximum=0.5'
+pymol_script[length(pymol_script)+1] = "set ray_opaque_background, 0"
+pymol_script[length(pymol_script)+1] = "set ray_shadow, 0"
+pymol_script[length(pymol_script)+1] = "set ray_trace_fog, 0"
+pymol_script[length(pymol_script)+1] = "set antialias, 1"
+pymol_script[length(pymol_script)+1] = "bg_color white"
+pymol_script[length(pymol_script)+1] = "hide cartoon, chain A"
+pymol_script[length(pymol_script)+1] = "show spheres, chain A"
+pymol_script[length(pymol_script)+1] = "ray 2400,2400"
+pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_diff_spheres_0.png, dpi=600")
+
+# color DLG4 by the bindingPCA fitness
+for (i in 1:nrow(singles_posavg)) {
+  pymol_script[length(pymol_script)+1]  = paste0("alter 1be9 and chain A and resid ",i+pos_offset,", b=",singles_posavg[i,binding])
+}
+pymol_script[length(pymol_script)+1] = 'spectrum b, red_white, chain A, minimum=0.5, maximum=1'
+pymol_script[length(pymol_script)+1] = "ray 2400,2400"
+pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_binding_spheres_0.png, dpi=600")
+
+
+
+# color DLG4 by the stabilityPCA fitness
+for (i in 1:nrow(singles_posavg)) {
+  pymol_script[length(pymol_script)+1]  = paste0("alter 1be9 and chain A and resid ",i+pos_offset,", b=",singles_posavg[i,stability])
+}
+pymol_script[length(pymol_script)+1] = 'spectrum b, red_white, chain A, minimum=0.5, maximum=1'
+pymol_script[length(pymol_script)+1] = "ray 2400,2400"
+pymol_script[length(pymol_script)+1] = paste0("png 001-DLG4-CRIPT_stability_spheres_0.png, dpi=600")
+
+# write pymol script in a .txt
+write(x = pymol_script,file = script_file)
+
+
+
 # 
 # # set of mutations that increase b_fitnessPCA fitness but has negative s_fitnessPCA fitness
 # singles[s_fitness_exp-b_fitness_exp < -0.3 & b_fitness_exp > -0.2,.(Pos,WT_AA,Mut,s_fitness_exp,s_sigma,b_fitness_exp,b_sigma,HAmin_ligand,type)][order(HAmin_ligand)]
