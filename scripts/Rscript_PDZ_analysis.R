@@ -28,6 +28,9 @@ singles = fread(file = "processed_data/PDZ_singles_alldata.txt")
 # exp fitness values
 singles[,s_fitness_exp := exp(s_fitness)]
 singles[,b_fitness_exp := exp(b_fitness)]
+# exp error values; remember to multiply by exp(fitness)
+#
+#
 singles[,diff_binding_stability := b_fitness_exp-s_fitness_exp]
 
 singles = singles[!STOP & !STOP_readthrough]
@@ -91,9 +94,11 @@ p2B = ggplot(singles,
              aes(b_fitness_exp, s_fitness_exp,color=log10(HAmin_ligand))) +
   geom_point(size=2) +
   geom_abline(linetype=2) +
+  geom_hline(yintercept = 1,lty=3) +
+  geom_vline(xintercept = 1,lty=3) +
   scale_color_gradient2("min dist to ligand [??]", low = col_orange, high = col_purple, mid = "grey90", midpoint = 0.9, breaks = log10(c(5,10,15,20)), labels = c(5,10,15,20)) +
-  scale_x_continuous(breaks = seq(0,1.25,0.25),expand=c(0,0.0), limits = c(0.3, 1.25)) +
-  scale_y_continuous(breaks = seq(0,1.25,0.25),expand=c(0,0.0),  limits = c(0.3, 1.25)) +
+  scale_x_continuous(breaks = seq(0,1.25,0.25),expand=c(0,0.01)) +
+  scale_y_continuous(breaks = seq(0,1.25,0.25),expand=c(0,0.01)) +
   labs(color="min.dist[A]",x="fitness bindingPCA",y="fitness stabilityPCA") +
   theme(legend.direction = "horizontal", legend.position = c(0.8,0.075))
 p2B
@@ -113,6 +118,7 @@ setkey(singles,Mut,Pos)
 
 singles_plot = copy(singles)
 singles_plot[,fitness_diff := sign(diff_binding_stability) * min(abs(diff_binding_stability),0.5),.(Pos,Mut)]
+threshold_ligand_dist=5
 
 panel3A_1 = ggplot(singles,aes(Pos,Mut,fill=s_fitness_exp)) +
   geom_raster() +
@@ -155,28 +161,20 @@ panel3A_3 = ggplot(singles_plot,aes(Pos,Mut,fill=fitness_diff)) +
 p3A = grid.arrange(grobs = list(panel3A_1,panel3A_2,panel3A_3),nrow=3)
 ggsave(plot=p3A,file = "results/PDZ_fig3_panelA_heatmaps.pdf",height=unit(9,"cm"),width=unit(7,"cm"))
 
-
-### >>move this to analysis script
-ggplot(singles,aes(b_fitness_exp,s_fitness_exp,color=log10(HAmin_ligand))) +
-  geom_point(size=2) +
-  scale_color_gradient2("min dist to ligand [??]", low = col_orange, high = col_purple, mid = "grey90", midpoint = 0.9, breaks = log10(c(5,10,15,20)), labels = c(5,10,15,20)) +
-  geom_abline(intercept = c(-0.4,0.4)) +
-  labs(x="fitness b_fitnessPCA",y="fitness s_fitnessPCA")
-ggsave("results/PDZ_s_fitness_b_fitness_fitness_scatter.pdf",width=7,height=6)
-
-# set of mutations that increase b_fitnessPCA fitness but has negative s_fitnessPCA fitness
-singles[s_fitness_exp-b_fitness_exp < -0.3 & b_fitness_exp > -0.2,.(Pos,WT_AA,Mut,s_fitness_exp,s_sigma,b_fitness_exp,b_sigma,HAmin_ligand,type)][order(HAmin_ligand)]
-#proximal sites:
-#   all mutations position 12
-#distant sites: 
-#   D22W
-#   G23W
-#   G25A/P
-#   T75P
-
-# potentially allosteric sites
-singles[s_fitness_exp-b_fitness_exp > 0.4,.(Pos,WT_AA,Mut,s_fitness_exp,s_sigma,b_fitness_exp,b_sigma,HAmin_ligand,type,RSA_unbound,RSA_bound)][order(HAmin_ligand)]
-# positions 26, 57,35,38,80 (all >9.7A from CRIPT)
+# 
+# # set of mutations that increase b_fitnessPCA fitness but has negative s_fitnessPCA fitness
+# singles[s_fitness_exp-b_fitness_exp < -0.3 & b_fitness_exp > -0.2,.(Pos,WT_AA,Mut,s_fitness_exp,s_sigma,b_fitness_exp,b_sigma,HAmin_ligand,type)][order(HAmin_ligand)]
+# #proximal sites:
+# #   all mutations position 12
+# #distant sites: 
+# #   D22W
+# #   G23W
+# #   G25A/P
+# #   T75P
+# 
+# # potentially allosteric sites
+# singles[s_fitness_exp-b_fitness_exp > 0.4,.(Pos,WT_AA,Mut,s_fitness_exp,s_sigma,b_fitness_exp,b_sigma,HAmin_ligand,type,RSA_unbound,RSA_bound)][order(HAmin_ligand)]
+# # positions 26, 57,35,38,80 (all >9.7A from CRIPT)
 
 #average over positions
 singles_avgPos=singles[,.(s_fitness = median(s_fitness,na.rm=T),s_fitness_sd = sd(s_fitness,na.rm=T),

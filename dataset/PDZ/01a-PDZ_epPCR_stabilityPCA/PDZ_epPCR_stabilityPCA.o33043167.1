@@ -1,0 +1,314 @@
+
+
+
+******* DiMSum wrapper command-line arguments *******
+
+
+
+fastqFileDir            /users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/
+fastqFileExtension      .fastq
+gzipped                 TRUE
+stranded                TRUE
+paired                  TRUE
+barcodeErrorRate        0.25
+experimentDesignPath    /users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/experimentDesign_PDZ_epPCR_stabilityPCA.txt
+experimentDesignPairDuplicates
+                        FALSE
+cutadapt5First          GGGAGGTGGAGCTAGC
+cutadapt5Second         GCGTGACATAACTAATAAGCTT
+cutadaptMinLength       90
+cutadaptErrorRate       0.2
+usearchMinQual          25
+usearchMaxee            0.5
+usearchMinlen           64
+usearchMinovlen         16
+outputPath              /users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/
+projectName             01a-PDZ_epPCR_stabilityPCA
+wildtypeSequence        CCGAGGCGAATTGTGATCCACCGGGGCTCCACGGGCCTGGGCTTCAACATCGTGGGTGGCGAGGACGGTGAAGGCATCTTCATCTCCTTTATCCTGGCCGGGGGCCCTGCAGACCTCAGTGGGGAGCTGCGGAAGGGGGACCAGATCCTGTCGGTCAACGGTGTGGACCTCCGAAATGCCAGCCATGAGCAGGCTGCCATTGCCCTGAAGAATGCGGGTCAGACGGTCACGATCATCGCTCAGTATAAACCATAA
+sequenceType            auto
+transLibrary            FALSE
+bayesianDoubleFitness   FALSE
+bayesianDoubleFitnessLamD
+                        0.025
+fitnessMinInputCountAll
+                        0
+fitnessMinInputCountAny
+                        0
+fitnessMinOutputCountAll
+                        0
+fitnessMinOutputCountAny
+                        0
+fitnessHighConfidenceCount
+                        10
+fitnessNormalise        TRUE
+fitnessDoubleHighConfidenceCount
+                        50
+maxSubstitutions        2
+mixedSubstitutions      FALSE
+retainIntermediateFiles
+                        FALSE
+splitChunkSize          3758096384
+retainedReplicates      all
+startStage              1
+stopStage               0
+numCores                15
+help                    FALSE
+
+
+
+******* Running DiMSum pipeline *******
+
+
+
+Package version         0.3.37.9000
+R version               R version 3.5.2 (2018-12-20)
+Picked up _JAVA_OPTIONS: -Xmx40960M
+
+
+
+******* Binary dependency versions *******
+
+
+
+cutadapt                2.0
+FastQC                  FastQC v0.11.3
+USEARCH                 usearch v10.0.240_i86linux32
+starcode                starcode-v1.3 17-07-2018
+
+
+
+******* DiMSum STAGE 1: DEMULTIPLEX READS *******
+
+
+
+Skipping this stage (assuming all fastq files already demultiplexed)
+
+
+
+******* DiMSum STAGE 2: ASSESS READ QUALITY *******
+
+
+
+Running FASTQC on all files:
+ [1] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.gz"
+ [2] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.gz"
+ [3] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.gz"
+ [4] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.gz"
+ [5] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.gz"
+ [6] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.gz"
+ [7] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.gz"
+ [8] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.gz"
+ [9] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.gz"
+[10] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.gz"
+[11] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.gz"
+[12] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.gz"
+Processing...
+	00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.gz
+	00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.gz
+	00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.gz
+	00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.gz
+	00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.gz
+	00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.gz
+	00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.gz
+	00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.gz
+	00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.gz
+	00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.gz
+	00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.gz
+	00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.gz
+
+
+
+
+******* UNZIP FASTQ FILES *******
+
+
+
+Unzipping FASTQ files:
+ [1] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.gz"
+ [2] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.gz"
+ [3] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.gz"
+ [4] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.gz"
+ [5] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.gz"
+ [6] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.gz"
+ [7] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.gz"
+ [8] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.gz"
+ [9] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.gz"
+[10] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.gz"
+[11] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.gz"
+[12] "/users/project/prj004631/sequencing_data/Julia_Domingo/2020-01-15_CW3BF_MiSeq/00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.gz"
+Processing...
+	00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.gz
+	00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.gz
+	00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.gz
+	00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.gz
+	00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.gz
+	00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.gz
+	00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.gz
+	00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.gz
+	00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.gz
+	00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.gz
+	00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.gz
+	00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.gz
+
+
+
+
+******* SPLIT FASTQ FILES *******
+
+
+
+Splitting FASTQ files:
+ [1] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00063AAB-PDZe1-lib_S24_L001_R1_001.fastq"
+ [2] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00064AAB-PDZe2-lib_S23_L001_R1_001.fastq"
+ [3] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00065AAB-PDZe3-lib_S22_L001_R1_001.fastq"
+ [4] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00066AAB-PDZe4-lib_S21_L001_R1_001.fastq"
+ [5] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00067AAB-PDZe5-lib_S20_L001_R1_001.fastq"
+ [6] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00068AAB-PDZe6-lib_S19_L001_R1_001.fastq"
+ [7] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00063AAB-PDZe1-lib_S24_L001_R2_001.fastq"
+ [8] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00064AAB-PDZe2-lib_S23_L001_R2_001.fastq"
+ [9] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00065AAB-PDZe3-lib_S22_L001_R2_001.fastq"
+[10] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00066AAB-PDZe4-lib_S21_L001_R2_001.fastq"
+[11] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00067AAB-PDZe5-lib_S20_L001_R2_001.fastq"
+[12] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/fastq/00068AAB-PDZe6-lib_S19_L001_R2_001.fastq"
+Processing...
+	00063AAB-PDZe1-lib_S24_L001_R1_001.fastq
+	00064AAB-PDZe2-lib_S23_L001_R1_001.fastq
+	00065AAB-PDZe3-lib_S22_L001_R1_001.fastq
+	00066AAB-PDZe4-lib_S21_L001_R1_001.fastq
+	00067AAB-PDZe5-lib_S20_L001_R1_001.fastq
+	00068AAB-PDZe6-lib_S19_L001_R1_001.fastq
+	00063AAB-PDZe1-lib_S24_L001_R2_001.fastq
+	00064AAB-PDZe2-lib_S23_L001_R2_001.fastq
+	00065AAB-PDZe3-lib_S22_L001_R2_001.fastq
+	00066AAB-PDZe4-lib_S21_L001_R2_001.fastq
+	00067AAB-PDZe5-lib_S20_L001_R2_001.fastq
+	00068AAB-PDZe6-lib_S19_L001_R2_001.fastq
+
+
+
+
+******* DiMSum STAGE 3: TRIM CONSTANT REGIONS *******
+
+
+
+Trimming FASTQ files with cutadapt:
+ [1] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.split1.fastq"
+ [2] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.split1.fastq"
+ [3] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.split1.fastq"
+ [4] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.split1.fastq"
+ [5] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.split1.fastq"
+ [6] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.split1.fastq"
+ [7] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.split1.fastq"
+ [8] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.split1.fastq"
+ [9] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.split1.fastq"
+[10] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.split1.fastq"
+[11] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.split1.fastq"
+[12] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/split/00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.split1.fastq"
+Processing...
+	00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.split1.fastq	00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.split1.fastq
+	00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.split1.fastq	00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.split1.fastq
+	00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.split1.fastq	00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.split1.fastq
+	00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.split1.fastq	00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.split1.fastq
+	00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.split1.fastq	00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.split1.fastq
+	00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.split1.fastq	00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.split1.fastq
+
+
+
+******* DiMSum STAGE 4: ALIGN PAIRED-END READS *******
+
+
+
+Aligning paired-end FASTQ files with USEARCH:
+ [1] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.split1.fastq.cutadapt"
+ [2] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.split1.fastq.cutadapt"
+ [3] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.split1.fastq.cutadapt"
+ [4] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.split1.fastq.cutadapt"
+ [5] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.split1.fastq.cutadapt"
+ [6] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.split1.fastq.cutadapt"
+ [7] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.split1.fastq.cutadapt"
+ [8] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.split1.fastq.cutadapt"
+ [9] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.split1.fastq.cutadapt"
+[10] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.split1.fastq.cutadapt"
+[11] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.split1.fastq.cutadapt"
+[12] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/cutadapt/00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.split1.fastq.cutadapt"
+Processing...
+	00063AAB-PDZe1-lib_S24_L001_R1_001.fastq.split1.fastq.cutadapt	00063AAB-PDZe1-lib_S24_L001_R2_001.fastq.split1.fastq.cutadapt
+	00064AAB-PDZe2-lib_S23_L001_R1_001.fastq.split1.fastq.cutadapt	00064AAB-PDZe2-lib_S23_L001_R2_001.fastq.split1.fastq.cutadapt
+	00065AAB-PDZe3-lib_S22_L001_R1_001.fastq.split1.fastq.cutadapt	00065AAB-PDZe3-lib_S22_L001_R2_001.fastq.split1.fastq.cutadapt
+	00066AAB-PDZe4-lib_S21_L001_R1_001.fastq.split1.fastq.cutadapt	00066AAB-PDZe4-lib_S21_L001_R2_001.fastq.split1.fastq.cutadapt
+	00067AAB-PDZe5-lib_S20_L001_R1_001.fastq.split1.fastq.cutadapt	00067AAB-PDZe5-lib_S20_L001_R2_001.fastq.split1.fastq.cutadapt
+	00068AAB-PDZe6-lib_S19_L001_R1_001.fastq.split1.fastq.cutadapt	00068AAB-PDZe6-lib_S19_L001_R2_001.fastq.split1.fastq.cutadapt
+
+
+
+******* DiMSum STAGE 5: COUNT UNIQUE VARIANTS *******
+
+
+
+Counting unique aligned reads with starcode:
+[1] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/usearch/input1_e1_s0_bNA_tNA_split1.usearch"
+[2] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/usearch/input2_e2_s0_bNA_tNA_split1.usearch"
+[3] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/usearch/input3_e3_s0_bNA_tNA_split1.usearch"
+[4] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/usearch/output1_e1_s1_b1_tNA_split1.usearch"
+[5] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/usearch/output2_e2_s1_b1_tNA_split1.usearch"
+[6] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/usearch/output3_e3_s1_b1_tNA_split1.usearch"
+Processing...
+	input1_e1_s0_bNA_tNA_split1.usearch
+	input2_e2_s0_bNA_tNA_split1.usearch
+	input3_e3_s0_bNA_tNA_split1.usearch
+	output1_e1_s1_b1_tNA_split1.usearch
+	output2_e2_s1_b1_tNA_split1.usearch
+	output3_e3_s1_b1_tNA_split1.usearch
+
+
+
+******* DiMSum STAGE 6: MERGE SAMPLE STATISTICS *******
+
+
+
+Loading variant count files:
+[1] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/unique/input1_e1_s0_bNA_tNA.usearch.unique"
+[2] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/unique/input2_e2_s0_bNA_tNA.usearch.unique"
+[3] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/unique/input3_e3_s0_bNA_tNA.usearch.unique"
+[4] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/unique/output1_e1_s1_b1_tNA.usearch.unique"
+[5] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/unique/output2_e2_s1_b1_tNA.usearch.unique"
+[6] "/users/blehner/jschmiedel/doubledeepPCA/dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/tmp/unique/output3_e3_s1_b1_tNA.usearch.unique"
+Processing...
+	input1_e1_s0_bNA_tNA.usearch.unique
+	input2_e2_s0_bNA_tNA.usearch.unique
+	input3_e3_s0_bNA_tNA.usearch.unique
+	output1_e1_s1_b1_tNA.usearch.unique
+	output2_e2_s1_b1_tNA.usearch.unique
+	output3_e3_s1_b1_tNA.usearch.unique
+Processing merged variants...
+Done
+Saving merged variant data...
+Done
+
+
+
+******* DiMSum STAGE 7: CALCULATE FITNESS *******
+
+
+
+Filtering out low count nucleotide variants...
+Done
+Fit error model...
+Done
+Aggregating counts for identical amino acid variants...
+Done
+Aggregating counts for biological output replicates...
+Done
+Calculating fitness and error...
+Done
+Skipping Bayesian double mutant fitness estimation
+Skipping normalisation by number of generations
+Merging fitness estimates from biological replicates...
+Done
+Saving fitness estimates...
+Done
+
+
+
+Saving workspace image...
+Done
