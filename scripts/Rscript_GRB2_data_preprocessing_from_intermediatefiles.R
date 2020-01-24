@@ -61,6 +61,7 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
+#single AA variants
 nt1 = all_variants[Nham_aa==1 & Nham_nt ==1 & Nmut_codons == 1 & !STOP,.(aa_seq,count_nt1 = log10(mean_count),fitness_nt1 = fitness)]
 nt2 = all_variants[Nham_aa==1 & Nham_nt ==2 & Nmut_codons == 1 & !STOP,.(aa_seq,count_nt2 = log10(mean_count),fitness_nt2 = fitness)]
 nt3 = all_variants[Nham_aa==1 & Nham_nt ==3 & Nmut_codons == 1 & !STOP,.(aa_seq,count_nt3 = log10(mean_count),fitness_nt3 = fitness)]
@@ -70,7 +71,7 @@ theme_set(theme_bw())
 ggpairs(X,columns = grep("count",names(X)))
 ggpairs(X,columns = grep("fitness",names(X)),
         aes(alpha=0.5,color=(count_nt1 > 3 | is.na(count_nt1)) & (count_nt2 > 2 | is.na(count_nt2)) & (count_nt3 > 2 | is.na(count_nt3))))
-ggsave("results/preprocessing/PDZ_Nhamnt_count_fitness_dependencies_stabilityNM.pdf",width=6,height=6)
+ggsave("results/preprocessing/GRB2_Nhamnt_count_fitness_dependencies_stabilityNM.pdf",width=6,height=6)
 #if Nham_nt==1, variants below 10^3 read counts are sequencing errors
 #if Nham_nt > 1, variants below 10^2 read counts are sequencing errors
 #also there's a proportionality between readcounts of the same AA variants that could be taken into account; this is probably from sequencing errors as well
@@ -97,6 +98,54 @@ X[abs(fitness-fitness_rest) > 0.05]
 singles_NM_stabilityPCA = all_data_rest
 
 
+### double aa variants
+aa2_nt2 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 2  & !STOP,.(count_nt2 = log10(unlist(.SD[1,1])),fitness_nt2 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+aa2_nt3 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 3  & !STOP,.(count_nt3 = log10(unlist(.SD[1,1])),fitness_nt3 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+aa2_nt4 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 4  & !STOP,.(count_nt4 = log10(unlist(.SD[1,1])),fitness_nt4 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+aa2_nt5 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 5  & !STOP,.(count_nt5 = log10(unlist(.SD[1,1])),fitness_nt5 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+aa2_nt6 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 6  & !STOP,.(count_nt6 = log10(unlist(.SD[1,1])),fitness_nt6 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+
+X = merge(merge(merge(merge(aa2_nt2,aa2_nt3,all=T),
+                      aa2_nt4,all=T),
+                aa2_nt5,all=T),
+          aa2_nt6,all=T)
+
+theme_set(theme_bw())
+ggpairs(X,columns = grep("count",names(X)),lower=list(continuous = 'density'))
+ggpairs(Y,columns = grep("count",names(X)))
+ggpairs(X[sample(x = .N,size=10^5)],columns = grep("fitness",names(X)),
+        aes(alpha=0.5,color=((count_nt2 > 2 | is.na(count_nt2)) & 
+                                (count_nt3 > 1.5 | is.na(count_nt3)) & 
+                                (count_nt4 > 1.5 | is.na(count_nt4)) &
+                                (count_nt5 > 1.5 | is.na(count_nt5)) &
+                                (count_nt6 > 1.5 | is.na(count_nt6)))))
+ggpairs(X[sample(x = .N,size=10^4)],columns = grep("fitness_nt[23]",names(X)),
+        aes(alpha=0.5,color=(count_nt2 > 1 | is.na(count_nt2)) & 
+              (count_nt3 > 1 | is.na(count_nt3))))
+ggpairs(X[sample(x = .N,size=10^4)],columns = grep("fitness_nt[34]",names(X)),
+        aes(alpha=0.5,color=(count_nt4 > 1.5| is.na(count_nt4)) & 
+              (count_nt3 > 1.5 | is.na(count_nt3))))
+ggsave("results/preprocessing/GRB2_doubles_Nhamnt_count_fitness_dependencies_stabilityNM.pdf",width=6,height=6)
+
+X2 = merge(aa2_nt2,aa2_nt3)
+dt = data.table(i = rep(seq(0,3,0.2),each=16),j = seq(0,3,0.2),c = 0,n = 0)
+for (idx in seq(0,3,0.2)) {
+  for (jdx in seq(0,3,0.2)) {
+    dt[i==idx & j==jdx,c := X2[count_nt2 > (idx) & count_nt3 > (jdx),cor(fitness_nt2,fitness_nt3)]]
+    dt[i==idx & j==jdx,n := X2[count_nt2 > (idx) & count_nt3 > (jdx),.N]]
+  }
+}
+ggplot(dt[n > 100],aes(i,j,fill=(c))) + geom_raster() + scale_fill_gradient2(midpoint = 0.85,mid="grey")
+ggplot(dt[n > 100],aes(i,j,fill=log10(n))) + geom_raster() 
+#exclude variants below 10^2 reads for aa2_nt2
+#exclude viarants below 10^1.5 reads for all other
+
+doubles_NM_stabilityPCA = all_variants[Nham_aa == 2 & Nmut_codons == 2 & ((Nham_nt == 2 & mean_count > 10^2) | (Nham_nt > 2 & mean_count > 10^1.5)),
+                             .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
+                               sigma = sqrt(1/sum(sigma^-2)),
+                               mean_count = sum(mean_count),Nsyn = .N,
+                               Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
+
 ######################## 
 #### epPCR stability ###
 ########################
@@ -120,6 +169,8 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
+
+### single aa variants
 nt1 = all_variants[Nham_aa==1 & Nham_nt ==1 & Nmut_codons == 1,.(count_nt1 = log10(unlist(.SD[,1])),fitness_nt1 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
 nt2 = all_variants[Nham_aa==1 & Nham_nt ==2 & Nmut_codons == 1,.(count_nt2 = log10(unlist(.SD[,1])),fitness_nt2 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
 nt3 = all_variants[Nham_aa==1 & Nham_nt ==3 & Nmut_codons == 1,.(count_nt3 = log10(unlist(.SD[,1])),fitness_nt3 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
@@ -142,6 +193,35 @@ singles_epPCR_stabilityPCA = all_variants[Nham_aa == 1 & Nham_nt == 1 & Nmut_cod
                                             sigma = sqrt(1/sum(sigma^-2)),
                                             mean_count = sum(mean_count),Nsyn = .N,
                                             Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
+
+### double aa variants
+aa2_nt2 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 2  & !STOP,.(count_nt2 = log10(unlist(.SD[,1])),fitness_nt2 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+aa2_nt3 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 3  & !STOP,.(count_nt3 = log10(unlist(.SD[,1])),fitness_nt3 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+
+X = merge(aa2_nt2,aa2_nt3)
+
+ggpairs(X,columns = grep("count",names(X)),lower=list(continuous = 'density'))
+ggpairs(X,columns = grep("fitness",names(X)),
+        aes(alpha=0.5,color=((count_nt2 > 2.5 | is.na(count_nt2)) )))
+# nt==3 variants are just random
+#compare to NM data
+X = merge(aa2_nt2,doubles_NM_stabilityPCA[,.(aa_seq,fitness,mean_count = log10(mean_count))])
+ggpairs(X,columns =c("count_nt2","mean_count"),
+        aes(alpha=0.5,color=count_nt2 > 1.5))
+ggpairs(X[count_nt2 > 1.5],columns = grep("fitness",names(X)),
+        aes(alpha=0.5,color=count_nt2 > 2))
+
+#use only variants with greater 10^1.5 counts
+doubles_epPCR_stabilityPCA = all_variants[Nham_aa == 2 & Nmut_codons == 2 & Nham_nt == 2 & mean_count > 10^1.5,
+                                       .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
+                                         sigma = sqrt(1/sum(sigma^-2)),
+                                         mean_count = sum(mean_count),Nsyn = .N,
+                                         Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
+
+
+
+
+
 
 #######################
 #### epPCR binding ####
@@ -166,6 +246,8 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
+
+### single aa variants
 nt1 = all_variants[Nham_aa == 1 & Nham_nt == 1 & Nmut_codons == 1,.(count_nt1 = log10(unlist(.SD[,1])),fitness_nt1 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
 nt2 = all_variants[Nham_aa == 1 & Nham_nt == 2 & Nmut_codons == 1,.(count_nt2 = log10(unlist(.SD[,1])),fitness_nt2 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
 nt3 = all_variants[Nham_aa == 1 & Nham_nt == 3 & Nmut_codons == 1,.(count_nt3 = log10(unlist(.SD[,1])),fitness_nt3 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
@@ -183,6 +265,23 @@ singles_epPCR_bindingPCA = all_variants[Nham_aa == 1 & Nmut_codons == 1 & (Nham_
                                           mean_count = sum(mean_count),Nsyn = .N,
                                           Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
 
+### double aa variants
+aa2_nt2 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 2  & !STOP,.(count_nt2 = log10(unlist(.SD[,1])),fitness_nt2 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+aa2_nt3 = all_variants[Nham_aa==2 & Nmut_codons == 2 & Nham_nt == 3  & !STOP,.(count_nt3 = log10(unlist(.SD[,1])),fitness_nt3 = unlist(.SD[,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+
+X = merge(aa2_nt2,aa2_nt3)
+
+ggpairs(X,columns = grep("count",names(X)),lower=list(continuous = 'density'))
+ggpairs(X,columns = grep("fitness",names(X)),
+        aes(alpha=0.5,color=((count_nt2 > 2.5 | is.na(count_nt2)) )))
+# nt==3 variants are just random
+#use same standards as epPCR_stabilityPCA
+#use only variants with greater 10^1.5 counts
+doubles_epPCR_bindingPCA = all_variants[Nham_aa == 2 & Nmut_codons == 2 & Nham_nt == 2 & mean_count > 10^1.5,
+                                          .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
+                                            sigma = sqrt(1/sum(sigma^-2)),
+                                            mean_count = sum(mean_count),Nsyn = .N,
+                                            Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
 
 
 #####################################
@@ -203,9 +302,29 @@ singles[,Pos := which(strsplit(aa_seq,"")[[1]] != wt_AA_seq_split),aa_seq]
 singles[,WT_AA := wt_AA_seq_split[Pos],Pos]
 singles[,Mut := strsplit(aa_seq,"")[[1]][Pos],aa_seq]
 
+### doubles
+doubles = merge(merge(doubles_NM_stabilityPCA[,.(aa_seq,STOP,STOP_readthrough,
+                                                 mean_count_sNM = mean_count,
+                                                 s_fitness_NM = fitness,s_sigma_NM = sigma)],
+                      doubles_epPCR_stabilityPCA[,.(aa_seq,STOP,STOP_readthrough,
+                                                    mean_count_sEP = mean_count,
+                                                    s_fitness_EP = fitness,s_sigma_EP = sigma)],all=T),
+                doubles_epPCR_bindingPCA[,.(aa_seq,STOP,STOP_readthrough,
+                                            mean_count_b = mean_count,
+                                            b_fitness = fitness,b_sigma = sigma)],all=T)
+
+## redo Pos/WT_AA/Mut stuff
+doubles[,Pos1 := which(strsplit(aa_seq,"")[[1]] != wt_AA_seq_split)[1],aa_seq]
+doubles[,Pos2 := which(strsplit(aa_seq,"")[[1]] != wt_AA_seq_split)[2],aa_seq]
+doubles[,WT_AA1 := wt_AA_seq_split[Pos1],Pos1]
+doubles[,WT_AA2 := wt_AA_seq_split[Pos2],Pos2]
+doubles[,Mut1 := strsplit(aa_seq,"")[[1]][Pos1],aa_seq]
+doubles[,Mut2 := strsplit(aa_seq,"")[[1]][Pos2],aa_seq]
+
 
 ### variant statistics
 singles[,.N,.(!is.na(s_fitness_NM),!is.na(s_fitness_EP),!is.na(b_fitness))]
+doubles[,.N,.(!is.na(s_fitness_NM),!is.na(s_fitness_EP),!is.na(b_fitness))]
 cutoff=25
 singles[,.N,.(mean_count_sNM>cutoff,mean_count_sEP>cutoff,mean_count_b>cutoff)]
 #326 variants in all four datasets
@@ -379,3 +498,6 @@ singles[,.(Npos = length(unique(Pos))),type]
 
 ### write table of processed single mutants
 write.table(singles,file = "processed_data/GRB2_singles_alldata.txt",quote=F,row.names=F)
+### write table of processed doubles mutants
+write.table(doubles,file = "processed_data/GRB2_doubles_alldata.txt",quote=F,row.names=F)
+

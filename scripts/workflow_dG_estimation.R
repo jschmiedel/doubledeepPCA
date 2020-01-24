@@ -25,6 +25,7 @@ workflow_dG_estimation = function(
 
   ### prepare dataset
   #epPCR datasets
+  ### change this script after implementing GRB2 double data preprocessing script 
   stagenum = 1
   function_dG_prepare_dataset(
     name = dataset_name,
