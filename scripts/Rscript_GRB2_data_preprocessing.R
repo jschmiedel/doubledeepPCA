@@ -41,27 +41,6 @@ singles[is.infinite(binding),binding := NA]
 singles = singles[!is.na(binding)]
 singles = singles[!is.na(stability)] 
 
-# add p-values using t-test for the 3 replicates
-ttest <- function(av, se, df = 2, mu = 1) {
-  tstat <- (av-mu)/se
-  # Using T-dist
-  pval = 2*pt(abs(tstat), df, lower=FALSE)
-  return(pval)
-}
-singles[,pval_bind := p.adjust(ttest(binding, sigma_binding), method = "fdr")]
-singles[,pval_stab := p.adjust(ttest(stability, sigma_stab), method = "fdr")]
-singles[,pval_diff := p.adjust(ttest(diff_binding_stability, sigma_diff, mu = 0), method = "fdr")]
-
-pval_sig_thrs = 0.1
-
-
-# mutations that affect binding (growth phenotype)
-singles[, affects_binding := pval_bind < pval_sig_thrs & binding < 1]
-# mutations that affect stability (both biochem and growth)
-singles[, affects_stability := pval_stab < pval_sig_thrs & stability < 1]
-# mutations effects binding (biochemical phenotype)
-singles[, affects_binding_biochem := pval_bind < pval_sig_thrs & pval_diff < pval_sig_thrs & diff_binding_stability < 0]
-
 
 ### load distances between GRB2 and ligand
 GRB2_GAB2_distances = fread("dataset/PDB_contactmap_2vwf_AB.txt")

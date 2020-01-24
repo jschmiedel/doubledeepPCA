@@ -26,8 +26,8 @@ col_red = "#EF4136"
 #### load data
 singles = fread(file = "processed_data/PDZ_singles_alldata.txt")
 # exp fitness values
-singles[,s_fitness_exp := exp(s_fitness)]
-singles[,b_fitness_exp := exp(b_fitness)]
+singles[,s_fitness_exp := s_fitness + 1]
+singles[,b_fitness_exp := b_fitness + 1]
 # exp error values; remember to multiply by exp(fitness)
 #
 #
@@ -94,8 +94,8 @@ p2B = ggplot(singles,
              aes(b_fitness_exp, s_fitness_exp,color=log10(HAmin_ligand))) +
   geom_point(size=2) +
   geom_abline(linetype=2) +
-  geom_hline(yintercept = 1,lty=3) +
-  geom_vline(xintercept = 1,lty=3) +
+  geom_hline(yintercept = c(0,1),lty=3) +
+  geom_vline(xintercept = c(0,1),lty=3) +
   scale_color_gradient2("min dist to ligand [??]", low = col_orange, high = col_purple, mid = "grey90", midpoint = 0.9, breaks = log10(c(5,10,15,20)), labels = c(5,10,15,20)) +
   scale_x_continuous(breaks = seq(0,1.25,0.25),expand=c(0,0.01)) +
   scale_y_continuous(breaks = seq(0,1.25,0.25),expand=c(0,0.01)) +
@@ -117,7 +117,7 @@ ggsave("results/PDZ_fig2_fitness_distributions.pdf", fig2, width = 9, height = 3
 setkey(singles,Mut,Pos)
 
 singles_plot = copy(singles)
-singles_plot[,fitness_diff := sign(diff_binding_stability) * min(abs(diff_binding_stability),0.5),.(Pos,Mut)]
+singles_plot[,fitness_diff := sign(diff_binding_stability) * min(abs(diff_binding_stability),0.75),.(Pos,Mut)]
 threshold_ligand_dist=5
 
 panel3A_1 = ggplot(singles,aes(Pos,Mut,fill=s_fitness_exp)) +
@@ -153,7 +153,7 @@ panel3A_3 = ggplot(singles_plot,aes(Pos,Mut,fill=fitness_diff)) +
   # geom_text(inherit.aes = F,data=singles[HAmin_ligand < threshold_ligand_dist,.(Pos,GAB2_AA)],aes(x=Pos,y=-2,label=GAB2_AA), size = 2) +
   scale_x_continuous(expand=c(0,0.02), breaks = seq(5,85,5)) +
   coord_cartesian(ylim=c(-2.5,20)) +
-  scale_fill_gradient2(low=col_red,mid="grey80",high=col_blue,na.value="white",midpoint = 0,limits=c(-0.5,0.5),breaks = seq(-1,1,0.5)) + # fix this setting upper bound
+  scale_fill_gradient2(low=col_red,mid="grey80",high=col_blue,na.value="white",midpoint = 0,limits=c(-0.75,0.75),breaks = seq(-.5,.5,0.5)) + # fix this setting upper bound
   labs(x="position",y="aa mutation",fill="bin-sta") +
   ggtitle("Difference")
 

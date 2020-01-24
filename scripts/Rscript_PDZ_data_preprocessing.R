@@ -13,13 +13,9 @@ require(data.table)
 require(ggplot2)
 require(GGally)
 require(cowplot)
+require(gridExtra)
 theme_set(theme_classic(base_size=9))
 
-## Colors
-col_purple = "#9161A8"
-col_blue =  "#0066CC"
-col_orange = "#F7941E"
-col_red = "#EF4136"
 
 ### load the different data files
 ## wildtype
@@ -27,7 +23,7 @@ wildtype_epPCR_stabilityPCA = fread("dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/fitn
 wildtype_epPCR_bindingPCA = fread("dataset/PDZ/01b-PDZ_epPCR_bindingPCA/fitness_wildtype.txt")
 wildtype_NM_stabilityPCA = fread("dataset/PDZ/01c-PDZ_NM_stabilityPCA/fitness_wildtype.txt")
 wildtype_NM_bindingPCA = fread("dataset/PDZ/01d-PDZ_NM_bindingPCA/fitness_wildtype.txt")
-wt_AA_seq = wildtype_epPCR_stabilityPCA$aa_seq
+wt_AA_seq = wildtype_NM_bindingPCA$aa_seq
 wt_AA_seq_split = strsplit(wt_AA_seq,"")[[1]]
 #merge
 wildtype = merge(merge(merge(wildtype_epPCR_stabilityPCA[,.(Pos = NA,WT,STOP,STOP_readthrough,Nham_nt,Nham_aa,Nmut_codons,
@@ -91,12 +87,12 @@ load("dataset/PDZ/01c-PDZ_NM_stabilityPCA/01c-PDZ_NM_stabilityPCA_fitness_interm
 all_variants[,g1 := 4.8]
 all_variants[,g2 := 5]
 all_variants[,g3 := 5.1]
-all_variants[,fitness1 := fitness1_uncorr / g1]
-all_variants[,fitness2 := fitness2_uncorr / g2]
-all_variants[,fitness3 := fitness3_uncorr / g3]
-all_variants[,sigma1 := sigma1_uncorr / g1]
-all_variants[,sigma2 := sigma2_uncorr / g2]
-all_variants[,sigma3 := sigma3_uncorr / g3]
+all_variants[,fitness1 := log2(exp(1)) * fitness1_uncorr / g1]
+all_variants[,fitness2 := log2(exp(1)) * fitness2_uncorr / g2]
+all_variants[,fitness3 := log2(exp(1)) * fitness3_uncorr / g3]
+all_variants[,sigma1 := log2(exp(1)) * sigma1_uncorr / g1]
+all_variants[,sigma2 := log2(exp(1)) * sigma2_uncorr / g2]
+all_variants[,sigma3 := log2(exp(1)) * sigma3_uncorr / g3]
 #merge fitness, error and input counts
 all_variants[,fitness := rowSums(.SD[,1:3]/(.SD[,(3+1):(2*3)]^2),na.rm=T) / 
                rowSums(1/(.SD[,(3+1):(2*3)]^2),na.rm=T),,
@@ -106,9 +102,9 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
-nt1 = all_variants[Nham_aa==1 & Nham_nt ==1,.(aa_seq,count_nt1 = log10(mean_count),fitness_nt1 = fitness)]
-nt2 = all_variants[Nham_aa==1 & Nham_nt ==2,.(aa_seq,count_nt2 = log10(mean_count),fitness_nt2 = fitness)]
-nt3 = all_variants[Nham_aa==1 & Nham_nt ==3,.(aa_seq,count_nt3 = log10(mean_count),fitness_nt3 = fitness)]
+nt1 = all_variants[Nham_aa==1 & Nham_nt ==1 & Nmut_codons == 1,.(aa_seq,count_nt1 = log10(mean_count),fitness_nt1 = fitness)]
+nt2 = all_variants[Nham_aa==1 & Nham_nt ==2 & Nmut_codons == 1,.(aa_seq,count_nt2 = log10(mean_count),fitness_nt2 = fitness)]
+nt3 = all_variants[Nham_aa==1 & Nham_nt ==3 & Nmut_codons == 1,.(aa_seq,count_nt3 = log10(mean_count),fitness_nt3 = fitness)]
 
 X=merge(merge(nt1,nt2,all=T),nt3,all=T)
 ggpairs(X,columns = grep("count",names(X)))
@@ -121,12 +117,12 @@ ggsave("results/preprocessing/PDZ_Nhamnt_count_fitness_dependencies_stabilityNM.
 
 
 ## merge based on hamming-distance specific read thresholds
-all_data_rest = all_variants[Nham_aa == 1 & ((Nham_nt == 1 & mean_count > 100) | (Nham_nt > 1 & mean_count > 10)),
+all_data_rest = all_variants[Nham_aa == 1 & Nmut_codons == 1 & ((Nham_nt == 1 & mean_count > 100) | (Nham_nt > 1 & mean_count > 10)),
              .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
                sigma = sqrt(1/sum(sigma^-2)),
                mean_count = sum(mean_count),Nsyn = .N,
                Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
-all_data = all_variants[Nham_aa == 1 & mean_count > 10,.(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
+all_data = all_variants[Nham_aa == 1 & Nmut_codons == 1 & mean_count > 10,.(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
                            sigma = sqrt(1/sum(sigma^-2)),
                            mean_count = sum(mean_count),Nsyn = .N,
                            Nham_aa = unique(Nham_aa),WT = unique(WT),STOP = unique(STOP),STOP_readthrough=unique(STOP_readthrough)),aa_seq]
@@ -147,12 +143,12 @@ load("dataset/PDZ/01d-PDZ_NM_bindingPCA/01d-PDZ_NM_bindingPCA_fitness_intermedia
 all_variants[,g1 := 5.1]
 all_variants[,g2 := 5.3]
 all_variants[,g3 := 5.2]
-all_variants[,fitness1 := fitness1_uncorr / g1]
-all_variants[,fitness2 := fitness2_uncorr / g2]
-all_variants[,fitness3 := fitness3_uncorr / g3]
-all_variants[,sigma1 := sigma1_uncorr / g1]
-all_variants[,sigma2 := sigma2_uncorr / g2]
-all_variants[,sigma3 := sigma3_uncorr / g3]
+all_variants[,fitness1 := log2(exp(1)) * fitness1_uncorr / g1]
+all_variants[,fitness2 := log2(exp(1)) * fitness2_uncorr / g2]
+all_variants[,fitness3 := log2(exp(1)) * fitness3_uncorr / g3]
+all_variants[,sigma1 := log2(exp(1)) * sigma1_uncorr / g1]
+all_variants[,sigma2 := log2(exp(1)) * sigma2_uncorr / g2]
+all_variants[,sigma3 := log2(exp(1)) * sigma3_uncorr / g3]
 #merge fitness, error and input counts
 all_variants[,fitness := rowSums(.SD[,1:3]/(.SD[,(3+1):(2*3)]^2),na.rm=T) / 
                rowSums(1/(.SD[,(3+1):(2*3)]^2),na.rm=T),,
@@ -162,9 +158,9 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
-nt1 = all_variants[Nham_aa==1 & Nham_nt ==1,.(aa_seq,count_nt1 = log10(mean_count),fitness_nt1 = fitness)]
-nt2 = all_variants[Nham_aa==1 & Nham_nt ==2,.(aa_seq,count_nt2 = log10(mean_count),fitness_nt2 = fitness)]
-nt3 = all_variants[Nham_aa==1 & Nham_nt ==3,.(aa_seq,count_nt3 = log10(mean_count),fitness_nt3 = fitness)]
+nt1 = all_variants[Nham_aa==1 & Nham_nt ==1 & Nmut_codons == 1,.(aa_seq,count_nt1 = log10(mean_count),fitness_nt1 = fitness)]
+nt2 = all_variants[Nham_aa==1 & Nham_nt ==2 & Nmut_codons == 1,.(aa_seq,count_nt2 = log10(mean_count),fitness_nt2 = fitness)]
+nt3 = all_variants[Nham_aa==1 & Nham_nt ==3 & Nmut_codons == 1,.(aa_seq,count_nt3 = log10(mean_count),fitness_nt3 = fitness)]
 
 X=merge(merge(nt1,nt2,all=T),nt3,all=T)
 ggpairs(X,columns = grep("count",names(X)))
@@ -175,7 +171,7 @@ ggpairs(X,columns = grep("fitness",names(X)),
 #also there's a proportionality between readcounts of the same AA variants that could be taken into account
 
 ## merge based on hamming-distance specific read thresholds
-singles_NM_bindingPCA = all_variants[Nham_aa == 1 & ((Nham_nt == 1 & mean_count > 100) | (Nham_nt > 1 & mean_count > 10)),
+singles_NM_bindingPCA = all_variants[Nham_aa == 1 & Nmut_codons == 1 & ((Nham_nt == 1 & mean_count > 100) | (Nham_nt > 1 & mean_count > 10)),
                              .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
                                sigma = sqrt(1/sum(sigma^-2)),
                                mean_count = sum(mean_count),Nsyn = .N,
@@ -187,12 +183,12 @@ load("dataset/PDZ/01a-PDZ_epPCR_stabilityPCA/01a-PDZ_epPCR_stabilityPCA_fitness_
 all_variants[,g1 := 5]
 all_variants[,g2 := 4.8]
 all_variants[,g3 := 5]
-all_variants[,fitness1 := fitness1_uncorr / g1]
-all_variants[,fitness2 := fitness2_uncorr / g2]
-all_variants[,fitness3 := fitness3_uncorr / g3]
-all_variants[,sigma1 := sigma1_uncorr / g1]
-all_variants[,sigma2 := sigma2_uncorr / g2]
-all_variants[,sigma3 := sigma3_uncorr / g3]
+all_variants[,fitness1 := log2(exp(1)) * fitness1_uncorr / g1]
+all_variants[,fitness2 := log2(exp(1)) * fitness2_uncorr / g2]
+all_variants[,fitness3 := log2(exp(1)) * fitness3_uncorr / g3]
+all_variants[,sigma1 := log2(exp(1)) * sigma1_uncorr / g1]
+all_variants[,sigma2 := log2(exp(1)) * sigma2_uncorr / g2]
+all_variants[,sigma3 := log2(exp(1)) * sigma3_uncorr / g3]
 #merge fitness, error and input counts
 all_variants[,fitness := rowSums(.SD[,1:3]/(.SD[,(3+1):(2*3)]^2),na.rm=T) / 
                rowSums(1/(.SD[,(3+1):(2*3)]^2),na.rm=T),,
@@ -202,9 +198,9 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
-nt1 = all_variants[Nham_aa==1 & Nham_nt ==1,.(count_nt1 = log10(unlist(.SD[1,1])),fitness_nt1 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
-nt2 = all_variants[Nham_aa==1 & Nham_nt ==2,.(count_nt2 = log10(unlist(.SD[1,1])),fitness_nt2 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
-nt3 = all_variants[Nham_aa==1 & Nham_nt ==3,.(count_nt3 = log10(unlist(.SD[1,1])),fitness_nt3 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+nt1 = all_variants[Nham_aa==1 & Nham_nt ==1 & Nmut_codons == 1,.(count_nt1 = log10(unlist(.SD[1,1])),fitness_nt1 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+nt2 = all_variants[Nham_aa==1 & Nham_nt ==2 & Nmut_codons == 1,.(count_nt2 = log10(unlist(.SD[1,1])),fitness_nt2 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+nt3 = all_variants[Nham_aa==1 & Nham_nt ==3 & Nmut_codons == 1,.(count_nt3 = log10(unlist(.SD[1,1])),fitness_nt3 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
 
 X=merge(merge(nt1,nt2,all=T),nt3,all=T)
 ggpairs(X,columns = grep("count",names(X)))
@@ -216,7 +212,7 @@ ggpairs(X,columns = grep("fitness",names(X)),
         aes(alpha=0.5,color=(count_nt1 > 1.5 | is.na(count_nt1)) & (mean_count > 1 | is.na(mean_count)) ))
 # correlation is good not matter what the input read count of the epPCR library
 ## >> use all epPCR data from Nham_nt == 1
-singles_epPCR_stabilityPCA = all_variants[Nham_aa == 1 & Nham_nt == 1,
+singles_epPCR_stabilityPCA = all_variants[Nham_aa == 1 & Nham_nt == 1 & Nmut_codons == 1,
                                      .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
                                        sigma = sqrt(1/sum(sigma^-2)),
                                        mean_count = sum(mean_count),Nsyn = .N,
@@ -228,12 +224,12 @@ load("dataset/PDZ/01b-PDZ_epPCR_bindingPCA/01b-PDZ_epPCR_bindingPCA_fitness_inte
 all_variants[,g1 := 5]
 all_variants[,g2 := 5]
 all_variants[,g3 := 4.8]
-all_variants[,fitness1 := fitness1_uncorr / g1]
-all_variants[,fitness2 := fitness2_uncorr / g2]
-all_variants[,fitness3 := fitness3_uncorr / g3]
-all_variants[,sigma1 := sigma1_uncorr / g1]
-all_variants[,sigma2 := sigma2_uncorr / g2]
-all_variants[,sigma3 := sigma3_uncorr / g3]
+all_variants[,fitness1 := log2(exp(1)) * fitness1_uncorr / g1]
+all_variants[,fitness2 := log2(exp(1)) * fitness2_uncorr / g2]
+all_variants[,fitness3 := log2(exp(1)) * fitness3_uncorr / g3]
+all_variants[,sigma1 := log2(exp(1)) * sigma1_uncorr / g1]
+all_variants[,sigma2 := log2(exp(1)) * sigma2_uncorr / g2]
+all_variants[,sigma3 := log2(exp(1)) * sigma3_uncorr / g3]
 #merge fitness, error and input counts
 all_variants[,fitness := rowSums(.SD[,1:3]/(.SD[,(3+1):(2*3)]^2),na.rm=T) / 
                rowSums(1/(.SD[,(3+1):(2*3)]^2),na.rm=T),,
@@ -243,9 +239,9 @@ all_variants[,sigma := sqrt(1/rowSums(1/.SD^2,na.rm=T)),,
              .SDcols = grep("^sigma[123]$",names(all_variants))]
 all_variants[,mean_count := rowMeans(.SD),,.SDcols = grep("count_e[123]_s0",names(all_variants))]
 
-nt1 = all_variants[Nham_aa==1 & Nham_nt ==1,.(count_nt1 = log10(unlist(.SD[1,1])),fitness_nt1 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
-nt2 = all_variants[Nham_aa==1 & Nham_nt ==2,.(count_nt2 = log10(unlist(.SD[1,1])),fitness_nt2 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
-nt3 = all_variants[Nham_aa==1 & Nham_nt ==3,.(count_nt3 = log10(unlist(.SD[1,1])),fitness_nt3 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+nt1 = all_variants[Nham_aa == 1 & Nham_nt == 1 & Nmut_codons == 1,.(count_nt1 = log10(unlist(.SD[1,1])),fitness_nt1 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+nt2 = all_variants[Nham_aa == 1 & Nham_nt == 2 & Nmut_codons == 1,.(count_nt2 = log10(unlist(.SD[1,1])),fitness_nt2 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
+nt3 = all_variants[Nham_aa == 1 & Nham_nt == 3 & Nmut_codons == 1,.(count_nt3 = log10(unlist(.SD[1,1])),fitness_nt3 = unlist(.SD[1,2])),aa_seq,.SDcols = c("mean_count","fitness")]
 
 X=merge(merge(nt1,nt2,all=T),nt3,all=T)
 ggpairs(X,columns = grep("count",names(X)))
@@ -257,7 +253,7 @@ ggpairs(X,columns = grep("fitness",names(X)),
         aes(alpha=0.5,color=(count_nt1 > 1.5 | is.na(count_nt1)) & (mean_count > 2.5 | is.na(mean_count)) ))
 # correlation is good not matter what the input read count of the epPCR library
 ## >> use all epPCR data from Nham_nt == 1
-singles_epPCR_bindingPCA = all_variants[Nham_aa == 1 & Nham_nt == 1,
+singles_epPCR_bindingPCA = all_variants[Nham_aa == 1 & Nham_nt == 1 & Nmut_codons == 1,
                                           .(fitness = sum(fitness * sigma^-2)/sum(sigma^-2),
                                             sigma = sqrt(1/sum(sigma^-2)),
                                             mean_count = sum(mean_count),Nsyn = .N,
@@ -447,7 +443,8 @@ singles_Tm_NM[,cor(mean_count_sNM,Tm)]
 ggplot(singles_Tm_NM,aes(Tm,mean_count_sNM)) +
   geom_point() +
   scale_y_log10() +
-  geom_smooth()
+  geom_smooth() +
+  labs(title=paste0("R=",singles_Tm_NM[,round(cor(mean_count_sNM,Tm),2)]))
 ggsave("results/preprocessing/PDZ_library_inequalities_NMvsTm.pdf",width=6,height=6)
 # weak dependence on Tm
 
@@ -491,3 +488,4 @@ singles[,.(Npos = length(unique(Pos))),type]
 
 ### >>save data files
 write.table(singles,file = "processed_data/PDZ_singles_alldata.txt",quote=F,row.names=F)
+
