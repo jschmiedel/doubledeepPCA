@@ -437,14 +437,21 @@ ggsave("results/preprocessing/PDZ_library_inequalities_byPos.pdf",width=10,heigh
 
 Tm_NM = fread("dataset/PDZ/PDZ_Sigma_NNKlibrary.txt")
 Tm_NM[,Pos := as.integer(gsub("PDZ_","",Name)),Name]
-singles_Tm_NM = merge(singles[,.(mean_count_sNM=mean(mean_count_bNM,na.rm=T)),Pos],Tm_NM[,.(Pos,Tm)])
-singles_Tm_NM = merge(singles[!is.na(mean_count_sNM),.(Pos,mean_count_sNM)],Tm_NM[,.(Pos,Tm)])
-singles_Tm_NM[,cor(mean_count_sNM,Tm)]
-ggplot(singles_Tm_NM,aes(Tm,mean_count_sNM)) +
+Tm_NM_biopython = fread("dataset/PDZ/PDZ_NM_meltingTemps.csv")
+singles_Tm_NM = merge(singles[,.(mean_count=mean(log10(mean_count_sNM),na.rm=T)),Pos],Tm_NM[,.(Pos,Tm_naive = Tm)])
+singles_Tm_NM = merge(singles_Tm_NM,Tm_NM_biopython[,.(Pos=pos,Tm_Wallace,Tm_GC,Tm_NN)])
+# singles_Tm_NM = merge(singles[!is.na(mean_count_sNM),.(Pos,mean_count_sNM)],Tm_NM[,.(Pos,Tm)])
+
+singles_Tm_NM[,cor(.SD),,.SDcols = c("mean_count",grep("Tm",names(singles_Tm_NM),value=T))]
+
+X = melt(singles_Tm_NM,measure.vars = grep("Tm_[nGN]",names(singles_Tm_NM),value=T))
+ggplot(X,aes(value,mean_count)) +
   geom_point() +
-  scale_y_log10() +
+  scale_y_log10(breaks = seq(1,3,0.25)) +
+  # geom_label(aes(x=60,y=2.5,label=round(cor(mean_count,value),2))) +
   geom_smooth() +
-  labs(title=paste0("R=",singles_Tm_NM[,round(cor(mean_count_sNM,Tm),2)]))
+  facet_wrap(variable~.)
+  # labs(title=paste0("R=",singles_Tm_NM[,round(cor(mean_count,Tm),2)]),y="mean log10(count) per position")
 ggsave("results/preprocessing/PDZ_library_inequalities_NMvsTm.pdf",width=6,height=6)
 # weak dependence on Tm
 
