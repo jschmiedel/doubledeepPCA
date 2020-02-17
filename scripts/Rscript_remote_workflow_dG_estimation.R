@@ -32,6 +32,11 @@ option_list <- list(
     type = "integer",
     default = 15,
     help = "# bootstraps per model fit"
+  ),
+  make_option(
+    opt_str = c("-s", "--dataset_suffix"),
+    type = "character",
+    default = ""
   )
 )
 
@@ -51,6 +56,7 @@ workflow_dG_estimation(
   first_stage = opt$first_stage,
   last_stage = opt$last_stage,
   dataset_name = opt$dataset_name,
+  dataset_suffix = opt$dataset_suffix,
   n_cores = opt$n_cores,
   n_bootstraps = opt$n_bootstraps
 )

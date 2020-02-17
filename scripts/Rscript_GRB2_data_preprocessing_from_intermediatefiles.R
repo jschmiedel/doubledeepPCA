@@ -19,9 +19,12 @@ theme_set(theme_classic(base_size = 9))
 
 ### load the different data files
 ## wildtype
-wildtype_epPCR_stabilityPCA <- fread("dataset/GRB2/01a-GRB2_epPCR_stabilityPCA/fitness_wildtype.txt")
-wildtype_epPCR_bindingPCA <- fread("dataset/GRB2/01b-GRB2_epPCR_bindingPCA/fitness_wildtype.txt")
-wildtype_NM_stabilityPCA <- fread("dataset/GRB2/01c-GRB2_NM2_stabilityPCA/fitness_wildtype.txt")
+wildtype_epPCR_stabilityPCA <- 
+  fread("dataset/GRB2/01a-GRB2_epPCR_stabilityPCA/fitness_wildtype.txt")
+wildtype_epPCR_bindingPCA <- 
+  fread("dataset/GRB2/01b-GRB2_epPCR_bindingPCA/fitness_wildtype.txt")
+wildtype_NM_stabilityPCA <- 
+  fread("dataset/GRB2/01c-GRB2_NM2_stabilityPCA/fitness_wildtype.txt")
 wt_AA_seq <- wildtype_NM_stabilityPCA$aa_seq
 wt_AA_seq_split <- strsplit(wt_AA_seq, "")[[1]]
 # merge
@@ -29,18 +32,23 @@ wildtype <- merge(
   merge(
     wildtype_epPCR_stabilityPCA[, .(
       Pos = NA, WT, STOP, STOP_readthrough, Nham_nt, Nham_aa, Nmut_codons,
-      mean_count_sEP = mean_count, s_fitness_EP = 0,
+      mean_count_sEP = mean_count, 
+      s_fitness_EP = 0,
       s_sigma_EP = sqrt(1 / (sigma1_uncorr^-2 + sigma2_uncorr^-2 + sigma3_uncorr^-3))
     )],
     wildtype_epPCR_bindingPCA[, .(
       Pos = NA, WT, STOP, STOP_readthrough, Nham_nt, Nham_aa, Nmut_codons,
-      mean_count_bEP = mean_count, b_fitness_EP = 0,
+      mean_count_bEP = mean_count, 
+      total_reads_input = count_e1_s0 + count_e2_s0 + count_e3_s0, #for Otwinowski method
+      total_reads_output = count_e1_s1 + count_e2_s1 + count_e3_s1, #for Otwinowski method
+      b_fitness_EP = 0,
       b_sigma_EP = sqrt(1 / (sigma1_uncorr^-2 + sigma2_uncorr^-2 + sigma3_uncorr^-3))
     )]
   ),
   wildtype_NM_stabilityPCA[, .(
     Pos = NA, WT, STOP, STOP_readthrough, Nham_nt, Nham_aa, Nmut_codons,
-    mean_count_sNM = mean_count, s_fitness_NM = 0,
+    mean_count_sNM = mean_count, 
+    s_fitness_NM = 0,
     s_sigma_NM = sqrt(1 / (sigma1_uncorr^-2 + sigma2_uncorr^-2 + sigma3_uncorr^-3))
   )]
 )
@@ -318,6 +326,8 @@ all_variants[, fitness3 := log2(exp(1)) * fitness3_uncorr / g3]
 all_variants[, sigma1 := log2(exp(1)) * sigma1_uncorr / g1]
 all_variants[, sigma2 := log2(exp(1)) * sigma2_uncorr / g2]
 all_variants[, sigma3 := log2(exp(1)) * sigma3_uncorr / g3]
+all_variants[, total_reads_input := count_e1_s0 + count_e2_s0 + count_e3_s0]
+all_variants[, total_reads_output := count_e1_s1 + count_e2_s1 + count_e3_s1]
 # merge fitness, error and input counts
 all_variants[, fitness := 
   rowSums(.SD[, 1:3] / (.SD[, (3 + 1):(2 * 3)]^2), na.rm = T) /
@@ -353,6 +363,8 @@ singles_epPCR_bindingPCA <- all_variants[
     fitness = sum(fitness * sigma^-2) / sum(sigma^-2),
     sigma = sqrt(1 / sum(sigma^-2)),
     mean_count = sum(mean_count),
+    total_reads_input = sum(total_reads_input, na.rm = T),
+    total_reads_output = sum(total_reads_output, na.rm = T),
     Nsyn = .N,
     Nham_aa = unique(Nham_aa),
     WT = unique(WT),
@@ -381,6 +393,8 @@ doubles_epPCR_bindingPCA <- all_variants[
     fitness = sum(fitness * sigma^-2) / sum(sigma^-2),
     sigma = sqrt(1 / sum(sigma^-2)),
     mean_count = sum(mean_count),
+    total_reads_input = sum(total_reads_input, na.rm = T),
+    total_reads_output = sum(total_reads_output, na.rm = T),
     Nsyn = .N,
     Nham_aa = unique(Nham_aa),
     WT = unique(WT),
@@ -393,21 +407,37 @@ doubles_epPCR_bindingPCA <- all_variants[
 #####################################
 ####### merge all single data #######
 #####################################
-singles <- merge(merge(singles_NM_stabilityPCA[, .(aa_seq, STOP, STOP_readthrough,
-  mean_count_sNM = mean_count,
-  s_fitness_NM = fitness, s_sigma_NM = sigma
-)],
-singles_epPCR_stabilityPCA[, .(aa_seq, STOP, STOP_readthrough,
-  mean_count_sEP = mean_count,
-  s_fitness_EP = fitness, s_sigma_EP = sigma
-)],
-all = T
-),
-singles_epPCR_bindingPCA[, .(aa_seq, STOP, STOP_readthrough,
-  mean_count_b = mean_count,
-  b_fitness = fitness, b_sigma = sigma
-)],
-all = T
+singles <- merge(
+  merge(
+    singles_NM_stabilityPCA[, .(
+      aa_seq, 
+      STOP, 
+      STOP_readthrough,
+      mean_count_sNM = mean_count,
+      s_fitness_NM = fitness, 
+      s_sigma_NM = sigma
+    )],
+    singles_epPCR_stabilityPCA[, .(
+      aa_seq,
+      STOP,
+      STOP_readthrough,
+      mean_count_sEP = mean_count,
+      s_fitness_EP = fitness, 
+      s_sigma_EP = sigma
+    )],
+    all = T
+  ),
+  singles_epPCR_bindingPCA[, .(
+    aa_seq, 
+    STOP, 
+    STOP_readthrough,
+    mean_count_b = mean_count,
+    total_reads_input,
+    total_reads_output,
+    b_fitness = fitness, 
+    b_sigma = sigma
+  )],
+  all = T
 )
 
 ## redo Pos/WT_AA/Mut stuff
@@ -418,19 +448,33 @@ singles[, Mut := strsplit(aa_seq, "")[[1]][Pos], aa_seq]
 ### doubles
 doubles <- merge(
   merge(
-    doubles_NM_stabilityPCA[, .(aa_seq, STOP, STOP_readthrough,
+    doubles_NM_stabilityPCA[, .(
+      aa_seq, 
+      STOP, 
+      STOP_readthrough,
       mean_count_sNM = mean_count,
-      s_fitness_NM = fitness, s_sigma_NM = sigma
+      s_fitness_NM = fitness, 
+      s_sigma_NM = sigma
     )],
-    doubles_epPCR_stabilityPCA[, .(aa_seq, STOP, STOP_readthrough,
+    doubles_epPCR_stabilityPCA[, .(
+      aa_seq, 
+      STOP, 
+      STOP_readthrough,
       mean_count_sEP = mean_count,
-      s_fitness_EP = fitness, s_sigma_EP = sigma
+      s_fitness_EP = fitness, 
+      s_sigma_EP = sigma
     )],
     all = T
   ),
-  doubles_epPCR_bindingPCA[, .(aa_seq, STOP, STOP_readthrough,
+  doubles_epPCR_bindingPCA[, .(
+    aa_seq, 
+    STOP, 
+    STOP_readthrough,
     mean_count_b = mean_count,
-    b_fitness = fitness, b_sigma = sigma
+    total_reads_input,
+    total_reads_output,
+    b_fitness = fitness, 
+    b_sigma = sigma
   )],
   all = T
 )
@@ -528,10 +572,18 @@ wt_corr <- wildtype[, rowMeans((.SD + unlist(fitness_norm_model[, .SD, , .SDcols
 .SDcols = grep("s_fitness_(NM|EP)$", names(wildtype))
 ]
 ## normalize fitness values
-singles[, s_fitness_NM_norm := (s_fitness_NM + fitness_norm_model$shift_sNM) * fitness_norm_model$scale_sNM - wt_corr]
-singles[, s_fitness_EP_norm := (s_fitness_EP + fitness_norm_model$shift_sEP) * fitness_norm_model$scale_sEP - wt_corr]
-doubles[, s_fitness_NM_norm := (s_fitness_NM + fitness_norm_model$shift_sNM) * fitness_norm_model$scale_sNM - wt_corr]
-doubles[, s_fitness_EP_norm := (s_fitness_EP + fitness_norm_model$shift_sEP) * fitness_norm_model$scale_sEP - wt_corr]
+singles[, s_fitness_NM_norm := 
+  (s_fitness_NM + fitness_norm_model$shift_sNM) * 
+  fitness_norm_model$scale_sNM - wt_corr]
+singles[, s_fitness_EP_norm := 
+  (s_fitness_EP + fitness_norm_model$shift_sEP) * 
+  fitness_norm_model$scale_sEP - wt_corr]
+doubles[, s_fitness_NM_norm := 
+  (s_fitness_NM + fitness_norm_model$shift_sNM) * 
+  fitness_norm_model$scale_sNM - wt_corr]
+doubles[, s_fitness_EP_norm := 
+  (s_fitness_EP + fitness_norm_model$shift_sEP) * 
+  fitness_norm_model$scale_sEP - wt_corr]
 ## normalize error values
 singles[, s_sigma_NM_norm := s_sigma_NM * fitness_norm_model$scale_sNM]
 singles[, s_sigma_EP_norm := s_sigma_EP * fitness_norm_model$scale_sEP]
@@ -565,6 +617,8 @@ ggsave(filename = "results/preprocessing/GRB2_fitness_merge.pdf", width = 6, hei
 
 
 ### write table of processed single mutants
+write.table(wildtype, file = "processed_data/GRB2_wildtype_alldata.txt",
+  quote = F, row.names = F)
 write.table(singles, file = "processed_data/GRB2_singles_alldata.txt",
   quote = F, row.names = F)
 ### write table of processed doubles mutants
@@ -671,9 +725,9 @@ variant_structuralproperties[RSA_unbound > threshold_RSA & HAmin_ligand > thresh
 variant_structuralproperties[, type := factor(type, levels = c("core", "surface", "ligand_binding"))]
 variant_structuralproperties[, .(Npos = length(unique(Pos))), type]
 
-write.table(x = variant_structuralproperties,
+write.table(
+  x = variant_structuralproperties,
   file = "processed_data/GRB2_variant_structuralproperties.txt",
   row.names = F,
-  quote = F)
-
-
+  quote = F
+)

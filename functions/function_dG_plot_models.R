@@ -13,12 +13,6 @@ function_dG_plot_models <- function(
   # load Rdata file with models
   load(file = file.path(model_dir, paste0(models_name, ".Rdata")))
 
-  if (sum(grepl("Xval",names(models[[1]]))) > 0) {
-    models_Xval = models[[1]]$Xval
-  } else {
-    models_Xval = 0
-  }
-
   ## extract parameters and objective from models
   parameters <- t(sapply(X = 1:length(models), FUN = function(X) {
     models[[X]]$par
@@ -169,8 +163,7 @@ function_dG_plot_models <- function(
   p <- ggpairs(
     all_data[!is.na(id2),cbind(.SD,
         s_ddG = s_ddG1 + s_ddG2,
-        b_ddG = b_ddG1 + b_ddG2,
-        tenfold_Xval
+        b_ddG = b_ddG1 + b_ddG2
       ),
       .SDcols = c(
         "s_fitness", 
@@ -187,7 +180,7 @@ function_dG_plot_models <- function(
       "b_fitness", 
       "b_fitness_pred"
     ),
-    aes(alpha = 0.1, color = tenfold_Xval == models_Xval), title = which_model
+    aes(alpha = 0.1), title = which_model
   )
   ggsave(
     plot = p, 

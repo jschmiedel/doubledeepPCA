@@ -251,7 +251,7 @@ write(x = pymol_script,file = script_file)
 # #   G25A/P
 # #   T75P
 # 
-# # potentially allosteric sites
+# # potentially allosteric sites that decrease b_fitness
 # singles[s_fitness_exp-b_fitness_exp > 0.4,.(Pos,WT_AA,Mut,s_fitness_exp,s_sigma,b_fitness_exp,b_sigma,HAmin_ligand,type,RSA_unbound,RSA_bound)][order(HAmin_ligand)]
 # # positions 26, 57,35,38,80 (all >9.7A from CRIPT)
 

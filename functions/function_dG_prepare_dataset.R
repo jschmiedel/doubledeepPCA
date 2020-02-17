@@ -1,10 +1,7 @@
 ##### preprocess data for dG estimation
 function_dG_prepare_dataset <- function(
-                    name = "GRB2",
-                    DMS_file_list = c(
-                      "processed_data/GRB2_singles_alldata.txt",
-                      "processed_data/GRB2_doubles_alldata.txt"
-                    ),
+                    dataset_name = "GRB2",
+                    DMS_file_list,
                     PDB_interaction_file = "dataset/PDB_contactmap_2vwf_AB.txt",
                     RSA_file = "dataset/2vwf_A.rsa",
                     read_threshold = 20,
@@ -16,8 +13,9 @@ function_dG_prepare_dataset <- function(
   require(data.table)
   require(ggplot2)
   ##### load new DiMSum data
-  singles <- fread(DMS_file_list[1])
-  doubles <- fread(DMS_file_list[2])
+  wildtype <- fread(DMS_file_list[1])
+  singles <- fread(DMS_file_list[2])
+  doubles <- fread(DMS_file_list[3])
 
   # combine
   all_data <- rbind(
@@ -58,6 +56,12 @@ function_dG_prepare_dataset <- function(
     all_data[Nmut == 2 & !is.na(s_fitness) & !is.na(b_fitness), .(id = id2)])
   X[, .N, id][, quantile(N)]
 
+  #save
+  write.table(all_data, 
+    file = paste0("processed_data/", dataset_name, "_dG_dataset_allvars.txt"),
+    row.names = F,
+    quote = F)
+
 
   #### restrict to variants with stability and fitness measured
   all_data2 <- all_data[!is.na(s_fitness) & !is.na(b_fitness), .(
@@ -70,11 +74,62 @@ function_dG_prepare_dataset <- function(
                     s_fitness_values = !is.na(s_fitness),
                     b_fitness_values = !is.na(b_fitness))])
 
-  ## stratify doubles into 10 groups for cross validation
-  all_data2[Nmut == 2, tenfold_Xval := ceiling(runif(.N) * 10)]
-
   write.table(all_data2, 
-    file = paste0("processed_data/", name, "_dG_dataset.txt"),
+    file = paste0("processed_data/", dataset_name, "_dG_dataset.txt"),
+    row.names = F,
+    quote = F)
+
+  #################################################
+  ### prepare data for Otwinowski Julia scripts ###
+  #################################################
+
+  ## all variants covered in bindingPCA assays
+  Odata_allvars = rbind(wildtype[, .(
+      ham = 0,
+      Mut = "0X",
+      DNA = total_reads_input,
+      SelAll = total_reads_output
+    )],
+    singles[!is.na(b_fitness) & !STOP, .(
+      ham = 1,
+      Mut = paste0(WT_AA, Pos, Mut),
+      DNA = total_reads_input,
+      SelAll = total_reads_output
+    )],
+    doubles[!is.na(b_fitness) & !STOP, .(
+      ham = 2,
+      Mut = paste0(WT_AA1, Pos1, Mut1, "-", WT_AA2, Pos2, Mut2),
+      DNA = total_reads_input,
+      SelAll = total_reads_output
+    )])
+
+  write.table(Odata_allvars, 
+    file = paste0("processed_data/", dataset_name, "_dG_dataset_allvars_Otwinowski.txt"),
+    row.names = F,
+    quote = F)
+
+  ## only variants covered in both assays
+  Odata = rbind(wildtype[, .(
+      ham = 0,
+      Mut = "0X",
+      DNA = total_reads_input,
+      SelAll = total_reads_output
+    )],
+    singles[!is.na(s_fitness) & !is.na(b_fitness) & !STOP, .(
+      ham = 1,
+      Mut = paste0(WT_AA,Pos, Mut),
+      DNA = total_reads_input,
+      SelAll = total_reads_output
+    )],
+    doubles[!is.na(s_fitness) & !is.na(b_fitness) & !STOP, .(
+      ham = 2,
+      Mut = paste0(WT_AA1, Pos1, Mut1, "-", WT_AA2, Pos2, Mut2),
+      DNA = total_reads_input,
+      SelAll = total_reads_output
+    )])
+
+  write.table(Odata, 
+    file = paste0("processed_data/", dataset_name, "_dG_dataset_Otwinowski.txt"),
     row.names = F,
     quote = F)
 }
