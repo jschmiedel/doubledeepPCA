@@ -1,83 +1,60 @@
+## source functions
+filelist <- list.files("functions/")
+sapply(paste0("functions/", filelist), source, .GlobalEnv)
 
-workflow_dG_estimation <- function(
-                                   first_stage = 1,
-                                   last_stage = 0,
-                                   dataset_name = "GRB2",
-                                   dataset_suffix = "",
-                                   n_cores = 15,
-                                   n_bootstraps = 10) {
+# create directory structure
+dir.create("processed_data/", showWarnings = FALSE)
+dir.create("processed_data/tmp/", showWarnings = FALSE)
+dir.create("results/", showWarnings = FALSE)
+dir.create("results/dG/", showWarnings = FALSE)
 
-  ## source functions
-  filelist <- list.files("functions/")
-  sapply(paste0("functions/", filelist), source, .GlobalEnv)
+##################
+###### GRB2 ######
+##################
 
+### prepare dataset
+function_GRB2_dG_prepare_dataset(
+  dataset_name = "GRB2",
+  DMS_file_list = c(
+    "processed_data/GRB2_wildtype_alldata.txt",
+    "processed_data/GRB2_singles_alldata.txt",
+    "processed_data/GRB2_doubles_alldata.txt"
+  ),
+  PDB_interaction_file = "dataset/GRB2/PDB_contactmap_2vwf_AB.txt"
+)
 
+#####################
+### dG estimation
+### method 1: using data from both assays only for single variants
+### method 2: using data from both assays for all variants
+### method 3: using only data from binding assay for all variants
+### method 4: using only doubles from both assays
+# this is run on the cluster via bash_remote_dG_estimation.sh
+function_dG_estimation(
+  dataset_name = "GRB2_dG_dataset", # or with sufix '_allvars'
+  dataset_suffix = "", # used to run iterations
+  method = 1, # any of 1 to 4
+)
 
-  # create directory structure
-  dir.create("processed_data/", showWarnings = FALSE)
-  dir.create("processed_data/tmp/", showWarnings = FALSE)
-  dir.create("results/", showWarnings = FALSE)
-  dir.create("results/dG/", showWarnings = FALSE)
+#################
+###### PDZ ######
+#################
 
-  ##################
-  ###### GRB2 ######
-  ##################
-
-  ### prepare dataset
-  stagenum <- 1
-  function_dG_prepare_dataset(
-    dataset_name = dataset_name,
-    DMS_file_list = c(
-      "processed_data/GRB2_wildtype_alldata.txt",
-      "processed_data/GRB2_singles_alldata.txt",
-      "processed_data/GRB2_doubles_alldata.txt"
-    ),
-    PDB_interaction_file = "dataset/GRB2/PDB_contactmap_2vwf_AB.txt",
-    RSA_file = "dataset/GRB2/2vwf_A.rsa",
-    execute = (first_stage <= stagenum &
-      (last_stage == 0 | last_stage >= stagenum))
+### prepare dataset
+function_PDZ_dG_prepare_dataset(
+  dataset_name = "PDZ",
+  DMS_file_list = c(
+    "processed_data/PDZ_wildtype_alldata.txt",
+    "processed_data/PDZ_singles_alldata.txt",
+    "dataset/PDZ/McLaughlin2012_DLG4_singlemutants.txt"
   )
+)
 
-  #####################
-  ### dG estimation ###
-  #####################
-
-  #####################
-  ### method 1: using data from both assays only for single variants
-
-  # 1) with all parameters free to fit
-  stagenum <- 2
-  function_dG_method1_singles_bothassays(
-    dataset_name = dataset_name,
-    dataset_suffix = dataset_suffix,
-    n_cores = n_cores,
-    n_bootstraps = n_bootstraps,
-    execute = (first_stage <= stagenum &
-      (last_stage == 0 | last_stage >= stagenum))
-  )
-  
-  #####################
-  ### method 2: using data from both assays for all variants
-  stagenum <- 3
-  function_dG_method2_allvars_bothassays(
-    dataset_name = dataset_name,
-    dataset_suffix = dataset_suffix,
-    n_cores = n_cores,
-    n_bootstraps = n_bootstraps,
-    execute = (first_stage <= stagenum &
-      (last_stage == 0 | last_stage >= stagenum))
-  )
-
-
-  #####################
-  ### method 3: using only data from binding assay for all variants
-  stagenum <- 4
-  function_dG_method3_allvars_bindingassay(
-    dataset_name = dataset_name,
-    dataset_suffix = dataset_suffix,
-    n_cores = n_cores,
-    n_bootstraps = n_bootstraps,
-    execute = (first_stage <= stagenum &
-      (last_stage == 0 | last_stage >= stagenum))
-  )
-}
+#####################
+### dG estimation
+### using data single mutants from both ddPCA assays and McLaughlin2012
+# this is run on the cluster via bash_remote_dG_estimation.sh
+function_PDZ_dG_estimation(
+  dataset_name = "PDZ_dG_dataset", # or with sufix '_allvars'
+  dataset_suffix = "", # used to run iterations
+)

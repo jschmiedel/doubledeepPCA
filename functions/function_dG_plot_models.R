@@ -3,6 +3,7 @@ function_dG_plot_models <- function(
                       dataset_name,
                       model_dir = "processed_data/",
                       print_dir = "results/dG/",
+                      data_file = ".Rdata",
                       which_model = "best"
 ) {
   require(data.table)
@@ -10,6 +11,7 @@ function_dG_plot_models <- function(
   require(GGally)
   theme_set(theme_bw(base_size = 9))
 
+  if (data_file == ".Rdata") {
   # load Rdata file with models
   load(file = file.path(model_dir, paste0(models_name, ".Rdata")))
 
@@ -44,10 +46,13 @@ function_dG_plot_models <- function(
       b_scale = b_scale
     )]
   }
-
+  dt <- data.table(objective = log10(objective), global_par)
+} else if (data_file == "data.table") {
+  dt <- fread(file.path(model_dir, paste0(models_name, ".txt")))
+}
 
   #### first plot relationship between global parameters and objective
-  dt <- data.table(objective = log10(objective), global_par)
+  
   p <- ggpairs(dt)
   ggsave(
     plot = p, 

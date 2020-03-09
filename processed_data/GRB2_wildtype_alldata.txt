@@ -1,0 +1,2 @@
+Pos WT STOP STOP_readthrough Nham_nt Nham_aa Nmut_codons mean_count_sEP s_fitness_EP s_sigma_EP mean_count_bEP total_reads_input total_reads_output b_fitness_EP b_sigma_EP mean_count_sNM s_fitness_NM s_sigma_NM
+NA TRUE FALSE FALSE 0 0 0 1711843.66666667 0 0.00136821342818964 1692873 5078619 7296963 0 0.00106696322615234 2347277 0 0.000627395404816931
