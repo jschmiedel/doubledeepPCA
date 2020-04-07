@@ -1,124 +1,72 @@
 function_GRB2_dG_fitting <- function(
-  parameters, 
-  s_idl,
-  b_idl,
-  dt,
-  m1_mod = 1
+  parameters,
+  fixed_par,
+  predict_binding0 = FALSE,
+  idlist,
+  fw_list,
+  varXmut
 ) {
 
-  s_dG_par <- parameters[1:s_idl]
-  if (m1_mod != 0) {
-    b_dG_par <- parameters[(s_idl + 1):(s_idl + b_idl)] 
+  for (i in seq_along(fixed_par)) {
+    parameters[names(parameters) == names(fixed_par)[i]] <- fixed_par[i]
   }
+
+  s_ddg_mut <- rep(NA, idlist$id_len)
+  s_ddg_mut[idlist$s_id_idx] <- parameters[1:idlist$s_id_len]
+  s_ddg_var <- varXmut %*% s_ddg_mut
+
+
+  b_ddg_mut <- rep(NA, idlist$id_len)
+  b_ddg_mut[idlist$b_id_idx] <- parameters[(idlist$s_id_len + 1) : 
+                                        (idlist$s_id_len + idlist$b_id_len)]
+  b_ddg_var <- varXmut %*% b_ddg_mut
+
+  all_idl <- idlist$s_id_len + idlist$b_id_len
   
   ## stability phenotype
-  if (dt[type == "stability", .N] > 0) {
-    dt[type == "stability", fitness_pred := function_folding_dG2F(
-      s_ddg = ifelse(
-        is.na(id2_key),
-        s_dG_par[id1_key],
-        s_dG_par[id1_key] + s_dG_par[id2_key]
-      ), 
-      s_dgwt = parameters[s_idl + m1_mod * b_idl + 1], 
-      s_fwt = parameters[s_idl + m1_mod * b_idl + 5],
-      s_f0 = parameters[s_idl + m1_mod * b_idl + 6] 
-    )]
-  }
-  ## binding phenotype
-  if (m1_mod == 0) { # first iteration of method 1 fitting global rel.
-    dt[type == "binding", b_ddg := 0]
+  if (sum(!is.na(fw_list$s_fitness)) > 0) { #is zero for method 3
+    s_fpred <- function_folding_dG2F(
+      s_ddg = s_ddg_var, 
+      s_dgwt = parameters[all_idl + 4], 
+      s_fwt = parameters[all_idl + 5],
+      s_f0 = parameters[all_idl + 6]
+    )
+    msd_stab <- sum(((fw_list$s_fitness - s_fpred) / fw_list$s_sigma)^2,
+      na.rm = T)
   } else {
-    dt[type == "binding", b_ddg := ifelse(
-      is.na(id2_key),
-      b_dG_par[id1_key],
-      b_dG_par[id1_key] + b_dG_par[id2_key]
-    )]
+    msd_stab <- 0
   }
-    
-  dt[type == "binding", fitness_pred := function_binding_dG2F(
-    s_ddg = ifelse(
-      is.na(id2_key),
-      s_dG_par[id1_key],
-      s_dG_par[id1_key] + s_dG_par[id2_key]
-    ), 
-    b_ddg = b_ddg,
-    s_dgwt = parameters[s_idl + m1_mod * b_idl + 1],
-    b_dgwt = parameters[s_idl + m1_mod * b_idl + 2], 
-    b_fwt = parameters[s_idl + m1_mod * b_idl + 3],
-    b_f0 = parameters[s_idl + m1_mod * b_idl + 4]
-  )]
   
-  ## mean square deviation; divide by weights to correct for variants being NA
-  MSD <- dt[,sum((fitness - fitness_pred)^2 / sigma^2, na.rm = T) / 
-    sum(sigma^-2, na.rm = T)]
-  return(MSD)
-}
-
-
-function_GRB2_dG_fitting2 <- function(
-  parameters, 
-  s_idl,
-  b_idl,
-  exp_mod,
-  global_par,
-  dt
-) {
-
-  s_dG_par <- parameters[1:s_idl]
-  b_dG_par <- parameters[(s_idl + 1):(s_idl + b_idl)] 
- 
-  
-  ## stability phenotype
-  if (dt[type == "stability", .N] > 0) {
-    dt[type == "stability", fitness_pred := function_folding_dG2F(
-      s_ddg = ifelse(
-        is.na(id2_key),
-        s_dG_par[id1_key],
-        s_dG_par[id1_key] + s_dG_par[id2_key]
-      ), 
-      s_dgwt = parameters[s_idl + b_idl + 1], 
-      s_fwt = parameters[s_idl + b_idl + 4],
-      s_f0 = global_par[2] 
-    )]
-  }
   ## binding phenotype
-  dt[type == "binding", b_ddg := ifelse(
-    is.na(id2_key),
-    b_dG_par[id1_key],
-    b_dG_par[id1_key] + b_dG_par[id2_key]
-  )]
-  
-    
-  dt[type == "binding", fitness_pred := function_binding_dG2F(
-    s_ddg = ifelse(
-      is.na(id2_key),
-      s_dG_par[id1_key],
-      s_dG_par[id1_key] + s_dG_par[id2_key]
-    ), 
-    b_ddg = b_ddg,
-    s_dgwt = parameters[s_idl + b_idl + 1],
-    b_dgwt = parameters[s_idl + b_idl + 2], 
-    b_fwt = parameters[s_idl + b_idl + 3],
-    b_f0 = global_par[1]
-  )]
+  b_fpred <- function_binding_dG2F(
+    s_ddg = s_ddg_var,
+    b_ddg = b_ddg_var,
+    b_dgwt = parameters[all_idl + 1], 
+    b_fwt = parameters[all_idl + 2],
+    b_f0 = parameters[all_idl + 3],
+    s_dgwt = parameters[all_idl + 4]
+  )
+  msd_bind <- sum(((fw_list$b_fitness - b_fpred) / fw_list$b_sigma)^2,
+      na.rm = T)
 
-  dt[type == "binding", bf0 := function_binding_dG2F(
-    s_ddg = ifelse(
-      is.na(id2_key),
-      s_dG_par[id1_key],
-      s_dG_par[id1_key] + s_dG_par[id2_key]
-    ), 
-    b_ddg = 0,
-    s_dgwt = parameters[s_idl + b_idl + 1],
-    b_dgwt = parameters[s_idl + b_idl + 2], 
-    b_fwt = parameters[s_idl + b_idl + 3],
-    b_f0 = global_par[1]
-  )]
+  #if binding phenotype when ddg = 0
+  if (predict_binding0 == TRUE) {
+    b0_fpred <- function_binding_dG2F(
+      s_ddg = s_ddg_var, 
+      b_ddg = 0,
+      b_dgwt = parameters[all_idl + 1], 
+      b_fwt = parameters[all_idl + 2],
+      b_f0 = parameters[all_idl + 3],
+      s_dgwt = parameters[all_idl + 4]
+    )
+    msd_bind0 <- sum(((fw_list$b_fitness - b0_fpred) / fw_list$b_sigma)^2,
+      na.rm = T)
+  } else {
+    msd_bind0 <- 0
+  }
   
-  ## mean square deviation; divide by weights to correct for variants being NA
-  MSD <- dt[, sum(((fitness - fitness_pred) / sigma)^2, na.rm = T)] +
-    dt[type == "binding", sum(abs((fitness - bf0) / 
-      sigma)^(1 + exp(-abs((fitness - bf0) / sigma) / exp_mod)), na.rm = T)]
-
-  return(MSD)
+  
+  ## mean square deviation
+  msd <- msd_stab + msd_bind + msd_bind0
+  return(msd)
 }

@@ -4,6 +4,7 @@ sapply(paste0("functions/", filelist), source, .GlobalEnv)
 
 # create directory structure
 dir.create("processed_data/", showWarnings = FALSE)
+dir.create("processed_data/dG/", showWarnings = FALSE)
 dir.create("processed_data/tmp/", showWarnings = FALSE)
 dir.create("results/", showWarnings = FALSE)
 dir.create("results/dG/", showWarnings = FALSE)

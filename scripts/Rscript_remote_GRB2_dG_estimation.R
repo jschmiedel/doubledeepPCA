@@ -6,6 +6,7 @@ require(optparse)
 option_list <- list(
   make_option(
     opt_str = c("-d", "--dataset_name"),
+    default = "GRB2_dG_dataset",
     type = "character",
     help = "dataset name"
   ),
@@ -15,9 +16,9 @@ option_list <- list(
     help = "which optimization method to use"
   ),
   make_option(
-    opt_str = c("-s", "--dataset_suffix"),
-    type = "character",
-    default = ""
+    opt_str = c("-b", "--predict_binding0"),
+    default = 0,
+    type = "integer"
   )
 )
 
@@ -31,8 +32,8 @@ setwd("/nfs/users/blehner/jschmiedel/doubledeepPCA/")
 filelist <- list.files("functions/")
 sapply(paste0("functions/", filelist), source, .GlobalEnv)
 
-function_GRB2_dG_estimation2(
+function_GRB2_dG_estimation(
   dataset_name = opt$dataset_name,
-  dataset_suffix = opt$dataset_suffix,
-  method = opt$method
+  method = opt$method,
+  predict_binding0 = as.logical(opt$predict_binding0)
 )

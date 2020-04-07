@@ -10,15 +10,10 @@ option_list <- list(
     type = "character",
     help = "dataset name"
   ),
-  # make_option(
-  #   opt_str = c("-m", "--method"),
-  #   type = "integer",
-  #   help = "which optimization method to use"
-  # ),
   make_option(
-    opt_str = c("-s", "--dataset_suffix"),
-    type = "character",
-    default = ""
+    opt_str = c("-b", "--predict_binding0"),
+    default = 0,
+    type = "integer"
   )
 )
 
@@ -34,5 +29,5 @@ sapply(paste0("functions/", filelist), source, .GlobalEnv)
 
 function_PDZ_dG_estimation(
   dataset_name = opt$dataset_name,
-  dataset_suffix = opt$dataset_suffix
+  predict_binding0 = as.logical(opt$predict_binding0)
 )

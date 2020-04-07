@@ -349,6 +349,9 @@ wildtype <- merge(
   )],
   all = T
 )
+wildtype[, Pos := 0]
+wildtype[, WT_AA := "X"]
+wildtype[, Mut := "X"]
 
 singles <- merge(
   merge(
@@ -393,10 +396,6 @@ singles <- merge(
 )
 
 ## redo Pos/WT_AA/Mut stuff
-wildtype[, Pos := 0]
-wildtype[, WT_AA := "X"]
-wildtype[, Mut := "X"]
-
 singles[, Pos := which(strsplit(aa_seq, "")[[1]] != wt_AA_seq_split), aa_seq]
 singles[, WT_AA := wt_AA_seq_split[Pos], Pos]
 singles[, Mut := strsplit(aa_seq, "")[[1]][Pos], aa_seq]

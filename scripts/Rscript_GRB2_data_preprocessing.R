@@ -46,7 +46,10 @@ singles = singles[!is.na(stability)]
 GRB2_GAB2_distances = fread("dataset/PDB_contactmap_2vwf_AB.txt")
 GRB2_GAB2_distances[, WTAAPos2 := paste0(WT_AA2, Pos2)]
 #add minimal side-chain heavy atom distance to ligand to singles data.table
-singles = merge(singles,GRB2_GAB2_distances[,.(HAmin_ligand = min(HAmin),GAB2_AA = WTAAPos2[which.min(HAmin)]),Pos1],by.x="Pos",by.y="Pos1")
+singles = merge(singles,
+	GRB2_GAB2_distances[,.(
+		HAmin_ligand = min(HAmin),
+		GAB2_AA = WTAAPos2[which.min(HAmin)]),Pos1],by.x="Pos",by.y="Pos1")
 
 
 ### load RSA values
@@ -72,5 +75,5 @@ singles[,type := factor(type,levels=c("core","surface","ligand_binding"))]
 singles[,.(Npos = length(unique(Pos))),type]
 
 ### write table of processed single mutants
-write.table(x=singles,file = "dataset/DiMSum_last_version/GRB2_singles_dataset.txt",col.names = T,row.names=F,quote=F)
+# write.table(x=singles,file = "dataset/DiMSum_last_version/GRB2_singles_dataset.txt",col.names = T,row.names=F,quote=F)
 
