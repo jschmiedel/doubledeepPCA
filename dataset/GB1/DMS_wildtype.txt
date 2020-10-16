@@ -1,2 +1,0 @@
-count_r1_t0 count_r1_t1 fitness sigma is.fitness is.reads0
-1759616 3041819 0 0.000947130651447484 TRUE TRUE
