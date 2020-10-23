@@ -33,13 +33,23 @@ dg_prepare_model(
 ## 5a) collect models
 dg_collect_models(
     dataset_folder = dataset_folder,
-    model_name = model_name3
+    model_name = model_name3,
+    model_averaging = "mean"
 )
 
-## 6a) bootstrap model parameters
+## 6a) basic plots
+dg_basic_analyses(
+    dataset_folder = dataset_folder,
+    model_name = model_name3,
+    color_type = "type",
+    stage = "model",
+    datasets_ab = c(1,1)
+)
+
+## 7a) bootstrap model parameters
 # qsub doubledeepPCA/dg_models/SH3/bash_3state_bootstrap.sh
 
-## 7a) collect bootstrapped models
+## 8a) collect bootstrapped models
 dg_collect_models(
     dataset_folder = dataset_folder,
     model_name = model_name3,
@@ -51,7 +61,6 @@ dg_basic_analyses(
     color_type = "type",
     datasets_ab = c(1,1)
 )
-
 
 
 
@@ -71,5 +80,31 @@ dg_prepare_model(
 ## 5b) collect models
 dg_collect_models(
     dataset_folder = dataset_folder,
-    model_name = model_name4
+    model_name = model_name4,
+    model_averaging = "mean"
+)
+
+## 6b) basic plots
+dg_basic_analyses(
+    dataset_folder = dataset_folder,
+    model_name = model_name4,
+    color_type = "type",
+    stage = "model",
+    datasets_ab = c(1,1)
+)
+
+## 7b) bootstrap model parameters
+# qsub doubledeepPCA/dg_models/SH3/bash_4state_bootstrap.sh
+
+## 8b) collect bootstrapped models
+dg_collect_models(
+    dataset_folder = dataset_folder,
+    model_name = model_name4,
+    stage = "bootstrap"
+)
+dg_basic_analyses(
+    dataset_folder = dataset_folder,
+    model_name = model_name4,
+    color_type = "type",
+    datasets_ab = c(1,1)
 )
