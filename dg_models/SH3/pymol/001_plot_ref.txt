@@ -1,0 +1,19 @@
+reinitialize
+fetch 2vwf, async=0
+hide everything
+show cartoon, chain A
+set cartoon_color, [0.8, 0.8, 0.8]
+show sticks, chain B
+set stick_color, orange, chain B
+remove resn hoh
+set stick_radius, 0.4
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+set_view (  0.900416851, 0.410176218,-0.144926280,-0.081169695,-0.168878928,-0.982286036,-0.427388251, 0.896231771,-0.118769340,0.000000000, 0.000000000, -102.566505432,-2.309910297,13.775758743, 0.139800072,80.864212036,  124.268798828,  -20.000000000 )
+zoom center, 25
+rotate y, 45
+ray 2400,2400
+png 001_SH3_GAB2_reference_0.png, dpi=600

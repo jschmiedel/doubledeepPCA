@@ -1,0 +1,118 @@
+reinitialize
+fetch 1be9, async=0
+hide everything
+show cartoon, chain A and resi 311-394
+set cartoon_color, [0.8, 0.8, 0.8]
+show sticks, chain B
+set stick_color, orange, chain B
+remove resn hoh
+set stick_radius, 0.4
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+set_view (-0.931835651,    0.073482201,    0.355364770,0.058640655,    0.996903062,   -0.052372973,-0.358112812,   -0.027964739,   -0.933260202,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )
+zoom center, 25
+ray 2400,2400
+png 001_PDZ3_CRIPT_reference_0.png, dpi=600
+set label_position, (1.7,1.7,1.7)
+label chain A and n. ca and i. 311-394, resi
+alter 1be9 and chain A and resid 311, b=0.0945851409088324
+alter 1be9 and chain A and resid 312, b=1.41536438017546
+alter 1be9 and chain A and resid 313, b=0.262167691823073
+alter 1be9 and chain A and resid 314, b=1.45866110099794
+alter 1be9 and chain A and resid 315, b=0.824983429984853
+alter 1be9 and chain A and resid 316, b=1.74807461114269
+alter 1be9 and chain A and resid 317, b=0.37392500580411
+alter 1be9 and chain A and resid 318, b=0.946273719513485
+alter 1be9 and chain A and resid 319, b=0.578418550496169
+alter 1be9 and chain A and resid 320, b=0.162841874622993
+alter 1be9 and chain A and resid 321, b=0.129078778182384
+alter 1be9 and chain A and resid 322, b=1.22023930388674
+alter 1be9 and chain A and resid 323, b=1.44041825988277
+alter 1be9 and chain A and resid 324, b=2.55633111326668
+alter 1be9 and chain A and resid 325, b=1.9961223189744
+alter 1be9 and chain A and resid 326, b=0.616719840616686
+alter 1be9 and chain A and resid 327, b=1.49735865451903
+alter 1be9 and chain A and resid 328, b=0.268252513427657
+alter 1be9 and chain A and resid 329, b=0.493602417096235
+alter 1be9 and chain A and resid 330, b=0.984879601563672
+alter 1be9 and chain A and resid 331, b=0.369085792380493
+alter 1be9 and chain A and resid 332, b=0.319810863636886
+alter 1be9 and chain A and resid 333, b=0.64144408686813
+alter 1be9 and chain A and resid 334, b=0.141180356673092
+alter 1be9 and chain A and resid 335, b=2.25650527293092
+alter 1be9 and chain A and resid 336, b=1.31322181406955
+alter 1be9 and chain A and resid 337, b=0.924275219231014
+alter 1be9 and chain A and resid 338, b=1.79097532306859
+alter 1be9 and chain A and resid 339, b=1.12986559243143
+alter 1be9 and chain A and resid 340, b=-0.168095208526007
+alter 1be9 and chain A and resid 341, b=1.63593692345213
+alter 1be9 and chain A and resid 342, b=0.0518018018060595
+alter 1be9 and chain A and resid 343, b=0.419429105814677
+alter 1be9 and chain A and resid 344, b=1.23775924111009
+alter 1be9 and chain A and resid 345, b=1.54463504869968
+alter 1be9 and chain A and resid 346, b=0.945572161701895
+alter 1be9 and chain A and resid 347, b=1.50502428196498
+alter 1be9 and chain A and resid 348, b=0.780268420222611
+alter 1be9 and chain A and resid 349, b=0.409259393373283
+alter 1be9 and chain A and resid 350, b=0.451362808201945
+alter 1be9 and chain A and resid 351, b=1.06560076634705
+alter 1be9 and chain A and resid 352, b=0.503819616054412
+alter 1be9 and chain A and resid 353, b=1.92020259893596
+alter 1be9 and chain A and resid 354, b=0.213553856066731
+alter 1be9 and chain A and resid 355, b=0.433701811205145
+alter 1be9 and chain A and resid 356, b=1.66039124670454
+alter 1be9 and chain A and resid 357, b=1.90634112905911
+alter 1be9 and chain A and resid 358, b=1.53494713357698
+alter 1be9 and chain A and resid 359, b=2.07145733855791
+alter 1be9 and chain A and resid 360, b=1.48627513697748
+alter 1be9 and chain A and resid 361, b=0.615466972718136
+alter 1be9 and chain A and resid 362, b=1.86829065213268
+alter 1be9 and chain A and resid 363, b=2.00472546907939
+alter 1be9 and chain A and resid 364, b=1.2746949252825
+alter 1be9 and chain A and resid 365, b=0.474930093647107
+alter 1be9 and chain A and resid 366, b=1.45712215165147
+alter 1be9 and chain A and resid 367, b=1.37101866526346
+alter 1be9 and chain A and resid 368, b=0.178083303085368
+alter 1be9 and chain A and resid 369, b=0.390681046379995
+alter 1be9 and chain A and resid 370, b=0.936189504946948
+alter 1be9 and chain A and resid 371, b=0.963044252778685
+alter 1be9 and chain A and resid 372, b=-0.0112608554121242
+alter 1be9 and chain A and resid 373, b=0.491331971798068
+alter 1be9 and chain A and resid 374, b=0.55579245413622
+alter 1be9 and chain A and resid 375, b=1.79947713607166
+alter 1be9 and chain A and resid 376, b=0.260349019619734
+alter 1be9 and chain A and resid 377, b=0.158455449716065
+alter 1be9 and chain A and resid 378, b=0.719959508437362
+alter 1be9 and chain A and resid 379, b=1.96675917356904
+alter 1be9 and chain A and resid 380, b=0.54095218341982
+alter 1be9 and chain A and resid 381, b=0.620187469168837
+alter 1be9 and chain A and resid 382, b=1.49759834593709
+alter 1be9 and chain A and resid 383, b=1.67119829694335
+alter 1be9 and chain A and resid 384, b=0.28386561893186
+alter 1be9 and chain A and resid 385, b=0.401946417510239
+alter 1be9 and chain A and resid 386, b=1.71054487959929
+alter 1be9 and chain A and resid 387, b=0.592689051597325
+alter 1be9 and chain A and resid 388, b=1.97407733601709
+alter 1be9 and chain A and resid 389, b=0.53098682361418
+alter 1be9 and chain A and resid 390, b=1.15301340240122
+alter 1be9 and chain A and resid 391, b=0.46440802309728
+alter 1be9 and chain A and resid 392, b=0.0862047632666555
+alter 1be9 and chain A and resid 393, b=0.133221471295001
+alter 1be9 and chain A and resid 394, b=-0.105990009059703
+select CA, chain A and name CA and resi 311-394
+select binders, chain A and (resi 323 OR resi 326 OR resi 328 OR resi 339 OR resi 372 OR resi 376 OR resi 379 OR resi 380)
+show spheres, CA
+set sphere_scale, 0.75, CA
+set_bond stick_radius, 0.14, chain A and resi 311-394
+show sticks, chain A and resi 311-394
+spectrum b, red_white_blue, chain A, minimum=-2, maximum=2
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+ray 2400,2400
+png 002_PDZ3_CRIPT_fddg_spheres.png, dpi=600

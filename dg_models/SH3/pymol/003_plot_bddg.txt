@@ -1,0 +1,149 @@
+reinitialize
+fetch 2vwf, async=0
+hide everything
+show cartoon, chain A
+set cartoon_color, [0.8, 0.8, 0.8]
+show sticks, chain B
+set stick_color, orange, chain B
+remove resn hoh
+set stick_radius, 0.4
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+set_view (  0.900416851, 0.410176218,-0.144926280,-0.081169695,-0.168878928,-0.982286036,-0.427388251, 0.896231771,-0.118769340,0.000000000, 0.000000000, -102.566505432,-2.309910297,13.775758743, 0.139800072,80.864212036,  124.268798828,  -20.000000000 )
+zoom center, 25
+rotate y, 45
+ray 2400,2400
+png 001_SH3_GAB2_reference_0.png, dpi=600
+set label_position, (1.7,1.7,1.7)
+label chain A and n. ca, resi
+alter 2vwf and chain A and resid 1, b=0.161164021071369
+alter 2vwf and chain A and resid 2, b=0.427003770383761
+alter 2vwf and chain A and resid 3, b=1.59336461647368
+alter 2vwf and chain A and resid 4, b=0.741393632508752
+alter 2vwf and chain A and resid 5, b=2.10236406661477
+alter 2vwf and chain A and resid 6, b=1.08316228495121
+alter 2vwf and chain A and resid 7, b=0.287326775037904
+alter 2vwf and chain A and resid 8, b=1.70050372589576
+alter 2vwf and chain A and resid 9, b=1.10811025917031
+alter 2vwf and chain A and resid 10, b=0.30623217409399
+alter 2vwf and chain A and resid 11, b=1.01776201985468
+alter 2vwf and chain A and resid 12, b=0.569345465375121
+alter 2vwf and chain A and resid 13, b=0.155043989239825
+alter 2vwf and chain A and resid 14, b=0.528078085015427
+alter 2vwf and chain A and resid 15, b=1.00408112537041
+alter 2vwf and chain A and resid 16, b=0.0875812149642163
+alter 2vwf and chain A and resid 17, b=2.03535668351247
+alter 2vwf and chain A and resid 18, b=0.503286413908371
+alter 2vwf and chain A and resid 19, b=2.10598155458182
+alter 2vwf and chain A and resid 20, b=0.848386234966055
+alter 2vwf and chain A and resid 21, b=0.964435159987172
+alter 2vwf and chain A and resid 22, b=2.29877957026986
+alter 2vwf and chain A and resid 23, b=1.92767537178629
+alter 2vwf and chain A and resid 24, b=0.377028825318013
+alter 2vwf and chain A and resid 25, b=1.7726622385408
+alter 2vwf and chain A and resid 26, b=0.587875881891469
+alter 2vwf and chain A and resid 27, b=1.47968037164843
+alter 2vwf and chain A and resid 28, b=0.388896295853812
+alter 2vwf and chain A and resid 29, b=1.83207563063213
+alter 2vwf and chain A and resid 30, b=0.420060217317724
+alter 2vwf and chain A and resid 31, b=1.35170214499566
+alter 2vwf and chain A and resid 32, b=1.28903687676138
+alter 2vwf and chain A and resid 33, b=0.720483921026362
+alter 2vwf and chain A and resid 34, b=0.0649720207102947
+alter 2vwf and chain A and resid 35, b=0.819855079957225
+alter 2vwf and chain A and resid 36, b=1.41443461015645
+alter 2vwf and chain A and resid 37, b=0.59580339642544
+alter 2vwf and chain A and resid 38, b=2.63321273275358
+alter 2vwf and chain A and resid 39, b=0.691235728401957
+alter 2vwf and chain A and resid 40, b=1.55341356109391
+alter 2vwf and chain A and resid 41, b=1.16660871857334
+alter 2vwf and chain A and resid 42, b=1.7205834777468
+alter 2vwf and chain A and resid 43, b=0.510000755749033
+alter 2vwf and chain A and resid 44, b=0.785888482030127
+alter 2vwf and chain A and resid 45, b=2.17322414980644
+alter 2vwf and chain A and resid 46, b=-0.0197685756295403
+alter 2vwf and chain A and resid 47, b=2.11810964562213
+alter 2vwf and chain A and resid 48, b=1.03932968343742
+alter 2vwf and chain A and resid 49, b=0.733938763317707
+alter 2vwf and chain A and resid 50, b=0.000929821031424274
+alter 2vwf and chain A and resid 51, b=0.757552097375433
+alter 2vwf and chain A and resid 52, b=1.90332405340425
+alter 2vwf and chain A and resid 53, b=0.735515695574595
+alter 2vwf and chain A and resid 54, b=0.234582255739295
+alter 2vwf and chain A and resid 55, b=0.193869917900427
+alter 2vwf and chain A and resid 56, b=0.345451884579203
+select CA, chain A and name CA
+show spheres, CA
+set sphere_scale, 0.75, CA
+set_bond stick_radius, 0.14, chain A
+show sticks, chain A
+spectrum b, red_white_blue, chain A, minimum=-2, maximum=2
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+ray 2400,2400
+png 002_SH3_GAB2_fddg_spheres.png, dpi=600
+alter 2vwf and chain A and resid 1, b=-0.00214585956386754
+alter 2vwf and chain A and resid 2, b=-0.0781770416657557
+alter 2vwf and chain A and resid 3, b=0.280320969955964
+alter 2vwf and chain A and resid 4, b=0.218961725333338
+alter 2vwf and chain A and resid 5, b=0.0177695397122498
+alter 2vwf and chain A and resid 6, b=0.316907099917952
+alter 2vwf and chain A and resid 7, b=1.71287162811393
+alter 2vwf and chain A and resid 8, b=-0.0963225986519658
+alter 2vwf and chain A and resid 9, b=2.22334384127223
+alter 2vwf and chain A and resid 10, b=0.0690967780994488
+alter 2vwf and chain A and resid 11, b=0.165570280779459
+alter 2vwf and chain A and resid 12, b=0.0882381301019213
+alter 2vwf and chain A and resid 13, b=1.18630616982717
+alter 2vwf and chain A and resid 14, b=0.133459787305235
+alter 2vwf and chain A and resid 15, b=1.04040519261422
+alter 2vwf and chain A and resid 16, b=1.99615478165804
+alter 2vwf and chain A and resid 17, b=0.783110749067312
+alter 2vwf and chain A and resid 18, b=0.20865509233965
+alter 2vwf and chain A and resid 19, b=0.475145287614931
+alter 2vwf and chain A and resid 20, b=0.146023360572493
+alter 2vwf and chain A and resid 21, b=-0.12981018809016
+alter 2vwf and chain A and resid 22, b=-0.414036586178375
+alter 2vwf and chain A and resid 23, b=-0.160255747875729
+alter 2vwf and chain A and resid 24, b=-0.0953437138288126
+alter 2vwf and chain A and resid 25, b=0.792812668874203
+alter 2vwf and chain A and resid 26, b=-0.10900769679257
+alter 2vwf and chain A and resid 27, b=0.821539094702374
+alter 2vwf and chain A and resid 28, b=-0.145210230724627
+alter 2vwf and chain A and resid 29, b=-0.181424240607044
+alter 2vwf and chain A and resid 30, b=0.0357283077693401
+alter 2vwf and chain A and resid 31, b=-0.0947622832920576
+alter 2vwf and chain A and resid 32, b=0.887034587470241
+alter 2vwf and chain A and resid 33, b=0.0286709589410435
+alter 2vwf and chain A and resid 34, b=0.508914514150952
+alter 2vwf and chain A and resid 35, b=2.12351061133248
+alter 2vwf and chain A and resid 36, b=0.654766511055467
+alter 2vwf and chain A and resid 37, b=-0.374548967595001
+alter 2vwf and chain A and resid 38, b=0.44755256061246
+alter 2vwf and chain A and resid 39, b=0.0988368293811668
+alter 2vwf and chain A and resid 40, b=-0.208038418052108
+alter 2vwf and chain A and resid 41, b=-0.150566017660634
+alter 2vwf and chain A and resid 42, b=-0.128310186600621
+alter 2vwf and chain A and resid 43, b=0.100615998090359
+alter 2vwf and chain A and resid 44, b=-0.104414619663966
+alter 2vwf and chain A and resid 45, b=1.12343370380635
+alter 2vwf and chain A and resid 46, b=0.680326213237335
+alter 2vwf and chain A and resid 47, b=0.696809855566613
+alter 2vwf and chain A and resid 48, b=1.07313956505797
+alter 2vwf and chain A and resid 49, b=-0.225913013115089
+alter 2vwf and chain A and resid 50, b=0.521830684451662
+alter 2vwf and chain A and resid 51, b=1.60133972899555
+alter 2vwf and chain A and resid 52, b=0.523005362209992
+alter 2vwf and chain A and resid 53, b=0.324407416165906
+alter 2vwf and chain A and resid 54, b=0.0011320781077773
+alter 2vwf and chain A and resid 55, b=0.141914205093374
+alter 2vwf and chain A and resid 56, b=0.00235081257984753
+spectrum b, red_white_blue, chain A, minimum=-2, maximum=2
+ray 2400,2400
+png 003_GRB2_GAB2_bddg_spheres.png, dpi=600

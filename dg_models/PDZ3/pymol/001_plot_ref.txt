@@ -1,0 +1,18 @@
+reinitialize
+fetch 1be9, async=0
+hide everything
+show cartoon, chain A and resi 311-394
+set cartoon_color, [0.8, 0.8, 0.8]
+show sticks, chain B
+set stick_color, orange, chain B
+remove resn hoh
+set stick_radius, 0.4
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+set_view (-0.931835651,    0.073482201,    0.355364770,0.058640655,    0.996903062,   -0.052372973,-0.358112812,   -0.027964739,   -0.933260202,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )
+zoom center, 25
+ray 2400,2400
+png 001_PDZ3_CRIPT_reference_0.png, dpi=600
