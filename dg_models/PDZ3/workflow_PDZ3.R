@@ -85,7 +85,19 @@ dg_prepare_model(
 dg_collect_models(
     dataset_folder = dataset_folder,
     model_name = model_name4,
+    model_averaging = "median"
+)
+## two parameter subsets:
+dg_collect_models(
+    dataset_folder = dataset_folder,
+    model_name = model_name4,
     which_test_set = "[1578]",
+    model_averaging = "mean"
+)
+dg_collect_models(
+    dataset_folder = dataset_folder,
+    model_name = model_name4,
+    which_test_set = "[23469]",
     model_averaging = "mean"
 )
 

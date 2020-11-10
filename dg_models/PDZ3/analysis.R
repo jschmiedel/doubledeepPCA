@@ -36,8 +36,9 @@ structural_properties <- fread(file.path(dataset_folder, "data/structural_proper
 ######## analyse ddG values
 vd <- model_results[["variant_data"]]
 vd[, f_ddg := as.numeric(varlist[["varxmut"]] %*% model_results[["avg_model"]][grep("f_ddg", parameter), boot_mean])]
+vd[, f_ddg_sd := as.numeric(varlist[["varxmut"]] %*% model_results[["avg_model"]][grep("f_ddg", parameter), boot_sd])]
 vd[, b_ddg := as.numeric(varlist[["varxmut"]] %*% model_results[["avg_model"]][grep("b_ddg", parameter), boot_mean])]
-
+vd[, b_ddg_sd := as.numeric(varlist[["varxmut"]] %*% model_results[["avg_model"]][grep("b_ddg", parameter), boot_sd])]
 
 vd[!grepl("_", aa_subs) & grepl("[0-9]", aa_subs), Pos := as.integer(paste0(strsplit(aa_subs,"")[[1]][1:(nchar(aa_subs)-1)], collapse = "")), aa_subs]
 vd <- merge(vd,
@@ -65,27 +66,33 @@ av <- model_results$avg_model
 vd[(!is.na(f1_fitness) | !is.na(f2_fitness)) & !is.na(b1_fitness),
   prob_f2 := exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg)/rt) /
       (1 + exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg)/rt))]
-vd[, prob_f := exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg)/rt) /
+vd[(!is.na(f1_fitness) | !is.na(f2_fitness)) & !is.na(b1_fitness), prob_f := exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg)/rt) /
   (1 + exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg)/rt) +
   exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg +
     av[parameter == "b_dgwt", boot_mean] + b_ddg)/rt))]
-vd[, prob_fb := exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg +
+vd[(!is.na(f1_fitness) | !is.na(f2_fitness)) & !is.na(b1_fitness), prob_fb := exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg +
     av[parameter == "b_dgwt", boot_mean] + b_ddg)/rt) /
   (1 + exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg)/rt) +
   exp(-(av[parameter == "f_dgwt", boot_mean] + f_ddg +
     av[parameter == "b_dgwt", boot_mean] + b_ddg)/rt))]
 
-p <- ggplot(vd, aes(prob_fb, prob_f2, color = type)) +
-  geom_point() +
-  scale_color_brewer(palette = "Set1") +
-  # scale_x_continuous(limit = c(0, 1)) +
-  # scale_y_continuous(limit = c(0, 1)) +
-  # geom_abline(slope = -1, intercept = 1, linetype = 2) +
-  labs(x = "probability to be folded-bound",
-    y = "probability to be folded (no ligand present)")
+p <- ggpairs(vd,
+  columns = c("f1_fitness", "b1_fitness",
+    "f_ddg", "b_ddg",
+    "prob_f2", "prob_f", "prob_fb"),
+  ggplot2::aes(color = type, alpha = 0.3))
+# p <- ggplot(vd, aes(prob_fb, prob_f2, color = type)) +
+#   geom_point() +
+#   scale_color_brewer(palette = "Set1") +
+#   # scale_x_continuous(limit = c(0, 1)) +
+#   # scale_y_continuous(limit = c(0, 1)) +
+#   # geom_abline(slope = -1, intercept = 1, linetype = 2) +
+#   labs(x = "probability to be folded-bound",
+    # y = "probability to be folded (no ligand present)")
 
 ggsave(p,
-  file = file.path(dataset_folder, "analysis", "state_probabilities.pdf"))
+  file = file.path(dataset_folder, "analysis", "state_probabilities.pdf"),
+  width = 10, height = 10)
 
 
 
