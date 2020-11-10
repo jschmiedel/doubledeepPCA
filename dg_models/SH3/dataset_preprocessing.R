@@ -373,6 +373,9 @@ save(all_variants, file = "dg_models/SH3/data/01b-GRB2_epPCR_bindingPCA_aa012_th
 ### extract structural data from PDB structure ###
 ##################################################
 
+### cis distances
+
+
 ### load distances between SH3 and ligand
 SH3_GAB2_distances <- fread("dataset/GRB2-SH3/PDB_contactmap_2vwf_AB.txt")
 SH3_GAB2_distances[, WTAAPos2 := paste0(WT_AA2, Pos2)]
@@ -384,7 +387,7 @@ structural_properties <- SH3_GAB2_distances[,
     scHAmin_ligand = min(scHAmin),
     GAB2_AA = WTAAPos2[which.min(HAmin)]
   ),
-  Pos]
+  .(Pos, WT_AA = WT_AA1)]
 
 
 ### load RSA values extracted using freeSASA

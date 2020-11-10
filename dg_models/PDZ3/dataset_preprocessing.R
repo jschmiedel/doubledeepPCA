@@ -496,7 +496,8 @@ X[abs(fitness - fitness_rest) > 0.05]
 all_variants <- all_variants[
   Nham_aa == 1 & Nham_codons == 1 &
   ((Nham_nt == 1 & mean_count > 100) |
-    (Nham_nt > 1 & mean_count > 10)),
+    (Nham_nt > 1 & mean_count > 10)) &
+    STOP == FALSE & STOP_readthrough == FALSE,
   .(
     fitness = sum(fitness * sigma^-2) / sum(sigma^-2),
     sigma = sqrt(1 / sum(sigma^-2))
@@ -574,7 +575,8 @@ ggsave("dg_models/PDZ3/data/preprocessing/NM1_bindingPCA_Nhamnt_count_fitness_de
 all_variants <- all_variants[
   Nham_aa == 1 & Nham_codons == 1 &
   ((Nham_nt == 1 & mean_count > 100) |
-    (Nham_nt > 1 & mean_count > 10)),
+    (Nham_nt > 1 & mean_count > 10)) &
+    STOP == FALSE & STOP_readthrough == FALSE,
   .(
     fitness = sum(fitness * sigma^-2) / sum(sigma^-2),
     sigma = sqrt(1 / sum(sigma^-2))
@@ -653,7 +655,8 @@ ggsave("dg_models/PDZ3/data/preprocessing/epPCR_abundancePCA_Nhamnt_count_fitnes
 # there is not Nham_nt>1 variants with sufficient read counts
 
 all_variants <- all_variants[
-  Nham_aa == 1 & Nham_nt == 1 & Nham_codons == 1,
+  Nham_aa == 1 & Nham_nt == 1 & Nham_codons == 1 &
+    STOP == FALSE & STOP_readthrough == FALSE,
   .(
     fitness = sum(fitness * sigma^-2) / sum(sigma^-2),
     sigma = sqrt(1 / sum(sigma^-2))
@@ -727,7 +730,8 @@ ggsave("dg_models/PDZ3/data/preprocessing/epPCR_bindingPCA_Nhamnt_count_fitness_
 # there is not Nham_nt>1 variants with sufficient read counts
 
 all_variants <- all_variants[
-  Nham_aa == 1 & Nham_nt == 1 & Nham_codons == 1,
+  Nham_aa == 1 & Nham_nt == 1 & Nham_codons == 1 &
+    STOP == FALSE & STOP_readthrough == FALSE,
   .(
     fitness = sum(fitness * sigma^-2) / sum(sigma^-2),
     sigma = sqrt(1 / sum(sigma^-2))
@@ -750,28 +754,46 @@ save(all_variants, file = "dg_models/PDZ3/data/01b-PDZ3_epPCR_bindingPCA_thresho
 ### extract structural data from PDB structure ###
 ##################################################
 
-### compute contact map between PDZ3 domain and ligand
 ## source functions
 filelist <- list.files("functions/")
 invisible(sapply(paste0("functions/", filelist), source, .GlobalEnv))
 
+all_variants = fread("dataset/DLG4-PDZ3/01f-PDZ_NM2_bindingPCA/01f-PDZ_NM2_bindingPCA_variant_data_merge.tsv")
+wt_AA_seq <- gsub("\\*", "", all_variants[WT == T, aa_seq])
+
+### compute contact map within PDZ3 domain
+pairdistances_from_PDB(
+  input_file = "dataset/DLG4-PDZ3/PDB/pdb1be9.ent",
+  dataset_dir = "",
+  given_chainids = c("A"),
+  aa_seq = list(wt_AA_seq),
+  idx_pdb_start = c(311),
+  idx_DMS_start = c(1), debug_this = F
+)
+contactmap_A <- fread("processed_data/PDB_contactmap_pdb1be9_A.txt")
+write.table(contactmap_A,
+  file = "dg_models/PDZ3/data/contactmap_cis.txt",
+  row.names = F,
+  quote = F)
+
+### compute contact map between PDZ3 domain and ligand
 pairdistances_from_PDB(
   input_file = "dataset/DLG4-PDZ3/PDB/pdb1be9.ent", dataset_dir = "",
   given_chainids = c("A", "B"),
-  aa_seq = list(paste0(unique(singles[, .(Pos, WT_AA)])$WT_AA, collapse = ""), "KQTSV"),
+  aa_seq = list(wt_AA_seq, "KQTSV"),
   idx_pdb_start = c(311, 5),
   idx_DMS_start = c(1, 1), debug_this = F
 )
-contactmap_AB <- fread("processed_data/PDZ/PDB_contactmap_pdb1be9_AB.txt")
+contactmap_AB <- fread("processed_data/PDB_contactmap_pdb1be9_AB.txt")
 contactmap_AB[, WTAAPos2 := paste0(WT_AA2, Pos2)]
 contactmap_AB[, Pos := Pos1]
 
-structural_properties <- SH3_GAB2_distances[,
-  .(HAmin_ligand = min(HAmin),
-    scHAmin_ligand = min(scHAmin),
-    ligand_AA = WTAAPos2[which.min(HAmin)]
-  ),
-Pos]
+structural_properties <- contactmap_AB[,
+    .(HAmin_ligand = min(HAmin),
+      scHAmin_ligand = min(scHAmin),
+      ligand_AA = WTAAPos2[which.min(HAmin)]
+    ),
+  .(Pos, WT_AA = WT_AA1)]
 
 
 ### load RSA values

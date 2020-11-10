@@ -1,12 +1,9 @@
 # fit 3 and 4 state thermodynamic models to SH3 doubledeepPCA data
 require(tempura)
 
-dataset_folder = "/nfs/users/blehner/jschmiedel/doubledeepPCA/dg_models/SH3"
+dataset_folder = "dg_models/SH3"
 model_name3 = "three_state"
 model_name4 = "four_state"
-
-setwd(dataset_folder)
-
 
 ## 1) preprocess DiMSum outputs using script "doubledeepPCA/dg_models/SH3/dataset_preprocessing"
 
@@ -24,11 +21,13 @@ dg_prepare_datasets(dataset_folder = dataset_folder,
 ## 3a) prepare dg model parameters for three state model
 dg_prepare_model(
     dataset_folder = dataset_folder,
-    model_name = model_name3
+    model_name = model_name3,
+    fix_f_dgwt = TRUE,
+    fix_b_dgwt = TRUE
 )
 
 ## 4a) estimate model parameters
-# qsub doubledeepPCA/dg_models/SH3/bash_3state_model_estimation.sh
+# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh SH3 three_state
 
 ## 5a) collect models
 dg_collect_models(
@@ -47,7 +46,7 @@ dg_basic_analyses(
 )
 
 ## 7a) bootstrap model parameters
-# qsub doubledeepPCA/dg_models/SH3/bash_3state_bootstrap.sh
+# qsub -t 1:100 doubledeepPCA/dg_models/bash_bootstrap.sh SH3 three_state
 
 ## 8a) collect bootstrapped models
 dg_collect_models(
@@ -71,11 +70,13 @@ dg_basic_analyses(
 dg_prepare_model(
     dataset_folder = dataset_folder,
     model_name = model_name4,
-    no_folded_states = 2
+    no_folded_states = 2,
+    fix_f_dgwt = TRUE,
+    fix_b_dgwt = TRUE
 )
 
 ## 4b) estimate model parameters
-# qsub doubledeepPCA/dg_models/SH3/bash_4state_model_estimation.sh
+# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh SH3 four_state
 
 ## 5b) collect models
 dg_collect_models(
@@ -94,7 +95,8 @@ dg_basic_analyses(
 )
 
 ## 7b) bootstrap model parameters
-# qsub doubledeepPCA/dg_models/SH3/bash_4state_bootstrap.sh
+# qsub -t 1:100 doubledeepPCA/dg_models/bash_bootstrap.sh SH3 four_state
+
 
 ## 8b) collect bootstrapped models
 dg_collect_models(
