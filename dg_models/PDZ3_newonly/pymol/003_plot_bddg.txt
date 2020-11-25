@@ -1,0 +1,205 @@
+reinitialize
+fetch 1be9, async=0
+hide everything
+show cartoon, chain A and resi 311-394
+set cartoon_color, [0.8, 0.8, 0.8]
+show sticks, chain B
+set stick_color, orange, chain B
+remove resn hoh
+set stick_radius, 0.4
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+set_view (-0.931835651,    0.073482201,    0.355364770,0.058640655,    0.996903062,   -0.052372973,-0.358112812,   -0.027964739,   -0.933260202,0.000000000,    0.000000000, -125.236885071,40.318359375,   59.448665619,   32.835613251,98.737716675,  151.736053467,  -20.000000000 )
+zoom center, 25
+ray 2400,2400
+png 001_PDZ3_CRIPT_reference_0.png, dpi=600
+set label_position, (1.7,1.7,1.7)
+label chain A and n. ca and i. 311-394, resi
+alter 1be9 and chain A and resid 311, b=0.118693508059981
+alter 1be9 and chain A and resid 312, b=1.35920016902504
+alter 1be9 and chain A and resid 313, b=0.243506115448847
+alter 1be9 and chain A and resid 314, b=1.22466869671288
+alter 1be9 and chain A and resid 315, b=0.921087474413744
+alter 1be9 and chain A and resid 316, b=1.76450395122175
+alter 1be9 and chain A and resid 317, b=0.415958780473615
+alter 1be9 and chain A and resid 318, b=0.772702313356869
+alter 1be9 and chain A and resid 319, b=0.697750788875727
+alter 1be9 and chain A and resid 320, b=0.130535272169762
+alter 1be9 and chain A and resid 321, b=0.121735460140014
+alter 1be9 and chain A and resid 322, b=1.35453783035759
+alter 1be9 and chain A and resid 323, b=1.52645995969906
+alter 1be9 and chain A and resid 324, b=2.5300220749896
+alter 1be9 and chain A and resid 325, b=1.89316918888325
+alter 1be9 and chain A and resid 326, b=0.491085068811125
+alter 1be9 and chain A and resid 327, b=1.41386468335324
+alter 1be9 and chain A and resid 328, b=0.231725803704386
+alter 1be9 and chain A and resid 329, b=0.255321337572899
+alter 1be9 and chain A and resid 330, b=1.09288830953127
+alter 1be9 and chain A and resid 331, b=0.485061288516774
+alter 1be9 and chain A and resid 332, b=0.351861615053993
+alter 1be9 and chain A and resid 333, b=0.705238431136768
+alter 1be9 and chain A and resid 334, b=0.111382959223006
+alter 1be9 and chain A and resid 335, b=2.38757068229251
+alter 1be9 and chain A and resid 336, b=1.38111843571436
+alter 1be9 and chain A and resid 337, b=1.07651871989263
+alter 1be9 and chain A and resid 338, b=2.00010066691251
+alter 1be9 and chain A and resid 339, b=1.17152162569441
+alter 1be9 and chain A and resid 340, b=-0.4367390419454
+alter 1be9 and chain A and resid 341, b=1.85210854481934
+alter 1be9 and chain A and resid 342, b=0.195245350063132
+alter 1be9 and chain A and resid 343, b=0.460817640490913
+alter 1be9 and chain A and resid 344, b=1.36639992581256
+alter 1be9 and chain A and resid 345, b=1.68825529195342
+alter 1be9 and chain A and resid 346, b=1.0778716181444
+alter 1be9 and chain A and resid 347, b=1.41192068035015
+alter 1be9 and chain A and resid 348, b=0.696439087022643
+alter 1be9 and chain A and resid 349, b=0.486486031618362
+alter 1be9 and chain A and resid 350, b=0.550595282520226
+alter 1be9 and chain A and resid 351, b=1.26232313961953
+alter 1be9 and chain A and resid 352, b=0.540571180806098
+alter 1be9 and chain A and resid 353, b=1.82733309581576
+alter 1be9 and chain A and resid 354, b=0.168425220541766
+alter 1be9 and chain A and resid 355, b=0.431323619193228
+alter 1be9 and chain A and resid 356, b=1.74228282284083
+alter 1be9 and chain A and resid 357, b=1.94240095784986
+alter 1be9 and chain A and resid 358, b=1.72911331347421
+alter 1be9 and chain A and resid 359, b=2.09563176597854
+alter 1be9 and chain A and resid 360, b=1.50732419396975
+alter 1be9 and chain A and resid 361, b=0.690722454825655
+alter 1be9 and chain A and resid 362, b=1.97141904681688
+alter 1be9 and chain A and resid 363, b=2.20069800320057
+alter 1be9 and chain A and resid 364, b=1.40283312670811
+alter 1be9 and chain A and resid 365, b=0.479926236053804
+alter 1be9 and chain A and resid 366, b=1.65917407756989
+alter 1be9 and chain A and resid 367, b=1.45538620737352
+alter 1be9 and chain A and resid 368, b=0.282182534832783
+alter 1be9 and chain A and resid 369, b=0.507133173885744
+alter 1be9 and chain A and resid 370, b=1.10875942373335
+alter 1be9 and chain A and resid 371, b=0.987805720470008
+alter 1be9 and chain A and resid 372, b=-0.120585952941893
+alter 1be9 and chain A and resid 373, b=0.536830590763368
+alter 1be9 and chain A and resid 374, b=0.664594669425583
+alter 1be9 and chain A and resid 375, b=1.68891911764187
+alter 1be9 and chain A and resid 376, b=0.305498279863186
+alter 1be9 and chain A and resid 377, b=0.16245918673495
+alter 1be9 and chain A and resid 378, b=0.875841322244641
+alter 1be9 and chain A and resid 379, b=2.06056614407113
+alter 1be9 and chain A and resid 380, b=0.5258941396796
+alter 1be9 and chain A and resid 381, b=0.736802113345657
+alter 1be9 and chain A and resid 382, b=1.06552516777515
+alter 1be9 and chain A and resid 383, b=1.74894508933765
+alter 1be9 and chain A and resid 384, b=0.357941676054813
+alter 1be9 and chain A and resid 385, b=0.43478338179375
+alter 1be9 and chain A and resid 386, b=1.85811298589686
+alter 1be9 and chain A and resid 387, b=0.584874367701718
+alter 1be9 and chain A and resid 388, b=1.82606020420895
+alter 1be9 and chain A and resid 389, b=0.58719999496265
+alter 1be9 and chain A and resid 390, b=1.19816768001282
+alter 1be9 and chain A and resid 391, b=0.504817704920627
+alter 1be9 and chain A and resid 392, b=0.0710952591737526
+alter 1be9 and chain A and resid 393, b=0.364946546498082
+alter 1be9 and chain A and resid 394, b=-0.184636546308729
+select CA, chain A and name CA and resi 311-394
+select binders, chain A and (resi 323 OR resi 326 OR resi 328 OR resi 339 OR resi 372 OR resi 376 OR resi 379 OR resi 380)
+show spheres, CA
+set sphere_scale, 0.75, CA
+set_bond stick_radius, 0.14, chain A and resi 311-394
+show sticks, chain A and resi 311-394
+spectrum b, red_white_blue, chain A, minimum=-2, maximum=2
+set ray_opaque_background, 0
+set ray_shadow, 0
+set ray_trace_fog, 0
+set antialias, 1
+bg_color white
+ray 2400,2400
+png 002_PDZ3_CRIPT_fddg_spheres.png, dpi=600
+alter 1be9 and chain A and resid 311, b=0.0944949921593482
+alter 1be9 and chain A and resid 312, b=0.524751462911255
+alter 1be9 and chain A and resid 313, b=0.0466452543195255
+alter 1be9 and chain A and resid 314, b=0.799395937162659
+alter 1be9 and chain A and resid 315, b=-0.107581678899455
+alter 1be9 and chain A and resid 316, b=0.365827931945588
+alter 1be9 and chain A and resid 317, b=-0.0523232408198827
+alter 1be9 and chain A and resid 318, b=0.608405416666793
+alter 1be9 and chain A and resid 319, b=0.0905546707873223
+alter 1be9 and chain A and resid 320, b=-0.04962355029542
+alter 1be9 and chain A and resid 321, b=-0.0749920919199697
+alter 1be9 and chain A and resid 322, b=-0.85505165119307
+alter 1be9 and chain A and resid 323, b=0.903433017554925
+alter 1be9 and chain A and resid 324, b=0.833959316661471
+alter 1be9 and chain A and resid 325, b=0.88280639214375
+alter 1be9 and chain A and resid 326, b=0.0995351895954987
+alter 1be9 and chain A and resid 327, b=1.1867689575107
+alter 1be9 and chain A and resid 328, b=0.44583510345711
+alter 1be9 and chain A and resid 329, b=1.00203787581811
+alter 1be9 and chain A and resid 330, b=0.991766758435298
+alter 1be9 and chain A and resid 331, b=0.188617872265155
+alter 1be9 and chain A and resid 332, b=-0.10060701953868
+alter 1be9 and chain A and resid 333, b=-0.176610449686337
+alter 1be9 and chain A and resid 334, b=0.205360893417235
+alter 1be9 and chain A and resid 335, b=0.0352654073185845
+alter 1be9 and chain A and resid 336, b=0.918528409909403
+alter 1be9 and chain A and resid 337, b=0.0733135274211915
+alter 1be9 and chain A and resid 338, b=0.422731920803496
+alter 1be9 and chain A and resid 339, b=0.360516819639227
+alter 1be9 and chain A and resid 340, b=0.450711142470921
+alter 1be9 and chain A and resid 341, b=0.755622016334799
+alter 1be9 and chain A and resid 342, b=0.0533992070433319
+alter 1be9 and chain A and resid 343, b=-0.0624021666202913
+alter 1be9 and chain A and resid 344, b=0.156119738096185
+alter 1be9 and chain A and resid 345, b=0.320913418677895
+alter 1be9 and chain A and resid 346, b=0.16514923945101
+alter 1be9 and chain A and resid 347, b=0.948907708376456
+alter 1be9 and chain A and resid 348, b=0.329925820438054
+alter 1be9 and chain A and resid 349, b=0.176625188639423
+alter 1be9 and chain A and resid 350, b=0.204165196206746
+alter 1be9 and chain A and resid 351, b=0.170727492313839
+alter 1be9 and chain A and resid 352, b=0.212409172589366
+alter 1be9 and chain A and resid 353, b=0.516989506235516
+alter 1be9 and chain A and resid 354, b=0.0658799030169331
+alter 1be9 and chain A and resid 355, b=-0.0622565048245018
+alter 1be9 and chain A and resid 356, b=0.0233584775760983
+alter 1be9 and chain A and resid 357, b=0.483781891038685
+alter 1be9 and chain A and resid 358, b=0.0349216043618701
+alter 1be9 and chain A and resid 359, b=0.971622568183206
+alter 1be9 and chain A and resid 360, b=0.309323958776857
+alter 1be9 and chain A and resid 361, b=-0.0353193295477993
+alter 1be9 and chain A and resid 362, b=0.606274974212554
+alter 1be9 and chain A and resid 363, b=0.538857670744165
+alter 1be9 and chain A and resid 364, b=-0.025037467792724
+alter 1be9 and chain A and resid 365, b=0.0537008857344336
+alter 1be9 and chain A and resid 366, b=0.10525175720908
+alter 1be9 and chain A and resid 367, b=0.402849773294907
+alter 1be9 and chain A and resid 368, b=0.0591872808845165
+alter 1be9 and chain A and resid 369, b=-0.0843424889323347
+alter 1be9 and chain A and resid 370, b=0.223991335456352
+alter 1be9 and chain A and resid 371, b=-0.0791700524732
+alter 1be9 and chain A and resid 372, b=0.946416567293701
+alter 1be9 and chain A and resid 373, b=0.360132844167404
+alter 1be9 and chain A and resid 374, b=-0.139260935988459
+alter 1be9 and chain A and resid 375, b=0.512791672486903
+alter 1be9 and chain A and resid 376, b=0.672260570929742
+alter 1be9 and chain A and resid 377, b=-0.0297207895876599
+alter 1be9 and chain A and resid 378, b=-0.106524982936489
+alter 1be9 and chain A and resid 379, b=0.388902753317219
+alter 1be9 and chain A and resid 380, b=0.131514961007455
+alter 1be9 and chain A and resid 381, b=-0.0626186548411171
+alter 1be9 and chain A and resid 382, b=0.388400799292514
+alter 1be9 and chain A and resid 383, b=0.019878384935672
+alter 1be9 and chain A and resid 384, b=-0.0253963413589563
+alter 1be9 and chain A and resid 385, b=-0.0253396911111695
+alter 1be9 and chain A and resid 386, b=0.321883298540701
+alter 1be9 and chain A and resid 387, b=0.0308409568831833
+alter 1be9 and chain A and resid 388, b=0.436961656269442
+alter 1be9 and chain A and resid 389, b=-0.00186594600902416
+alter 1be9 and chain A and resid 390, b=0.455981692246444
+alter 1be9 and chain A and resid 391, b=0.00671703604190802
+alter 1be9 and chain A and resid 392, b=0.183592763089776
+alter 1be9 and chain A and resid 393, b=-0.303257370128546
+alter 1be9 and chain A and resid 394, b=-0.0628925935826884
+spectrum b, red_white_blue, chain A, minimum=-1, maximum=1
+ray 2400,2400
+png 003_PDZ3_CRIPT_bddg_spheres.png, dpi=600
