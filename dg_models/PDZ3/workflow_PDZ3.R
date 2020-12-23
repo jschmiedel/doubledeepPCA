@@ -3,8 +3,9 @@ require(tempura)
 
 dataset_folder = "dg_models/PDZ3"
 model_name3 = "three_state"
-model_name4 = "four_state"
-
+model_name3_fix = "three_state_fixdgwt"
+# model_name4 = "four_state"
+# model_name4_fix = "four_state_fixdgwt"
 
 ## 1) preprocess DiMSum outputs using script "doubledeepPCA/dg_models/SH3/dataset_preprocessing"
 
@@ -23,26 +24,71 @@ dg_prepare_datasets(
 )
 
 
-################# three state model
+################# three state model with fixed dG wildtype parameters
 ## 3a) prepare dg model parameters for three state model
 dg_prepare_model(
     dataset_folder = dataset_folder,
-    model_name = model_name3,
+    model_name = model_name3_fix,
     fix_f_dgwt = TRUE,
     fix_b_dgwt = TRUE
 )
 
 ## 4a) estimate model parameters
-# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3 three_state
+# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3 model_name3_fix
 
 ## 5a) collect models
+dg_collect_models(
+    dataset_folder = dataset_folder,
+    model_name = model_name3_fix,
+    model_averaging = "mean"
+)
+
+## 6a) plot basic analysis plots
+dg_basic_analyses(
+    dataset_folder = dataset_folder,
+    model_name = model_name3_fix,
+    color_type = "type",
+    stage = "model",
+    datasets_ab = c(1,1)
+)
+
+## 7a) bootstrap model parameters
+# qsub -t 1:100 doubledeepPCA/dg_models/bash_bootstrap.sh PDZ3 model_name3_fix
+
+## 8a) collect bootstrapped models
+dg_collect_models(
+    dataset_folder = dataset_folder,
+    model_name = model_name3_fix,
+    stage = "bootstrap"
+)
+dg_basic_analyses(
+    dataset_folder = dataset_folder,
+    model_name = model_name3_fix,
+    color_type = "type",
+    datasets_ab = c(1,1)
+)
+
+
+################# three state model with variable dG wildtype parameters
+## 3b) prepare dg model parameters for three state model
+dg_prepare_model(
+    dataset_folder = dataset_folder,
+    model_name = model_name3,
+    fix_f_dgwt = FALSE,
+    fix_b_dgwt = FALSE
+)
+
+## 4b) estimate model parameters
+# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3 three_state
+
+## 5b) collect models
 dg_collect_models(
     dataset_folder = dataset_folder,
     model_name = model_name3,
     model_averaging = "mean"
 )
 
-## 6a) plot basic analysis plots
+## 6b) plot basic analysis plots
 dg_basic_analyses(
     dataset_folder = dataset_folder,
     model_name = model_name3,
@@ -51,10 +97,10 @@ dg_basic_analyses(
     datasets_ab = c(1,1)
 )
 
-## 7a) bootstrap model parameters
+## 7b) bootstrap model parameters
 # qsub -t 1:100 doubledeepPCA/dg_models/bash_bootstrap.sh PDZ3 three_state
 
-## 8a) collect bootstrapped models
+## 8b) collect bootstrapped models
 dg_collect_models(
     dataset_folder = dataset_folder,
     model_name = model_name3,
@@ -68,46 +114,46 @@ dg_basic_analyses(
 )
 
 
-################# four state model
-## 3b) prepare dg model parameters for four state model
-dg_prepare_model(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    no_folded_states = 2,
-    fix_f_dgwt = TRUE,
-    fix_b_dgwt = TRUE
-)
+# ################# four state model
+# ## 3c) prepare dg model parameters for four state model
+# dg_prepare_model(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4_fix,
+#     no_folded_states = 2,
+#     fix_f_dgwt = TRUE,
+#     fix_b_dgwt = TRUE
+# )
 
-## 4b) estimate model parameters
-# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3 four_state
+# ## 4c) estimate model parameters
+# # qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3 four_state
 
-## 5b) collect models
-dg_collect_models(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    model_averaging = "median"
-)
-## two parameter subsets:
-dg_collect_models(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    which_test_set = "[1578]",
-    model_averaging = "mean"
-)
-dg_collect_models(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    which_test_set = "[23469]",
-    model_averaging = "mean"
-)
+# ## 5c) collect models
+# dg_collect_models(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     model_averaging = "median"
+# )
+# ## two parameter subsets:
+# dg_collect_models(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     which_test_set = "[1578]",
+#     model_averaging = "mean"
+# )
+# dg_collect_models(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     which_test_set = "[23469]",
+#     model_averaging = "mean"
+# )
 
-## 6b) plot basic analysis plots
-dg_basic_analyses(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    color_type = "type",
-    datasets_ab = c(1,1)
-)
+# ## 6c) plot basic analysis plots
+# dg_basic_analyses(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     color_type = "type",
+#     datasets_ab = c(1,1)
+# )
 
-## 4 state model has issues, with weird fA<>fB distribution etc
-## check whether this might be because of lambda = 1e-1 or because of the older datasets
+# ## 4 state model has issues, with weird fA<>fB distribution etc
+# ## check whether this might be because of lambda = 1e-1 or because of the older datasets

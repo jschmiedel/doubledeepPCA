@@ -4,7 +4,7 @@ require(tempura)
 dataset_folder = "dg_models/PDZ3_newonly"
 model_name3 = "three_state"
 model_name3_fix = "three_state_fixdgwt"
-model_name4 = "four_state"
+# model_name4 = "four_state"
 
 
 ## 1) preprocess DiMSum outputs using script "doubledeepPCA/dg_models/SH3/dataset_preprocessing"
@@ -112,33 +112,33 @@ dg_basic_analyses(
     datasets_ab = c(1,1)
 )
 
-################# four state model
-## 3c) prepare dg model parameters for four state model
-dg_prepare_model(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    no_folded_states = 2,
-    fix_f_dgwt = TRUE,
-    fix_b_dgwt = TRUE
-)
+# ################# four state model
+# ## 3c) prepare dg model parameters for four state model
+# dg_prepare_model(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     no_folded_states = 2,
+#     fix_f_dgwt = TRUE,
+#     fix_b_dgwt = TRUE
+# )
 
-## 4c) estimate model parameters
-# qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3_newonly four_state
+# ## 4c) estimate model parameters
+# # qsub -t 1:500 doubledeepPCA/dg_models/bash_model_estimation.sh PDZ3_newonly four_state
 
-## 5c) collect models
-dg_collect_models(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    model_averaging = "median"
-)
+# ## 5c) collect models
+# dg_collect_models(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     model_averaging = "median"
+# )
 
-## 6c) plot basic analysis plots
-dg_basic_analyses(
-    dataset_folder = dataset_folder,
-    model_name = model_name4,
-    color_type = "type",
-    datasets_ab = c(1,1)
-)
+# ## 6c) plot basic analysis plots
+# dg_basic_analyses(
+#     dataset_folder = dataset_folder,
+#     model_name = model_name4,
+#     color_type = "type",
+#     datasets_ab = c(1,1)
+# )
 
-## 4 state model has issues, with weird fA<>fB distribution etc
-## check whether this might be because of lambda = 1e-1 or because of the older datasets
+# ## 4 state model has issues, with weird fA<>fB distribution etc
+# ## check whether this might be because of lambda = 1e-1 or because of the older datasets
